@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── USERS ───────────────────────────────────────────────
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String
+  hashedPassword String?
+  image          String?
+  role           String   @default("USER")
+  balance        Float    @default(1000)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  accounts  Account[]
+  sessions  Session[]
+  trades    Trade[]
+  positions Position[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── MARKETS ─────────────────────────────────────────────
+
+model Market {
+  id             String    @id @default(cuid())
+  title          String
+  description    String
+  category       String
+  status         String    @default("OPEN")
+  resolution     String?
+  resolutionNote String?
+  closesAt       DateTime
+  resolvedAt     DateTime?
+  createdById    String
+  featured       Boolean   @default(false)
+
+  poolYes     Float @default(100)
+  poolNo      Float @default(100)
+  totalVolume Float @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trades    Trade[]
+  positions Position[]
+
+  @@index([category])
+  @@index([status])
+  @@index([featured])
+  @@index([closesAt])
+}
+
+// ─── TRADING ─────────────────────────────────────────────
+
+model Trade {
+  id        String   @id @default(cuid())
+  userId    String
+  marketId  String
+  side      String
+  direction String
+  amount    Float
+  shares    Float
+  price     Float
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([marketId])
+  @@index([createdAt])
+}
+
+model Position {
+  id       String @id @default(cuid())
+  userId   String
+  marketId String
+  side     String
+  shares   Float  @default(0)
+  avgPrice Float  @default(0)
+  realized Float  @default(0)
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, marketId, side])
+  @@index([userId])
+  @@index([marketId])
+}
