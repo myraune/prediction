@@ -65,9 +65,9 @@ export default async function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="h-10 w-10 text-[var(--color-mint)]" />
-            <span className="text-3xl font-bold">Norsk Predikt</span>
+            <span className="text-3xl font-semibold">Norsk Predikt</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold max-w-3xl leading-tight">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight max-w-3xl leading-tight">
             Predict Norway&apos;s{" "}
             <span className="text-[var(--color-mint)]">Future</span>
           </h1>
@@ -95,7 +95,7 @@ export default async function LandingPage() {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl font-bold">Trending Markets</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">Trending Markets</h2>
               <p className="text-muted-foreground mt-1">The most popular predictions right now</p>
             </div>
             <Link href="/markets">
@@ -113,11 +113,11 @@ export default async function LandingPage() {
       {/* Categories */}
       <section className="bg-card border-y">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl font-bold mb-8 text-center">Browse by Category</h2>
+          <h2 className="text-2xl font-semibold tracking-tight mb-8 text-center">Browse by Category</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {CATEGORIES.map((cat) => (
               <Link key={cat.value} href={`/markets?category=${cat.value}`}>
-                <Card className="h-full hover:shadow-md transition-shadow cursor-pointer text-center">
+                <Card className="h-full hover:bg-accent/30 transition-colors cursor-pointer text-center">
                   <CardContent className="pt-6 pb-4 flex flex-col items-center gap-3">
                     <div className="text-muted-foreground">
                       {categoryIcons[cat.value]}
@@ -138,7 +138,7 @@ export default async function LandingPage() {
 
       {/* How it works */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-        <h2 className="text-2xl font-bold mb-8 text-center">How It Works</h2>
+        <h2 className="text-2xl font-semibold tracking-tight mb-8 text-center">How It Works</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {[
             {

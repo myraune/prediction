@@ -37,7 +37,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-card/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-card/80 backdrop-blur-xl">
       <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
         {/* Mobile hamburger */}
         <MobileSidebar categoryCounts={categoryCounts} />
@@ -59,9 +59,9 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
         <div className="flex items-center gap-2">
           {/* Balance pill */}
           {balance !== undefined && (
-            <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-mint)]/10 text-[var(--color-mint)] px-3 py-1.5 rounded-full text-sm font-semibold">
+            <div className="hidden sm:flex items-center gap-1.5 bg-muted text-foreground px-3 py-1.5 rounded-md text-sm font-semibold">
               <span>{balance.toLocaleString("nb-NO")}</span>
-              <span className="text-[var(--color-mint)]/60 text-xs">pts</span>
+              <span className="text-muted-foreground text-xs">pts</span>
             </div>
           )}
 

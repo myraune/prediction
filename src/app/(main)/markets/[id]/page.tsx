@@ -104,7 +104,7 @@ export default async function MarketDetailPage({
               </Badge>
             )}
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold">{market.title}</h1>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">{market.title}</h1>
           <p className="text-muted-foreground mt-2 text-sm">{market.description}</p>
         </div>
 
@@ -151,7 +151,7 @@ export default async function MarketDetailPage({
                   const currentPrice = pos.side === "YES" ? price.yes : price.no;
                   const pnl = pos.shares * (currentPrice - pos.avgPrice);
                   return (
-                    <div key={pos.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div key={pos.id} className="flex items-center justify-between p-3 bg-muted rounded-md">
                       <div className="flex items-center gap-2">
                         <Badge className={
                           pos.side === "YES"
@@ -189,7 +189,7 @@ export default async function MarketDetailPage({
             <CardContent>
               <div className="space-y-1">
                 {market.trades.map((trade) => (
-                  <div key={trade.id} className="flex items-center justify-between text-sm py-2 border-b last:border-0">
+                  <div key={trade.id} className="flex items-center justify-between text-sm py-2 border-b border-border/60 last:border-0">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{trade.user.name}</span>
                       <span className="text-muted-foreground">{trade.direction.toLowerCase()}</span>

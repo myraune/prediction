@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { MarketCard } from "@/components/markets/market-card";
 import { MarketSortTabs } from "@/components/markets/market-sort-tabs";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import type { Prisma } from "@/generated/prisma/client";
 
 export default async function MarketsPage({
@@ -67,7 +67,7 @@ export default async function MarketsPage({
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Markets</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Markets</h1>
         {q && (
           <p className="text-muted-foreground mt-1">
             Results for &ldquo;{q}&rdquo;
@@ -81,18 +81,25 @@ export default async function MarketsPage({
       {/* Sort tabs */}
       <MarketSortTabs />
 
-      {/* Status filter */}
-      <div className="flex gap-2 mt-4 mb-6">
-        {["OPEN", "RESOLVED", "ALL"].map((s) => (
-          <Link key={s} href={statusHref(s)}>
-            <Button
-              variant={status === s || (s === "OPEN" && !params.status) ? "secondary" : "ghost"}
-              size="sm"
-            >
-              {s === "ALL" ? "All" : s.charAt(0) + s.slice(1).toLowerCase()}
-            </Button>
-          </Link>
-        ))}
+      {/* Status filter — iOS segmented control */}
+      <div className="inline-flex bg-secondary rounded-lg p-0.5 mt-4 mb-6">
+        {["OPEN", "RESOLVED", "ALL"].map((s) => {
+          const isActive = status === s || (s === "OPEN" && !params.status);
+          return (
+            <Link key={s} href={statusHref(s)}>
+              <button
+                className={cn(
+                  "px-4 py-1.5 text-sm font-medium rounded-md transition-colors",
+                  isActive
+                    ? "bg-background text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                )}
+              >
+                {s === "ALL" ? "All" : s.charAt(0) + s.slice(1).toLowerCase()}
+              </button>
+            </Link>
+          );
+        })}
       </div>
 
       {/* Markets grid */}

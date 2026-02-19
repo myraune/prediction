@@ -20,7 +20,7 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
         <CardTitle className="text-base">Related Markets</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="divide-y divide-border/60">
           {markets.map((market) => {
             const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
             const yesPercent = price.yes * 100;
@@ -31,7 +31,7 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
               <Link
                 key={market.id}
                 href={`/markets/${market.id}`}
-                className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                className="flex items-center justify-between py-3 hover:bg-accent/30 transition-colors"
               >
                 <div className="flex-1 min-w-0 mr-4">
                   <p className="text-sm font-medium line-clamp-1">
@@ -52,7 +52,7 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-lg font-bold text-[var(--color-mint)]">
+                  <span className="text-lg font-semibold text-[var(--color-mint)]">
                     {yesPercent.toFixed(0)}%
                   </span>
                   <p className="text-[10px] text-muted-foreground">YES</p>

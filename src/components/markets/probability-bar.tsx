@@ -19,7 +19,7 @@ export function ProbabilityBar({
   return (
     <div className="w-full">
       <div className={cn(
-        "flex rounded-full overflow-hidden bg-muted",
+        "flex rounded-sm overflow-hidden bg-muted",
         height,
       )}>
         <div
@@ -31,7 +31,7 @@ export function ProbabilityBar({
         />
         <div
           className={cn(
-            "bg-[var(--color-signal)]/60 transition-all duration-500",
+            "bg-[var(--color-signal)]/40 transition-all duration-500",
           )}
           style={{ width: `${noPercent}%` }}
         />

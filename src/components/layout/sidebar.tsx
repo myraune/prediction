@@ -48,11 +48,11 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
   const activeCategory = searchParams.get("category");
 
   return (
-    <aside className="hidden lg:flex flex-col w-60 border-r bg-card/50 backdrop-blur-sm h-screen sticky top-0 overflow-y-auto">
+    <aside className="hidden lg:flex flex-col w-56 border-r border-border/60 bg-card h-screen sticky top-0 overflow-y-auto">
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 h-16 border-b shrink-0">
         <TrendingUp className="h-6 w-6 text-[var(--color-mint)]" />
-        <span className="text-lg font-bold">Norsk Predikt</span>
+        <span className="text-lg font-semibold">Norsk Predikt</span>
       </div>
 
       {/* Main nav */}
@@ -64,9 +64,9 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
               key={link.href}
               href={link.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-[var(--color-mint)]/10 text-[var(--color-mint)]"
+                  ? "bg-accent/50 text-foreground font-semibold"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
@@ -78,7 +78,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
       </nav>
 
       {/* Divider */}
-      <div className="mx-3 border-b" />
+      <div className="mx-3 border-b border-border/60" />
 
       {/* Categories */}
       <div className="p-3">
@@ -95,7 +95,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
                 key={cat.value}
                 href={`/markets?category=${cat.value}`}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                  "flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors",
                   isActive
                     ? "bg-muted text-foreground font-medium"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"

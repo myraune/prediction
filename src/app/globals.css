@@ -54,7 +54,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.5rem;
   --background: #f2f4f8;
   --foreground: #101820;
   --card: #ffffff;
@@ -128,5 +128,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  h1, h2, h3, h4 {
+    letter-spacing: -0.02em;
   }
 }

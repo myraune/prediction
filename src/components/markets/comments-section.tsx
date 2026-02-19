@@ -118,7 +118,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
               />
               <Button
                 size="icon"
-                className="h-9 w-9 bg-[var(--color-mint)] text-[var(--color-ink)] hover:bg-[var(--color-mint)]/90 shrink-0"
+                className="h-9 w-9 bg-foreground text-background hover:bg-foreground/90 shrink-0"
                 onClick={handlePost}
                 disabled={!newComment.trim() || posting}
               >
@@ -184,7 +184,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                     />
                     <Button
                       size="sm"
-                      className="bg-[var(--color-mint)] text-[var(--color-ink)] hover:bg-[var(--color-mint)]/90"
+                      className="bg-foreground text-background hover:bg-foreground/90"
                       onClick={() => handleReply(comment.id)}
                       disabled={!replyContent.trim() || posting}
                     >
@@ -195,7 +195,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
 
                 {/* Replies */}
                 {comment.replies.length > 0 && (
-                  <div className="ml-10 space-y-3 border-l-2 border-muted pl-4">
+                  <div className="ml-10 space-y-3 border-l border-border/60 pl-4">
                     {comment.replies.map((reply) => (
                       <div key={reply.id} className="flex gap-3">
                         <Avatar className="h-6 w-6 shrink-0">

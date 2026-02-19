@@ -111,13 +111,13 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
         ) : (
           <div className="space-y-4">
             {/* BUY / SELL toggle */}
-            <div className="flex rounded-lg bg-muted p-1">
+            <div className="flex rounded-lg bg-secondary p-0.5">
               <button
                 onClick={() => { setDirection("BUY"); setAmount(""); }}
                 className={cn(
                   "flex-1 py-2 text-sm font-semibold rounded-md transition-colors",
                   direction === "BUY"
-                    ? "bg-card text-foreground shadow-sm"
+                    ? "bg-background text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -128,7 +128,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                 className={cn(
                   "flex-1 py-2 text-sm font-semibold rounded-md transition-colors",
                   direction === "SELL"
-                    ? "bg-card text-foreground shadow-sm"
+                    ? "bg-background text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -156,7 +156,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
 
             {/* Current position indicator */}
             {hasPosition && (
-              <div className="flex items-center justify-between py-2 px-3 bg-muted/50 rounded-lg text-xs">
+              <div className="flex items-center justify-between py-2 px-3 bg-muted/50 rounded-md text-xs">
                 <span className="text-muted-foreground">Your {side} position</span>
                 <span className="font-medium">{currentPosition.shares.toFixed(2)} shares</span>
               </div>
@@ -186,7 +186,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                   {quickBuyAmounts.map((qa) => (
                     <Button
                       key={qa}
-                      variant="outline"
+                      variant="secondary"
                       size="sm"
                       className="text-xs"
                       onClick={() => setAmount(String(Math.min(qa, userBalance)))}
@@ -198,7 +198,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                 </div>
 
                 {buyPreview && amountNum > 0 && (
-                  <div className="bg-muted rounded-lg p-3 space-y-1.5 text-sm">
+                  <div className="bg-muted rounded-md p-3 space-y-1.5 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Shares</span>
                       <span className="font-medium">{buyPreview.shares.toFixed(2)}</span>
@@ -227,7 +227,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
 
                 <Button
                   className={cn(
-                    "w-full font-semibold",
+                    "w-full h-11 font-semibold",
                     side === "YES"
                       ? "bg-[var(--color-mint)] text-[var(--color-ink)] hover:bg-[var(--color-mint)]/90"
                       : "bg-[var(--color-signal)] text-white hover:bg-[var(--color-signal)]/90"
@@ -242,7 +242,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
               /* ─── SELL MODE ─── */
               <div className="space-y-4">
                 {!hasPosition ? (
-                  <div className="text-center py-6 text-muted-foreground">
+                  <div className="text-center py-4 text-muted-foreground">
                     <p className="text-sm font-medium">No {side} shares to sell</p>
                     <p className="text-xs mt-1">Buy some shares first to sell them later</p>
                   </div>
@@ -273,7 +273,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                         return (
                           <Button
                             key={pct}
-                            variant="outline"
+                            variant="secondary"
                             size="sm"
                             className="text-xs"
                             onClick={() => setAmount(shareAmount.toFixed(2))}
@@ -285,7 +285,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     </div>
 
                     {sellPreview && amountNum > 0 && (
-                      <div className="bg-muted rounded-lg p-3 space-y-1.5 text-sm">
+                      <div className="bg-muted rounded-md p-3 space-y-1.5 text-sm">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">Selling</span>
                           <span className="font-medium">{amountNum.toFixed(2)} shares</span>
@@ -306,7 +306,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full font-semibold",
+                        "w-full h-11 font-semibold",
                         side === "YES"
                           ? "border-[var(--color-mint)] text-[var(--color-mint)] hover:bg-[var(--color-mint)]/10"
                           : "border-[var(--color-signal)] text-[var(--color-signal)] hover:bg-[var(--color-signal)]/10"

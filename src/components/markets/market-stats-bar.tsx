@@ -49,11 +49,11 @@ export function MarketStatsBar({
   ];
 
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-2 py-3 px-1">
+    <div className="flex flex-wrap gap-x-6 gap-y-2 py-3 px-1 border-y border-border/60">
       {stats.map((stat) => (
         <div key={stat.label} className="flex flex-col">
-          <span className="text-xs text-muted-foreground">{stat.label}</span>
-          <span className={cn("text-sm font-bold tabular-nums", stat.className)}>
+          <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{stat.label}</span>
+          <span className={cn("text-sm font-semibold tabular-nums", stat.className)}>
             {stat.value}
           </span>
         </div>

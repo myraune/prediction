@@ -65,7 +65,7 @@ export function PriceChart({ marketId, currentYesPrice }: PriceChartProps) {
             className={cn(
               "px-3 py-1 text-xs font-medium rounded-md transition-colors",
               range === r
-                ? "bg-[var(--color-mint)]/15 text-[var(--color-mint)]"
+                ? "bg-secondary text-foreground"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
             )}
           >

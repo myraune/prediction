@@ -64,7 +64,7 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
         {/* Logo */}
         <div className="flex items-center gap-2 px-5 h-16 border-b">
           <TrendingUp className="h-6 w-6 text-[var(--color-mint)]" />
-          <span className="text-lg font-bold">Norsk Predikt</span>
+          <span className="text-lg font-semibold">Norsk Predikt</span>
         </div>
 
         {/* Main nav */}
@@ -77,9 +77,9 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
+                  "flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-[var(--color-mint)]/10 text-[var(--color-mint)]"
+                    ? "bg-accent/50 text-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 )}
               >
@@ -90,7 +90,7 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
           })}
         </nav>
 
-        <div className="mx-3 border-b" />
+        <div className="mx-3 border-b border-border/60" />
 
         {/* Categories */}
         <div className="p-3">
@@ -108,7 +108,7 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
                   href={`/markets?category=${cat.value}`}
                   onClick={() => setOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors",
+                    "flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors",
                     isActive
                       ? "bg-muted text-foreground font-medium"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted"
