@@ -10,9 +10,13 @@ import {
   TrendingUp,
   Landmark,
   Trophy,
+  Bitcoin,
+  ThermometerSun,
   TrendingUpIcon,
   Palette,
-  CloudSun,
+  Building2,
+  BarChart3,
+  Cpu,
   Tv,
   UserPlus,
   Search,
@@ -22,9 +26,13 @@ import {
 const categoryIcons: Record<string, React.ReactNode> = {
   POLITICS: <Landmark className="h-8 w-8" />,
   SPORTS: <Trophy className="h-8 w-8" />,
-  ECONOMY: <TrendingUpIcon className="h-8 w-8" />,
+  CRYPTO: <Bitcoin className="h-8 w-8" />,
+  CLIMATE: <ThermometerSun className="h-8 w-8" />,
+  ECONOMICS: <TrendingUpIcon className="h-8 w-8" />,
   CULTURE: <Palette className="h-8 w-8" />,
-  WEATHER: <CloudSun className="h-8 w-8" />,
+  COMPANIES: <Building2 className="h-8 w-8" />,
+  FINANCIALS: <BarChart3 className="h-8 w-8" />,
+  TECH_SCIENCE: <Cpu className="h-8 w-8" />,
   ENTERTAINMENT: <Tv className="h-8 w-8" />,
 };
 
@@ -57,7 +65,7 @@ export default async function LandingPage() {
             <span className="text-[var(--color-mint)]">Future</span>
           </h1>
           <p className="mt-4 text-lg sm:text-xl text-gray-300 max-w-2xl">
-            Trade on Norwegian politics, sports, economy, and culture with virtual NOK points.
+            Trade on Norwegian politics, sports, crypto, climate, and more with virtual NOK points.
             No real money &mdash; just your knowledge and instincts.
           </p>
           <div className="mt-8 flex gap-4 flex-wrap">
@@ -99,7 +107,7 @@ export default async function LandingPage() {
       <section className="bg-card border-y">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
           <h2 className="text-2xl font-bold mb-8 text-center">Browse by Category</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {CATEGORIES.map((cat) => (
               <Link key={cat.value} href={`/markets?category=${cat.value}`}>
                 <Card className="h-full hover:shadow-md transition-shadow cursor-pointer text-center">
@@ -134,7 +142,7 @@ export default async function LandingPage() {
             {
               icon: <Search className="h-10 w-10 text-[var(--color-mint)]" />,
               title: "2. Find Markets",
-              desc: "Browse prediction markets on Norwegian politics, sports, economy, and more.",
+              desc: "Browse prediction markets across politics, sports, crypto, climate, and more.",
             },
             {
               icon: <Award className="h-10 w-10 text-[var(--color-mint)]" />,

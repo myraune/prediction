@@ -24,7 +24,7 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 export const marketSchema = z.object({
   title: z.string().min(10, "Title must be at least 10 characters").max(200),
   description: z.string().min(20, "Description must be at least 20 characters").max(2000),
-  category: z.enum(["POLITICS", "SPORTS", "ECONOMY", "CULTURE", "WEATHER", "ENTERTAINMENT"]),
+  category: z.enum(["POLITICS", "SPORTS", "CRYPTO", "CLIMATE", "ECONOMICS", "CULTURE", "COMPANIES", "FINANCIALS", "TECH_SCIENCE", "ENTERTAINMENT"]),
   closesAt: z.coerce.date({ error: "Closing date is required" }),
   featured: z.boolean().default(false),
 });
