@@ -23,3 +23,9 @@ export function formatDate(date: Date): string {
 export function formatPrice(price: number): string {
   return `${price.toFixed(2)} pts`;
 }
+
+export function formatCompactNumber(num: number): string {
+  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+  if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+  return num.toLocaleString("nb-NO", { maximumFractionDigits: 0 });
+}

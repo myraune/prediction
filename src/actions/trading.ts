@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { buyShares as calcBuy, sellShares as calcSell } from "@/lib/amm";
 import { revalidatePath } from "next/cache";
 import { tradeSchema } from "@/lib/validations";
+import { recordPriceSnapshot } from "./snapshots";
 
 export async function buySharesAction(data: { marketId: string; side: "YES" | "NO"; amount: number }) {
   const session = await auth();
@@ -92,6 +93,9 @@ export async function buySharesAction(data: { marketId: string; side: "YES" | "N
       return tradeResult;
     });
 
+    // Record price snapshot (non-blocking)
+    recordPriceSnapshot(marketId).catch(() => {});
+
     revalidatePath(`/markets/${marketId}`);
     revalidatePath("/portfolio");
     return { success: true, shares: result.shares, price: result.effectivePrice };
@@ -170,6 +174,9 @@ export async function sellSharesAction(data: { marketId: string; side: "YES" | "
 
       return { pointsReceived, effectivePrice: tradeResult.effectivePrice };
     });
+
+    // Record price snapshot (non-blocking)
+    recordPriceSnapshot(marketId).catch(() => {});
 
     revalidatePath(`/markets/${marketId}`);
     revalidatePath("/portfolio");

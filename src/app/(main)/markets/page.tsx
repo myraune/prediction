@@ -1,64 +1,90 @@
 import { prisma } from "@/lib/prisma";
 import { MarketCard } from "@/components/markets/market-card";
-import { CATEGORIES } from "@/lib/constants";
+import { MarketSortTabs } from "@/components/markets/market-sort-tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import type { Prisma } from "@/generated/prisma/client";
 
 export default async function MarketsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; status?: string }>;
+  searchParams: Promise<{ category?: string; status?: string; sort?: string; q?: string }>;
 }) {
   const params = await searchParams;
   const category = params.category;
   const status = params.status ?? "OPEN";
+  const sort = params.sort ?? "trending";
+  const q = params.q;
+
+  // Build where clause
+  const where: Prisma.MarketWhereInput = {
+    ...(category ? { category } : {}),
+    ...(status !== "ALL" ? { status } : {}),
+    ...(q ? { title: { contains: q } } : {}),
+  };
+
+  // Build orderBy based on sort
+  let orderBy: Prisma.MarketOrderByWithRelationInput | Prisma.MarketOrderByWithRelationInput[];
+  switch (sort) {
+    case "new":
+      orderBy = { createdAt: "desc" };
+      break;
+    case "ending":
+      orderBy = { closesAt: "asc" };
+      // Only show open markets for ending soon
+      where.status = "OPEN";
+      break;
+    case "popular":
+      orderBy = { totalVolume: "desc" };
+      break;
+    case "trending":
+    default:
+      orderBy = { totalVolume: "desc" };
+      break;
+  }
 
   let markets: Awaited<ReturnType<typeof prisma.market.findMany>> = [];
   try {
     markets = await prisma.market.findMany({
-      where: {
-        ...(category ? { category } : {}),
-        ...(status !== "ALL" ? { status } : {}),
-      },
-      orderBy: { totalVolume: "desc" },
+      where,
+      orderBy,
     });
   } catch {
     // Database not available
   }
 
+  // Build href helpers
+  function statusHref(s: string) {
+    const p = new URLSearchParams();
+    if (category) p.set("category", category);
+    if (s !== "OPEN") p.set("status", s);
+    if (sort !== "trending") p.set("sort", sort);
+    if (q) p.set("q", q);
+    const qs = p.toString();
+    return `/markets${qs ? `?${qs}` : ""}`;
+  }
+
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-6">
         <h1 className="text-2xl font-bold">Markets</h1>
-        <p className="text-muted-foreground mt-1">Browse all prediction markets</p>
+        {q && (
+          <p className="text-muted-foreground mt-1">
+            Results for &ldquo;{q}&rdquo;
+            <Link href="/markets" className="ml-2 text-[var(--color-mint)] hover:underline text-sm">
+              Clear
+            </Link>
+          </p>
+        )}
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <Link href="/markets">
-          <Button variant={!category ? "default" : "outline"} size="sm">
-            All
-          </Button>
-        </Link>
-        {CATEGORIES.map((cat) => (
-          <Link key={cat.value} href={`/markets?category=${cat.value}${status !== "OPEN" ? `&status=${status}` : ""}`}>
-            <Button
-              variant={category === cat.value ? "default" : "outline"}
-              size="sm"
-            >
-              {cat.label}
-            </Button>
-          </Link>
-        ))}
-      </div>
+      {/* Sort tabs */}
+      <MarketSortTabs />
 
-      {/* Status tabs */}
-      <div className="flex gap-2 mb-6">
+      {/* Status filter */}
+      <div className="flex gap-2 mt-4 mb-6">
         {["OPEN", "RESOLVED", "ALL"].map((s) => (
-          <Link
-            key={s}
-            href={`/markets?${category ? `category=${category}&` : ""}${s !== "OPEN" ? `status=${s}` : ""}`}
-          >
+          <Link key={s} href={statusHref(s)}>
             <Button
               variant={status === s || (s === "OPEN" && !params.status) ? "secondary" : "ghost"}
               size="sm"
@@ -73,10 +99,10 @@ export default async function MarketsPage({
       {markets.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           <p className="text-lg font-medium">No markets found</p>
-          <p className="text-sm mt-1">Try a different category or status filter</p>
+          <p className="text-sm mt-1">Try a different filter or search term</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           {markets.map((market) => (
             <MarketCard key={market.id} market={market} />
           ))}

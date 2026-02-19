@@ -24,6 +24,7 @@ model User {
   sessions  Session[]
   trades    Trade[]
   positions Position[]
+  comments  Comment[]
 
   @@index([email])
   @@index([role])
@@ -90,8 +91,10 @@ model Market {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  trades    Trade[]
-  positions Position[]
+  trades         Trade[]
+  positions      Position[]
+  priceSnapshots PriceSnapshot[]
+  comments       Comment[]
 
   @@index([category])
   @@index([status])
@@ -135,4 +138,37 @@ model Position {
   @@unique([userId, marketId, side])
   @@index([userId])
   @@index([marketId])
+}
+
+// ─── PRICE HISTORY ──────────────────────────────────────
+
+model PriceSnapshot {
+  id        String   @id @default(cuid())
+  marketId  String
+  yesPrice  Float
+  noPrice   Float
+  timestamp DateTime @default(now())
+
+  market Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  @@index([marketId, timestamp])
+}
+
+// ─── COMMENTS ───────────────────────────────────────────
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  userId    String
+  marketId  String
+  parentId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market  Market    @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([marketId, createdAt])
 }

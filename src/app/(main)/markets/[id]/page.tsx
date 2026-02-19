@@ -2,10 +2,13 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { getPrice } from "@/lib/amm";
-import { formatDate, formatPoints } from "@/lib/format";
+import { formatRelativeDate } from "@/lib/format";
 import { CategoryBadge } from "@/components/markets/category-badge";
-import { ProbabilityBar } from "@/components/markets/probability-bar";
+import { MarketStatsBar } from "@/components/markets/market-stats-bar";
+import { PriceChart } from "@/components/charts/price-chart";
 import { TradePanel } from "@/components/trading/trade-panel";
+import { CommentsSection } from "@/components/markets/comments-section";
+import { RelatedMarkets } from "@/components/markets/related-markets";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -55,20 +58,36 @@ export default async function MarketDetailPage({
     // Database not available for user data
   }
 
+  // Fetch related markets (same category, excluding current)
+  let relatedMarkets: Awaited<ReturnType<typeof prisma.market.findMany>> = [];
+  try {
+    relatedMarkets = await prisma.market.findMany({
+      where: {
+        category: market.category,
+        id: { not: market.id },
+        status: "OPEN",
+      },
+      orderBy: { totalVolume: "desc" },
+      take: 4,
+    });
+  } catch {
+    // Non-critical
+  }
+
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
-  const yesPercent = price.yes * 100;
 
   const statusColor =
     market.status === "OPEN"
-      ? "bg-green-500/10 text-green-700"
+      ? "bg-green-500/10 text-green-700 dark:text-green-400"
       : market.status === "RESOLVED"
-      ? "bg-blue-500/10 text-blue-700"
-      : "bg-gray-500/10 text-gray-700";
+      ? "bg-blue-500/10 text-blue-700 dark:text-blue-400"
+      : "bg-gray-500/10 text-gray-700 dark:text-gray-400";
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
       {/* Main content */}
-      <div className="lg:col-span-2 space-y-6">
+      <div className="space-y-6 min-w-0">
+        {/* Title + badges */}
         <div>
           <div className="flex items-center gap-2 mb-3">
             <CategoryBadge category={market.category} />
@@ -85,40 +104,46 @@ export default async function MarketDetailPage({
               </Badge>
             )}
           </div>
-          <h1 className="text-2xl font-bold">{market.title}</h1>
-          <p className="text-muted-foreground mt-2">{market.description}</p>
+          <h1 className="text-xl sm:text-2xl font-bold">{market.title}</h1>
+          <p className="text-muted-foreground mt-2 text-sm">{market.description}</p>
         </div>
 
-        {/* Probability */}
+        {/* Stats bar */}
+        <MarketStatsBar
+          yesPrice={price.yes}
+          noPrice={price.no}
+          totalVolume={market.totalVolume}
+          tradeCount={market._count.trades}
+          closesAt={market.closesAt}
+        />
+
+        {/* Price chart */}
         <Card>
-          <CardContent className="pt-6">
-            <ProbabilityBar yesPercent={yesPercent} size="lg" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-[var(--color-mint)]">{yesPercent.toFixed(1)}%</p>
-                <p className="text-xs text-muted-foreground">YES probability</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold">{formatPoints(market.totalVolume)}</p>
-                <p className="text-xs text-muted-foreground">Total volume</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold">{market._count.trades}</p>
-                <p className="text-xs text-muted-foreground">Total trades</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold">{formatDate(market.closesAt)}</p>
-                <p className="text-xs text-muted-foreground">Closes</p>
-              </div>
-            </div>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base">Price History</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <PriceChart marketId={market.id} currentYesPrice={price.yes} />
           </CardContent>
         </Card>
+
+        {/* Resolution rules */}
+        {market.resolutionNote && (
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Resolution Rules</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">{market.resolutionNote}</p>
+            </CardContent>
+          </Card>
+        )}
 
         {/* User positions */}
         {userPositions.length > 0 && (
           <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Your Positions</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Your Positions</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -127,7 +152,7 @@ export default async function MarketDetailPage({
                   const pnl = pos.shares * (currentPrice - pos.avgPrice);
                   return (
                     <div key={pos.id} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                      <div>
+                      <div className="flex items-center gap-2">
                         <Badge className={
                           pos.side === "YES"
                             ? "bg-[var(--color-mint)]/20 text-[var(--color-mint)]"
@@ -135,7 +160,7 @@ export default async function MarketDetailPage({
                         }>
                           {pos.side}
                         </Badge>
-                        <span className="ml-2 text-sm font-medium">
+                        <span className="text-sm font-medium">
                           {pos.shares.toFixed(2)} shares
                         </span>
                       </div>
@@ -158,11 +183,11 @@ export default async function MarketDetailPage({
         {/* Recent trades */}
         {market.trades.length > 0 && (
           <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Recent Activity</CardTitle>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Recent Activity</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {market.trades.map((trade) => (
                   <div key={trade.id} className="flex items-center justify-between text-sm py-2 border-b last:border-0">
                     <div className="flex items-center gap-2">
@@ -176,8 +201,9 @@ export default async function MarketDetailPage({
                         {trade.side}
                       </Badge>
                     </div>
-                    <div className="text-right text-muted-foreground">
-                      <span>{trade.shares.toFixed(2)} shares @ {trade.price.toFixed(2)}</span>
+                    <div className="text-right text-xs text-muted-foreground">
+                      <span>{trade.shares.toFixed(2)} @ {trade.price.toFixed(2)}</span>
+                      <span className="ml-2">{formatRelativeDate(trade.createdAt)}</span>
                     </div>
                   </div>
                 ))}
@@ -185,16 +211,29 @@ export default async function MarketDetailPage({
             </CardContent>
           </Card>
         )}
+
+        {/* Comments */}
+        <CommentsSection marketId={market.id} />
+
+        {/* Related markets */}
+        {relatedMarkets.length > 0 && (
+          <RelatedMarkets markets={relatedMarkets} />
+        )}
       </div>
 
-      {/* Sidebar - Trade panel */}
-      <div>
+      {/* Right sidebar - Trade panel (sticky) */}
+      <div className="lg:sticky lg:top-[72px] lg:h-fit">
         <TradePanel
           marketId={market.id}
           poolYes={market.poolYes}
           poolNo={market.poolNo}
           userBalance={user?.balance ?? 0}
           marketStatus={market.status}
+          userPositions={userPositions.map((p) => ({
+            side: p.side as "YES" | "NO",
+            shares: p.shares,
+            avgPrice: p.avgPrice,
+          }))}
         />
       </div>
     </div>
