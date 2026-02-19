@@ -5,18 +5,30 @@ import Link from "next/link";
 import { Users, BarChart3, CheckCircle, TrendingUp } from "lucide-react";
 
 export default async function AdminDashboardPage() {
-  const [userCount, openMarkets, resolvedMarkets, totalVolume] = await Promise.all([
-    prisma.user.count(),
-    prisma.market.count({ where: { status: "OPEN" } }),
-    prisma.market.count({ where: { status: "RESOLVED" } }),
-    prisma.market.aggregate({ _sum: { totalVolume: true } }),
-  ]);
+  let userCount = 0;
+  let openMarkets = 0;
+  let resolvedMarkets = 0;
+  let totalVolumeSum = 0;
+  try {
+    const [uc, om, rm, tv] = await Promise.all([
+      prisma.user.count(),
+      prisma.market.count({ where: { status: "OPEN" } }),
+      prisma.market.count({ where: { status: "RESOLVED" } }),
+      prisma.market.aggregate({ _sum: { totalVolume: true } }),
+    ]);
+    userCount = uc;
+    openMarkets = om;
+    resolvedMarkets = rm;
+    totalVolumeSum = tv._sum.totalVolume ?? 0;
+  } catch {
+    // Database not available
+  }
 
   const stats = [
     { label: "Total Users", value: userCount, icon: Users, color: "text-blue-500" },
     { label: "Open Markets", value: openMarkets, icon: TrendingUp, color: "text-[var(--color-mint)]" },
     { label: "Resolved Markets", value: resolvedMarkets, icon: CheckCircle, color: "text-purple-500" },
-    { label: "Total Volume", value: `${(totalVolume._sum.totalVolume ?? 0).toLocaleString("nb-NO")} pts`, icon: BarChart3, color: "text-amber-500" },
+    { label: "Total Volume", value: `${totalVolumeSum.toLocaleString("nb-NO")} pts`, icon: BarChart3, color: "text-amber-500" },
   ];
 
   return (

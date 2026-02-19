@@ -8,10 +8,16 @@ import Link from "next/link";
 import { CategoryBadge } from "@/components/markets/category-badge";
 
 export default async function AdminMarketsPage() {
-  const markets = await prisma.market.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { _count: { select: { trades: true } } },
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let markets: any[] = [];
+  try {
+    markets = await prisma.market.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { _count: { select: { trades: true } } },
+    });
+  } catch {
+    // Database not available
+  }
 
   return (
     <div className="space-y-6">

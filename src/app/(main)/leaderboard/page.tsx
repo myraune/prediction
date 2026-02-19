@@ -7,16 +7,22 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Trophy } from "lucide-react";
 
 export default async function LeaderboardPage() {
-  const users = await prisma.user.findMany({
-    where: { role: "USER" },
-    include: {
-      positions: {
-        where: { shares: { gt: 0 } },
-        include: { market: true },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let users: any[] = [];
+  try {
+    users = await prisma.user.findMany({
+      where: { role: "USER" },
+      include: {
+        positions: {
+          where: { shares: { gt: 0 } },
+          include: { market: true },
+        },
       },
-    },
-    orderBy: { balance: "desc" },
-  });
+      orderBy: { balance: "desc" },
+    });
+  } catch {
+    // Database not available
+  }
 
   // Calculate total portfolio value for each user
   const leaderboard = users

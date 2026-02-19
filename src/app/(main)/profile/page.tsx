@@ -9,12 +9,17 @@ export default async function ProfilePage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const user = await prisma.user.findUniqueOrThrow({
-    where: { id: session.user.id },
-    include: {
-      _count: { select: { trades: true, positions: true } },
-    },
-  });
+  let user;
+  try {
+    user = await prisma.user.findUniqueOrThrow({
+      where: { id: session.user.id },
+      include: {
+        _count: { select: { trades: true, positions: true } },
+      },
+    });
+  } catch {
+    redirect("/login");
+  }
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">

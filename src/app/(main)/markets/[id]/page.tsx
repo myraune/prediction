@@ -17,32 +17,43 @@ export default async function MarketDetailPage({
   const { id } = await params;
   const session = await auth();
 
-  const market = await prisma.market.findUnique({
-    where: { id },
-    include: {
-      _count: { select: { trades: true } },
-      trades: {
-        orderBy: { createdAt: "desc" },
-        take: 20,
-        include: { user: { select: { name: true } } },
+  let market;
+  try {
+    market = await prisma.market.findUnique({
+      where: { id },
+      include: {
+        _count: { select: { trades: true } },
+        trades: {
+          orderBy: { createdAt: "desc" },
+          take: 20,
+          include: { user: { select: { name: true } } },
+        },
       },
-    },
-  });
+    });
+  } catch {
+    notFound();
+  }
 
   if (!market) notFound();
 
-  const user = session?.user?.id
-    ? await prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: { balance: true },
-      })
-    : null;
+  let user = null;
+  let userPositions: Awaited<ReturnType<typeof prisma.position.findMany>> = [];
+  try {
+    user = session?.user?.id
+      ? await prisma.user.findUnique({
+          where: { id: session.user.id },
+          select: { balance: true },
+        })
+      : null;
 
-  const userPositions = session?.user?.id
-    ? await prisma.position.findMany({
-        where: { userId: session.user.id, marketId: id },
-      })
-    : [];
+    userPositions = session?.user?.id
+      ? await prisma.position.findMany({
+          where: { userId: session.user.id, marketId: id },
+        })
+      : [];
+  } catch {
+    // Database not available for user data
+  }
 
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = price.yes * 100;

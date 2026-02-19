@@ -37,19 +37,26 @@ const categoryIcons: Record<string, React.ReactNode> = {
 };
 
 export default async function LandingPage() {
-  const featuredMarkets = await prisma.market.findMany({
-    where: { featured: true, status: "OPEN" },
-    orderBy: { totalVolume: "desc" },
-    take: 6,
-  });
+  let featuredMarkets: Awaited<ReturnType<typeof prisma.market.findMany>> = [];
+  let countMap: Record<string, number> = {};
 
-  const categoryCounts = await prisma.market.groupBy({
-    by: ["category"],
-    where: { status: "OPEN" },
-    _count: true,
-  });
+  try {
+    featuredMarkets = await prisma.market.findMany({
+      where: { featured: true, status: "OPEN" },
+      orderBy: { totalVolume: "desc" },
+      take: 6,
+    });
 
-  const countMap = Object.fromEntries(categoryCounts.map((c) => [c.category, c._count]));
+    const categoryCounts = await prisma.market.groupBy({
+      by: ["category"],
+      where: { status: "OPEN" },
+      _count: true,
+    });
+
+    countMap = Object.fromEntries(categoryCounts.map((c) => [c.category, c._count]));
+  } catch {
+    // Database not available — render page with empty data
+  }
 
   return (
     <div className="min-h-screen">

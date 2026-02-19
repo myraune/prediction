@@ -13,13 +13,18 @@ export default async function MarketsPage({
   const category = params.category;
   const status = params.status ?? "OPEN";
 
-  const markets = await prisma.market.findMany({
-    where: {
-      ...(category ? { category } : {}),
-      ...(status !== "ALL" ? { status } : {}),
-    },
-    orderBy: { totalVolume: "desc" },
-  });
+  let markets: Awaited<ReturnType<typeof prisma.market.findMany>> = [];
+  try {
+    markets = await prisma.market.findMany({
+      where: {
+        ...(category ? { category } : {}),
+        ...(status !== "ALL" ? { status } : {}),
+      },
+      orderBy: { totalVolume: "desc" },
+    });
+  } catch {
+    // Database not available
+  }
 
   return (
     <div>

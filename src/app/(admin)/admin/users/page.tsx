@@ -6,10 +6,16 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default async function AdminUsersPage() {
-  const users = await prisma.user.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { _count: { select: { trades: true } } },
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let users: any[] = [];
+  try {
+    users = await prisma.user.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { _count: { select: { trades: true } } },
+    });
+  } catch {
+    // Database not available
+  }
 
   return (
     <div className="space-y-6">

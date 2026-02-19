@@ -13,23 +13,32 @@ export default async function PortfolioPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const user = await prisma.user.findUniqueOrThrow({
-    where: { id: session.user.id },
-    select: { balance: true },
-  });
+  let user = { balance: 0 };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let positions: any[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let trades: any[] = [];
+  try {
+    user = await prisma.user.findUniqueOrThrow({
+      where: { id: session.user.id },
+      select: { balance: true },
+    });
 
-  const positions = await prisma.position.findMany({
-    where: { userId: session.user.id, shares: { gt: 0 } },
-    include: { market: true },
-    orderBy: { market: { closesAt: "asc" } },
-  });
+    positions = await prisma.position.findMany({
+      where: { userId: session.user.id, shares: { gt: 0 } },
+      include: { market: true },
+      orderBy: { market: { closesAt: "asc" } },
+    });
 
-  const trades = await prisma.trade.findMany({
-    where: { userId: session.user.id },
-    include: { market: { select: { title: true } } },
-    orderBy: { createdAt: "desc" },
-    take: 20,
-  });
+    trades = await prisma.trade.findMany({
+      where: { userId: session.user.id },
+      include: { market: { select: { title: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+    });
+  } catch {
+    // Database not available
+  }
 
   // Calculate portfolio value
   let investedValue = 0;
