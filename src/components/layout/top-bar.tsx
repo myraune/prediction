@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "./theme-toggle";
+
 import { MobileSidebar } from "./mobile-sidebar";
 import Link from "next/link";
 
@@ -64,8 +64,6 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
               <span className="text-[var(--color-brand)]/60 text-xs font-medium">pts</span>
             </div>
           )}
-
-          <ThemeToggle />
 
           {/* Avatar dropdown */}
           <DropdownMenu>

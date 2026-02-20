@@ -17,7 +17,7 @@ import {
   Tv,
 } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
-import { ThemeToggleInline } from "@/components/layout/theme-toggle";
+
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
 
@@ -114,10 +114,6 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
         </nav>
       </div>
 
-      {/* Theme toggle footer */}
-      <div className="p-3 border-t border-border/60 shrink-0">
-        <ThemeToggleInline className="w-full" />
-      </div>
     </aside>
   );
 }

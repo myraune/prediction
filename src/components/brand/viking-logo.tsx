@@ -54,28 +54,15 @@ export function VikingWordmark({
   const width = Math.round(height * (613 / 86)); // maintain aspect ratio
 
   return (
-    <>
-      {/* Light mode: show dark logo */}
-      <Image
-        src="/logo-light.svg"
-        alt="Viking Market"
-        width={width}
-        height={height}
-        className={cn("dark:hidden", className)}
-        priority
-        unoptimized
-      />
-      {/* Dark mode: show light logo */}
-      <Image
-        src="/logo-dark.svg"
-        alt="Viking Market"
-        width={width}
-        height={height}
-        className={cn("hidden dark:block", className)}
-        priority
-        unoptimized
-      />
-    </>
+    <Image
+      src="/logo-light.svg"
+      alt="Viking Market"
+      width={width}
+      height={height}
+      className={className}
+      priority
+      unoptimized
+    />
   );
 }
 

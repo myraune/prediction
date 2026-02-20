@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { BarChart3, Trophy, User, LogOut, Shield, Menu, X } from "lucide-react";
 import { VikingLogo } from "@/components/brand/viking-logo";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -64,8 +64,6 @@ export function Navbar({ balance }: { balance?: number }) {
                 <span className="text-muted-foreground text-xs">pts</span>
               </div>
             )}
-
-            <ThemeToggle />
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
