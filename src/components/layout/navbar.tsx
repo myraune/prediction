@@ -34,7 +34,7 @@ export function Navbar({ balance }: { balance?: number }) {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/markets" className="flex items-center gap-2">
-            <TrendingUp className="h-6 w-6 text-[var(--color-yes)]" />
+            <TrendingUp className="h-6 w-6 text-[var(--color-brand)]" />
             <span className="text-lg font-bold hidden sm:inline">Norsk Predikt</span>
           </Link>
 
@@ -57,7 +57,7 @@ export function Navbar({ balance }: { balance?: number }) {
           {/* Right side */}
           <div className="flex items-center gap-3">
             {balance !== undefined && (
-              <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-yes)]/10 text-foreground px-3 py-1.5 rounded-full text-sm font-medium">
+              <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-brand)]/10 text-foreground px-3 py-1.5 rounded-full text-sm font-medium">
                 <span>{balance.toLocaleString("nb-NO")}</span>
                 <span className="text-muted-foreground text-xs">pts</span>
               </div>

@@ -42,7 +42,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <TrendingUp className="h-8 w-8 text-[var(--color-yes)]" />
+            <TrendingUp className="h-8 w-8 text-[var(--color-brand)]" />
             <span className="text-2xl font-bold">Norsk Predikt</span>
           </div>
           <CardTitle className="text-xl">Welcome back</CardTitle>
@@ -69,7 +69,7 @@ export default function LoginPage() {
           </form>
           <div className="mt-4 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-[var(--color-yes)] hover:underline font-medium">
+            <Link href="/register" className="text-[var(--color-brand)] hover:underline font-medium">
               Sign up
             </Link>
           </div>

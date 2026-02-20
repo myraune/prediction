@@ -71,7 +71,7 @@ export default async function LeaderboardPage() {
                     </AvatarFallback>
                   </Avatar>
                   <p className="font-semibold">{user.name}</p>
-                  <p className="text-lg font-bold text-[var(--color-yes)] mt-1">
+                  <p className="text-lg font-bold text-[var(--color-brand)] mt-1">
                     {formatPoints(user.totalValue)}
                   </p>
                 </CardContent>

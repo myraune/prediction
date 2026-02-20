@@ -66,8 +66,8 @@ export default async function PortfolioPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-[var(--color-yes)]/10 rounded-lg">
-                <Wallet className="h-5 w-5 text-[var(--color-yes)]" />
+              <div className="p-2 bg-[var(--color-brand)]/10 rounded-lg">
+                <Wallet className="h-5 w-5 text-[var(--color-brand)]" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Available Balance</p>
@@ -118,7 +118,7 @@ export default async function PortfolioPage() {
             <div className="text-center py-8 text-muted-foreground">
               <p>No active positions</p>
               <p className="text-sm mt-1">
-                <Link href="/markets" className="text-[var(--color-yes)] hover:underline">
+                <Link href="/markets" className="text-[var(--color-brand)] hover:underline">
                   Browse markets
                 </Link>{" "}
                 to start trading

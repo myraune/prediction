@@ -59,9 +59,9 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
         <div className="flex items-center gap-2">
           {/* Balance pill — exchange style */}
           {balance !== undefined && (
-            <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-yes)]/10 text-[var(--color-yes)] px-3 py-1.5 rounded text-sm font-bold tabular-nums">
+            <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-brand)]/10 text-[var(--color-brand)] px-3 py-1.5 rounded text-sm font-bold tabular-nums">
               <span>{balance.toLocaleString("nb-NO")}</span>
-              <span className="text-[var(--color-yes)]/60 text-xs font-medium">pts</span>
+              <span className="text-[var(--color-brand)]/60 text-xs font-medium">pts</span>
             </div>
           )}
 
@@ -72,7 +72,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
                 <Avatar className="h-7 w-7">
-                  <AvatarFallback className="bg-[var(--color-yes)] text-white text-xs font-bold">
+                  <AvatarFallback className="bg-[var(--color-brand)] text-white text-xs font-bold">
                     {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
                   </AvatarFallback>
                 </Avatar>

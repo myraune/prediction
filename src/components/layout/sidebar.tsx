@@ -51,7 +51,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
     <aside className="hidden lg:flex flex-col w-56 border-r border-border/60 bg-card h-screen sticky top-0 overflow-y-auto">
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 h-16 border-b shrink-0">
-        <TrendingUp className="h-6 w-6 text-[var(--color-yes)]" />
+        <TrendingUp className="h-6 w-6 text-[var(--color-brand)]" />
         <span className="text-lg font-semibold">Norsk Predikt</span>
       </div>
 
@@ -73,7 +73,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
               <link.icon className="h-4 w-4" />
               {link.label}
               {"live" in link && link.live && (
-                <span className="ml-auto h-2 w-2 rounded-full bg-[var(--color-yes)] animate-pulse" />
+                <span className="ml-auto h-2 w-2 rounded-full bg-[var(--color-brand)] animate-pulse" />
               )}
             </Link>
           );

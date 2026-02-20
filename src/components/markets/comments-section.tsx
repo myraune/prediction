@@ -104,7 +104,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
         {session?.user && (
           <div className="flex gap-3">
             <Avatar className="h-8 w-8 shrink-0">
-              <AvatarFallback className="bg-[var(--color-yes)] text-white text-xs font-bold">
+              <AvatarFallback className="bg-[var(--color-brand)] text-white text-xs font-bold">
                 {session.user.name?.charAt(0)?.toUpperCase() ?? "U"}
               </AvatarFallback>
             </Avatar>
@@ -113,7 +113,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-yes)]"
+                className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-brand)]"
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handlePost()}
               />
               <Button
@@ -178,7 +178,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                       value={replyContent}
                       onChange={(e) => setReplyContent(e.target.value)}
                       placeholder="Write a reply..."
-                      className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-yes)]"
+                      className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-brand)]"
                       onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleReply(comment.id)}
                       autoFocus
                     />

@@ -66,12 +66,12 @@ export default async function LandingPage() {
       <section className="bg-card border-b relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative">
           <div className="flex items-center gap-2.5 mb-5">
-            <TrendingUp className="h-8 w-8 text-[var(--color-yes)]" />
+            <TrendingUp className="h-8 w-8 text-[var(--color-brand)]" />
             <span className="text-2xl font-bold tracking-tight">Norsk Predikt</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight max-w-2xl leading-[1.1]">
             Trade on what happens{" "}
-            <span className="text-[var(--color-yes)]">next</span>
+            <span className="text-[var(--color-brand)]">next</span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-xl">
             Buy and sell on the outcome of Norwegian events. Politics, sports, crypto, climate — all priced 0–99¢.
@@ -90,14 +90,14 @@ export default async function LandingPage() {
             </div>
             <div className="h-8 w-px bg-border" />
             <div>
-              <p className="text-2xl font-bold tabular-nums text-[var(--color-yes)]">Free</p>
+              <p className="text-2xl font-bold tabular-nums text-[var(--color-brand)]">Free</p>
               <p className="text-muted-foreground text-xs uppercase tracking-wider">To Play</p>
             </div>
           </div>
 
           <div className="mt-8 flex gap-3 flex-wrap">
             <Link href="/register">
-              <Button size="lg" className="bg-[var(--color-yes)] text-white hover:bg-[var(--color-yes)]/90 font-semibold gap-2">
+              <Button size="lg" className="bg-[var(--color-brand)] text-white hover:bg-[var(--color-brand)]/90 font-semibold gap-2">
                 Start Trading
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -117,17 +117,17 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             {[
               {
-                icon: <Zap className="h-5 w-5 text-[var(--color-yes)]" />,
+                icon: <Zap className="h-5 w-5 text-[var(--color-brand)]" />,
                 title: "Instant Trading",
                 desc: "Buy YES or NO from 1¢ to 99¢",
               },
               {
-                icon: <Shield className="h-5 w-5 text-[var(--color-yes)]" />,
+                icon: <Shield className="h-5 w-5 text-[var(--color-brand)]" />,
                 title: "No Real Money",
                 desc: "Trade with virtual points, zero risk",
               },
               {
-                icon: <ChartLine className="h-5 w-5 text-[var(--color-yes)]" />,
+                icon: <ChartLine className="h-5 w-5 text-[var(--color-brand)]" />,
                 title: "Real-Time Prices",
                 desc: "Automated market maker pricing",
               },
@@ -149,7 +149,7 @@ export default async function LandingPage() {
         <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold tracking-tight">Trending Markets</h2>
-            <Link href="/markets" className="text-sm text-[var(--color-yes)] hover:underline flex items-center gap-1">
+            <Link href="/markets" className="text-sm text-[var(--color-brand)] hover:underline flex items-center gap-1">
               View All <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -188,7 +188,7 @@ export default async function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-muted-foreground">
-              <TrendingUp className="h-4 w-4 text-[var(--color-yes)]" />
+              <TrendingUp className="h-4 w-4 text-[var(--color-brand)]" />
               <span className="text-sm font-semibold">Norsk Predikt</span>
             </div>
             <p className="text-xs text-muted-foreground">

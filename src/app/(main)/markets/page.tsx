@@ -72,7 +72,7 @@ export default async function MarketsPage({
           {q && (
             <p className="text-muted-foreground mt-1">
               Results for &ldquo;{q}&rdquo;
-              <Link href="/markets" className="ml-2 text-[var(--color-yes)] hover:underline text-sm">
+              <Link href="/markets" className="ml-2 text-[var(--color-brand)] hover:underline text-sm">
                 Clear
               </Link>
             </p>
