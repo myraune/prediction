@@ -155,8 +155,8 @@ export default async function LandingPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 bg-blue-500/10 rounded">
-                    <Users className="h-4 w-4 text-blue-500" />
+                  <div className="p-1.5 bg-[var(--color-yes)]/10 rounded">
+                    <Users className="h-4 w-4 text-[var(--color-yes)]" />
                   </div>
                   <div>
                     <p className="text-lg font-bold tabular-nums leading-none">{totalUsers || "100+"}</p>
@@ -164,8 +164,8 @@ export default async function LandingPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 bg-amber-500/10 rounded">
-                    <BarChart3 className="h-4 w-4 text-amber-500" />
+                  <div className="p-1.5 bg-muted rounded">
+                    <BarChart3 className="h-4 w-4 text-foreground" />
                   </div>
                   <div>
                     <p className="text-lg font-bold tabular-nums leading-none">{formatCompactNumber(totalVolume)}</p>
@@ -302,7 +302,7 @@ export default async function LandingPage() {
               {recentMarkets.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-4">
-                    <Clock className="h-4 w-4 text-blue-500" />
+                    <Clock className="h-4 w-4 text-[var(--color-yes)]" />
                     <h3 className="text-sm font-semibold">New Markets</h3>
                     <Link href="/markets?sort=new" className="ml-auto text-xs text-[var(--color-brand)] hover:underline">
                       See all →

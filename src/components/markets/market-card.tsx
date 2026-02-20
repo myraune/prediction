@@ -10,6 +10,31 @@ import { Clock, BarChart3, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Market } from "@/generated/prisma/client";
 
+function MarketImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      onError={(e) => {
+        // Hide the image on error, show fallback
+        const target = e.currentTarget;
+        target.style.display = "none";
+        const parent = target.parentElement;
+        if (parent) {
+          parent.classList.add("flex", "items-center", "justify-center");
+          const fallback = document.createElement("div");
+          fallback.className = "text-muted-foreground/30";
+          fallback.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>';
+          parent.appendChild(fallback);
+        }
+      }}
+    />
+  );
+}
+
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesCents = Math.round(price.yes * 100);
@@ -26,13 +51,7 @@ export function MarketCard({ market }: { market: Market }) {
         {/* Market image — larger with overlay price */}
         {market.imageUrl && (
           <div className="relative h-36 w-full bg-muted overflow-hidden">
-            <Image
-              src={market.imageUrl}
-              alt={market.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+            <MarketImage src={market.imageUrl} alt={market.title} />
             {/* Gradient overlay — stronger for text readability */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 

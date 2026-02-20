@@ -79,8 +79,8 @@ export default async function PortfolioPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-500/10 rounded-lg">
-                <TrendingUp className="h-5 w-5 text-blue-500" />
+              <div className="p-2 bg-[var(--color-yes)]/10 rounded-lg">
+                <TrendingUp className="h-5 w-5 text-[var(--color-yes)]" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Total Portfolio Value</p>
@@ -160,8 +160,8 @@ export default async function PortfolioPage() {
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">{pos.shares.toFixed(2)}</TableCell>
-                      <TableCell className="text-right">{pos.avgPrice.toFixed(2)}</TableCell>
-                      <TableCell className="text-right">{currentPrice.toFixed(2)}</TableCell>
+                      <TableCell className="text-right tabular-nums">{Math.round(pos.avgPrice * 100)}¢</TableCell>
+                      <TableCell className="text-right tabular-nums">{Math.round(currentPrice * 100)}¢</TableCell>
                       <TableCell className={`text-right font-medium ${pnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"}`}>
                         {pnl >= 0 ? "+" : ""}{pnl.toFixed(2)}
                       </TableCell>

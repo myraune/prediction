@@ -98,8 +98,8 @@ export default async function MarketDetailPage({
     market.status === "OPEN"
       ? "bg-[var(--color-yes)]/10 text-[var(--color-yes)]"
       : market.status === "RESOLVED"
-      ? "bg-blue-500/10 text-blue-700 dark:text-blue-400"
-      : "bg-gray-500/10 text-gray-700 dark:text-gray-400";
+      ? "bg-muted text-foreground"
+      : "bg-muted text-muted-foreground";
 
   // Estimate a 24h change from recent trades
   const recentTrade = market.trades.length > 0 ? market.trades[0] : null;

@@ -43,7 +43,7 @@ export default async function LeaderboardPage() {
     })
     .sort((a, b) => b.totalValue - a.totalValue);
 
-  const rankColors = ["text-yellow-500", "text-gray-400", "text-amber-600"];
+  const rankColors = ["text-[var(--color-brand)]", "text-muted-foreground", "text-muted-foreground/70"];
 
   return (
     <div className="space-y-6">
@@ -60,10 +60,10 @@ export default async function LeaderboardPage() {
             if (!user) return null;
             const rank = idx + 1;
             return (
-              <Card key={user.id} className={`text-center ${idx === 0 ? "ring-2 ring-yellow-400/50 order-2 sm:order-1" : idx === 1 ? "order-1 sm:order-2" : "order-3"}`}>
+              <Card key={user.id} className={`text-center ${idx === 0 ? "ring-2 ring-[var(--color-brand)]/50 order-2 sm:order-1" : idx === 1 ? "order-1 sm:order-2" : "order-3"}`}>
                 <CardContent className="pt-6 pb-4">
                   <div className={`text-3xl font-bold mb-2 ${rankColors[idx] ?? ""}`}>
-                    {rank === 1 ? <Trophy className="h-8 w-8 mx-auto text-yellow-500" /> : `#${rank}`}
+                    {rank === 1 ? <Trophy className="h-8 w-8 mx-auto text-[var(--color-brand)]" /> : `#${rank}`}
                   </div>
                   <Avatar className="h-12 w-12 mx-auto mb-2">
                     <AvatarFallback className="bg-primary text-primary-foreground">

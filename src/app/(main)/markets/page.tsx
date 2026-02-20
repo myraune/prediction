@@ -78,9 +78,19 @@ export default async function MarketsPage({
     return `/markets${qs ? `?${qs}` : ""}`;
   }
 
-  const categoryLabel = category
-    ? category.charAt(0) + category.slice(1).toLowerCase().replace("_", " & ")
-    : null;
+  const categoryLabels: Record<string, string> = {
+    POLITICS: "Politics",
+    SPORTS: "Sports",
+    CRYPTO: "Crypto",
+    CLIMATE: "Climate",
+    ECONOMICS: "Economics",
+    CULTURE: "Culture",
+    COMPANIES: "Companies",
+    FINANCIALS: "Financials",
+    TECH_SCIENCE: "Tech & Science",
+    ENTERTAINMENT: "Entertainment",
+  };
+  const categoryLabel = category ? categoryLabels[category] ?? category : null;
 
   return (
     <div>
