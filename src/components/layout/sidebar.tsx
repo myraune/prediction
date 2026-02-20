@@ -34,23 +34,10 @@ const categoryIcons: Record<string, React.ElementType> = {
   ENTERTAINMENT: Tv,
 };
 
-const categoryLabelsNO: Record<string, string> = {
-  POLITICS: "Politikk",
-  SPORTS: "Sport",
-  CRYPTO: "Krypto",
-  CLIMATE: "Klima",
-  ECONOMICS: "Økonomi",
-  CULTURE: "Kultur",
-  COMPANIES: "Selskaper",
-  FINANCIALS: "Finans",
-  TECH_SCIENCE: "Tech & Vitenskap",
-  ENTERTAINMENT: "Underholdning",
-};
-
 const mainNav = [
-  { href: "/markets", label: "Markeder", icon: LayoutGrid },
-  { href: "/portfolio", label: "Portefølje", icon: BarChart3 },
-  { href: "/leaderboard", label: "Toppliste", icon: Trophy },
+  { href: "/markets", label: "Markets", icon: LayoutGrid },
+  { href: "/portfolio", label: "Portfolio", icon: BarChart3 },
+  { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
 ];
 
 interface SidebarProps {
@@ -87,7 +74,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
             >
               <link.icon className="h-4 w-4" />
               {link.label}
-              {link.label === "Markeder" && (
+              {link.label === "Markets" && (
                 <span className="relative ml-auto flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-yes)] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-yes)]" />
@@ -114,7 +101,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
             )}
           >
             <span className="text-sm">🇳🇴</span>
-            <span className="flex-1">Norge</span>
+            <span className="flex-1">Norway</span>
           </Link>
           <Link
             href="/markets?region=INT"
@@ -126,14 +113,14 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
             )}
           >
             <Globe className="h-3.5 w-3.5 shrink-0" />
-            <span className="flex-1">Internasjonalt</span>
+            <span className="flex-1">International</span>
           </Link>
         </nav>
       </div>
 
       <div className="px-3 mt-5 flex-1">
         <p className="px-3 mb-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
-          Kategorier
+          Categories
         </p>
         <nav className="flex flex-col gap-0.5">
           {CATEGORIES.map((cat) => {
@@ -152,7 +139,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
                 )}
               >
                 <Icon className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate flex-1">{categoryLabelsNO[cat.value] ?? cat.label}</span>
+                <span className="truncate flex-1">{cat.label}</span>
                 {count > 0 && (
                   <span className="text-[11px] tabular-nums text-muted-foreground/60">{count}</span>
                 )}

@@ -58,16 +58,16 @@ export default async function MarketsPage({
   }
 
   const categoryLabels: Record<string, string> = {
-    POLITICS: "Politikk",
-    SPORTS: "Sport",
-    CRYPTO: "Krypto",
-    CLIMATE: "Klima",
-    ECONOMICS: "Økonomi",
-    CULTURE: "Kultur",
-    COMPANIES: "Selskaper",
-    FINANCIALS: "Finans",
-    TECH_SCIENCE: "Tech & Vitenskap",
-    ENTERTAINMENT: "Underholdning",
+    POLITICS: "Politics",
+    SPORTS: "Sports",
+    CRYPTO: "Crypto",
+    CLIMATE: "Climate",
+    ECONOMICS: "Economics",
+    CULTURE: "Culture",
+    COMPANIES: "Companies",
+    FINANCIALS: "Financials",
+    TECH_SCIENCE: "Tech & Science",
+    ENTERTAINMENT: "Entertainment",
   };
   const categoryLabel = category ? categoryLabels[category] ?? category : null;
 
@@ -88,34 +88,34 @@ export default async function MarketsPage({
     return `/markets${qs ? `?${qs}` : ""}`;
   }
 
-  const regionTitle = region === "NO" ? "🇳🇴 Norge" : region === "INT" ? "🌍 Internasjonalt" : null;
+  const regionTitle = region === "NO" ? "🇳🇴 Norway" : region === "INT" ? "🌍 International" : null;
 
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">
-            {regionTitle ?? categoryLabel ?? "Markeder"}
+            {regionTitle ?? categoryLabel ?? "Markets"}
           </h1>
           {q && (
             <p className="text-sm text-muted-foreground mt-0.5">
-              Resultater for &ldquo;{q}&rdquo;
+              Results for &ldquo;{q}&rdquo;
               <Link href="/markets" className="ml-2 text-foreground hover:underline">
-                Nullstill
+                Clear
               </Link>
             </p>
           )}
         </div>
         <span className="text-xs text-muted-foreground tabular-nums">
-          {markets.length} marked{markets.length !== 1 ? "er" : ""}
+          {markets.length} market{markets.length !== 1 ? "s" : ""}
         </span>
       </div>
 
       {/* ─── Region Tabs ─── */}
       <div className="flex items-center gap-1.5 mb-4">
         {[
-          { label: "Alle", value: undefined as string | undefined, count: regionCounts.total },
-          { label: "🇳🇴 Norge", value: "NO", count: regionCounts.no },
+          { label: "All", value: undefined as string | undefined, count: regionCounts.total },
+          { label: "🇳🇴 Norway", value: "NO", count: regionCounts.no },
           { label: "🌍 Intl", value: "INT", count: regionCounts.int },
         ].map((tab) => {
           const isActive = region === tab.value || (!region && !tab.value);
@@ -153,7 +153,7 @@ export default async function MarketsPage({
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              {s === "ALL" ? "Alle" : s === "OPEN" ? "Åpne" : "Avgjort"}
+              {s === "ALL" ? "All" : s.charAt(0) + s.slice(1).toLowerCase()}
             </Link>
           );
         })}
@@ -161,8 +161,8 @@ export default async function MarketsPage({
 
       {markets.length === 0 ? (
         <div className="text-center py-20 text-muted-foreground">
-          <p className="font-medium">Ingen markeder funnet</p>
-          <p className="text-sm mt-1">Prøv et annet filter eller søk</p>
+          <p className="font-medium">No markets found</p>
+          <p className="text-sm mt-1">Try a different filter or search</p>
         </div>
       ) : (
         <div className="rounded-xl border divide-y overflow-hidden bg-card">

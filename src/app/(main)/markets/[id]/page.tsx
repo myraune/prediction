@@ -94,9 +94,9 @@ export default async function MarketDetailPage({
   const timeLeft = getTimeRemaining(market.closesAt);
 
   const categoryLabels: Record<string, string> = {
-    POLITICS: "Politikk", SPORTS: "Sport", CRYPTO: "Krypto", CLIMATE: "Klima",
-    ECONOMICS: "Økonomi", CULTURE: "Kultur", COMPANIES: "Selskaper",
-    FINANCIALS: "Finans", TECH_SCIENCE: "Tech & Vitenskap", ENTERTAINMENT: "Underholdning",
+    POLITICS: "Politics", SPORTS: "Sports", CRYPTO: "Crypto", CLIMATE: "Climate",
+    ECONOMICS: "Economics", CULTURE: "Culture", COMPANIES: "Companies",
+    FINANCIALS: "Financials", TECH_SCIENCE: "Tech & Science", ENTERTAINMENT: "Entertainment",
   };
 
   return (

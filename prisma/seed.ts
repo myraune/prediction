@@ -33,309 +33,327 @@ interface MarketDef {
 }
 
 // ═══════════════════════════════════════════════════════════
-// ══ NORWEGIAN MARKETS (56) ════════════════════════════════
+// ══ NORWEGIAN MARKETS (60) ════════════════════════════════
 // ═══════════════════════════════════════════════════════════
 
 const NO_MARKETS: MarketDef[] = [
 
-  // ── NORSK POLITIKK (12) ──────────────────────────────────
+  // ── NORWEGIAN POLITICS (14) ─────────────────────────────
   {
-    title: "Blir Arbeiderpartiet størst ved stortingsvalget 2025?",
-    description: "Resolves YES om Arbeiderpartiet får flest stemmer ved stortingsvalget i september 2025.",
+    title: "Will Arbeiderpartiet be the largest party in the 2025 Storting election?",
+    description: "Resolves YES if the Labour Party (Ap) receives the most votes in the September 2025 Norwegian parliamentary election.",
     category: "POLITICS", prob: 0.38, volume: 124000, closesAt: daysFromNow(200), featured: true, daysActive: 90,
-    imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&q=80",
-    region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&q=80", region: "NO",
   },
   {
-    title: "Vil Erna Solberg bli statsminister igjen etter valget 2025?",
-    description: "Resolves YES om Erna Solberg (Høyre) blir statsminister etter stortingsvalget 2025.",
+    title: "Will Erna Solberg become Prime Minister again after the 2025 election?",
+    description: "Resolves YES if Erna Solberg (Høyre/Conservative Party) becomes PM after the 2025 Storting election.",
     category: "POLITICS", prob: 0.52, volume: 98700, closesAt: daysFromNow(210), featured: true, daysActive: 85,
-    imageUrl: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=400&q=80",
-    region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=400&q=80", region: "NO",
   },
   {
-    title: "Høyre over 30% oppslutning ved valget 2025?",
-    description: "Resolves YES om Høyre får over 30% av stemmene ved stortingsvalget 2025.",
+    title: "Høyre (Conservative Party) above 30% in the 2025 election?",
+    description: "Resolves YES if Høyre receives more than 30% of votes in the 2025 Norwegian election.",
     category: "POLITICS", prob: 0.45, volume: 67800, closesAt: daysFromNow(200), daysActive: 70, region: "NO",
   },
   {
-    title: "Kommer FrP tilbake i regjering etter valget 2025?",
-    description: "Resolves YES om Fremskrittspartiet blir del av regjeringen etter stortingsvalget 2025.",
+    title: "Will FrP (Progress Party) return to government after 2025?",
+    description: "Resolves YES if Fremskrittspartiet becomes part of the governing coalition after the 2025 election.",
     category: "POLITICS", prob: 0.35, volume: 54200, closesAt: daysFromNow(220), daysActive: 65, region: "NO",
   },
   {
-    title: "Vil SV havne over sperregrensen i 2025?",
-    description: "Resolves YES om SV får over 4% av stemmene ved stortingsvalget 2025.",
+    title: "Will SV clear the 4% threshold in the 2025 election?",
+    description: "Resolves YES if the Socialist Left Party (SV) gets above 4% in the 2025 Storting election.",
     category: "POLITICS", prob: 0.82, volume: 31400, closesAt: daysFromNow(200), daysActive: 50, region: "NO",
   },
   {
-    title: "MDG over sperregrensen i stortingsvalget 2025?",
-    description: "Resolves YES om Miljøpartiet De Grønne får over 4% av stemmene.",
+    title: "MDG (Green Party) above 4% threshold in 2025?",
+    description: "Resolves YES if Miljøpartiet De Grønne clears the 4% parliamentary threshold in 2025.",
     category: "POLITICS", prob: 0.28, volume: 42100, closesAt: daysFromNow(200), daysActive: 55, region: "NO",
   },
   {
-    title: "Rødt over sperregrensen 2025?",
-    description: "Resolves YES om Rødt får over 4% oppslutning ved stortingsvalget 2025.",
+    title: "Rødt (Red Party) above 4% threshold in 2025?",
+    description: "Resolves YES if Rødt clears the 4% parliamentary threshold in the 2025 Storting election.",
     category: "POLITICS", prob: 0.45, volume: 38900, closesAt: daysFromNow(200), daysActive: 50, region: "NO",
   },
   {
-    title: "Vil Sp falle under 5% ved valget 2025?",
-    description: "Resolves YES om Senterpartiet får under 5% av stemmene.",
+    title: "Will Senterpartiet fall below 5% in the 2025 election?",
+    description: "Resolves YES if the Centre Party (Sp) receives less than 5% of votes in 2025.",
     category: "POLITICS", prob: 0.42, volume: 35200, closesAt: daysFromNow(200), daysActive: 60, region: "NO",
   },
   {
-    title: "Valgdeltakelse over 80% ved stortingsvalget 2025?",
-    description: "Resolves YES om valgdeltakelsen overstiger 80% ved stortingsvalget 2025.",
+    title: "Voter turnout above 80% in the 2025 Storting election?",
+    description: "Resolves YES if voter turnout exceeds 80% in the 2025 Norwegian parliamentary election.",
     category: "POLITICS", prob: 0.55, volume: 22800, closesAt: daysFromNow(200), daysActive: 40, region: "NO",
   },
   {
-    title: "Vil Norge søke EU-medlemskap innen 2030?",
-    description: "Resolves YES om den norske regjeringen formelt søker om EU-medlemskap innen 2030.",
+    title: "Will Norway apply for EU membership before 2030?",
+    description: "Resolves YES if the Norwegian government formally applies for EU membership before 2030.",
     category: "POLITICS", prob: 0.05, volume: 78500, closesAt: daysFromNow(310), featured: true, daysActive: 80, region: "NO",
   },
   {
-    title: "Ny regjering med flertall på Stortinget etter 2025?",
-    description: "Resolves YES om den nye regjeringen etter valget 2025 har flertall (85+ mandater) på Stortinget.",
+    title: "New government with majority in Storting after 2025?",
+    description: "Resolves YES if the new government after the 2025 election holds a majority (85+ seats) in the Storting.",
     category: "POLITICS", prob: 0.38, volume: 45600, closesAt: daysFromNow(220), daysActive: 55, region: "NO",
   },
   {
-    title: "Vil bompengepartiet (FNB) komme inn på Stortinget i 2025?",
-    description: "Resolves YES om Folkeaksjonen nei til mer bompenger (FNB) vinner minst 1 stortingsmandat.",
+    title: "Will FNB (toll road protest party) win a Storting seat in 2025?",
+    description: "Resolves YES if Folkeaksjonen nei til mer bompenger wins at least 1 parliamentary seat.",
     category: "POLITICS", prob: 0.03, volume: 12800, closesAt: daysFromNow(200), daysActive: 35, region: "NO",
   },
-
-  // ── NORSK SPORT (12) ─────────────────────────────────────
   {
-    title: "Erling Haaland toppscorer i Premier League 2025/26?",
-    description: "Resolves YES om Erling Braut Haaland ender som toppscorer i Premier League sesongen 2025/26.",
+    title: "Norway to increase defense spending above 2.5% of GDP in 2026?",
+    description: "Resolves YES if Norway's defense budget exceeds 2.5% of GDP in the 2026 national budget.",
+    category: "POLITICS", prob: 0.48, volume: 38200, closesAt: daysFromNow(280), daysActive: 45, region: "NO",
+  },
+  {
+    title: "Will Norway open new Arctic oil exploration areas in 2026?",
+    description: "Resolves YES if the Norwegian government approves new oil exploration licenses in Arctic waters during 2026.",
+    category: "POLITICS", prob: 0.35, volume: 52400, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
+  },
+
+  // ── NORWEGIAN SPORTS (14) ──────────────────────────────
+  {
+    title: "Erling Haaland top scorer in Premier League 2025/26?",
+    description: "Resolves YES if Erling Braut Haaland finishes as the Premier League top scorer in the 2025/26 season.",
     category: "SPORTS", prob: 0.38, volume: 156000, closesAt: daysFromNow(260), featured: true, daysActive: 75,
     imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&q=80", region: "NO",
   },
   {
-    title: "Norge til VM i fotball 2026?",
-    description: "Resolves YES om det norske herrelandslaget kvalifiserer seg til FIFA VM 2026.",
+    title: "Norway to qualify for 2026 FIFA World Cup?",
+    description: "Resolves YES if the Norwegian men's national team qualifies for the 2026 FIFA World Cup.",
     category: "SPORTS", prob: 0.15, volume: 198000, closesAt: daysFromNow(120), featured: true, daysActive: 90,
     imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&q=80", region: "NO",
   },
   {
-    title: "Norge flest gull i vinter-OL 2026 Milano Cortina?",
-    description: "Resolves YES om Norge vinner flest gullmedaljer i vinter-OL 2026.",
+    title: "Norway to win most gold medals at 2026 Winter Olympics?",
+    description: "Resolves YES if Norway wins the most gold medals at the 2026 Milano Cortina Winter Olympics.",
     category: "SPORTS", prob: 0.52, volume: 87400, closesAt: daysFromNow(12), featured: true, daysActive: 60,
     imageUrl: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&q=80", region: "NO",
   },
   {
-    title: "Norge flest medaljer totalt i vinter-OL 2026?",
-    description: "Resolves YES om Norge ender med flest medaljer totalt (gull+sølv+bronse) i Milano Cortina 2026.",
+    title: "Norway most total medals at 2026 Winter Olympics?",
+    description: "Resolves YES if Norway finishes with the most total medals (gold+silver+bronze) at Milano Cortina 2026.",
     category: "SPORTS", prob: 0.45, volume: 64200, closesAt: daysFromNow(12), daysActive: 55, region: "NO",
   },
   {
-    title: "Bodø/Glimt norsk seriemester 2025?",
-    description: "Resolves YES om FK Bodø/Glimt vinner Eliteserien 2025.",
+    title: "Bodø/Glimt to win Eliteserien 2025?",
+    description: "Resolves YES if FK Bodø/Glimt wins the Norwegian Eliteserien football league in 2025.",
     category: "SPORTS", prob: 0.32, volume: 45800, closesAt: daysFromNow(280), daysActive: 40, region: "NO",
   },
   {
-    title: "Rosenborg topp 3 i Eliteserien 2025?",
-    description: "Resolves YES om Rosenborg BK ender blant topp 3 i Eliteserien 2025.",
+    title: "Rosenborg top 3 in Eliteserien 2025?",
+    description: "Resolves YES if Rosenborg BK finishes in the top 3 of Eliteserien 2025.",
     category: "SPORTS", prob: 0.42, volume: 38200, closesAt: daysFromNow(280), daysActive: 45, region: "NO",
   },
   {
-    title: "Molde FK til Conference League gruppespill 2025/26?",
-    description: "Resolves YES om Molde FK kvalifiserer seg til gruppespillet i Conference League 2025/26.",
+    title: "Molde FK to reach Conference League group stage 2025/26?",
+    description: "Resolves YES if Molde FK qualifies for the Conference League group stage in 2025/26.",
     category: "SPORTS", prob: 0.35, volume: 28700, closesAt: daysFromNow(160), daysActive: 35, region: "NO",
   },
   {
-    title: "Jakob Ingebrigtsen ny verdensrekord på 1500m i 2026?",
-    description: "Resolves YES om Jakob Ingebrigtsen setter ny verdensrekord på 1500 meter i 2026.",
+    title: "Jakob Ingebrigtsen to set new 1500m world record in 2026?",
+    description: "Resolves YES if Jakob Ingebrigtsen sets a new 1500m world record during 2026.",
     category: "SPORTS", prob: 0.22, volume: 52300, closesAt: daysFromNow(310), daysActive: 50,
     imageUrl: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&q=80", region: "NO",
   },
   {
-    title: "Therese Johaug comeback til vinter-OL 2026?",
-    description: "Resolves YES om Therese Johaug stiller til start i minst én øvelse i vinter-OL 2026 Milano Cortina.",
+    title: "Therese Johaug comeback at 2026 Winter Olympics?",
+    description: "Resolves YES if Therese Johaug competes in at least one event at the 2026 Milano Cortina Olympics.",
     category: "SPORTS", prob: 0.18, volume: 67800, closesAt: daysFromNow(12), daysActive: 65, region: "NO",
   },
   {
-    title: "Martin Ødegaard til Real Madrid eller Barcelona i 2026?",
-    description: "Resolves YES om Martin Ødegaard blir solgt fra Arsenal til Real Madrid eller Barcelona innen 2026.",
+    title: "Martin Ødegaard to transfer from Arsenal in 2026?",
+    description: "Resolves YES if Martin Ødegaard transfers from Arsenal to any club during 2026.",
     category: "SPORTS", prob: 0.12, volume: 78400, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
   },
   {
-    title: "Viktor Hovland vinner en Major i golf i 2026?",
-    description: "Resolves YES om Viktor Hovland vinner en av de fire store golf-turneringene i 2026.",
+    title: "Viktor Hovland to win a golf Major in 2026?",
+    description: "Resolves YES if Viktor Hovland wins one of the four major golf championships in 2026.",
     category: "SPORTS", prob: 0.15, volume: 41200, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
   },
   {
-    title: "Karsten Warholm under 46 sekunder på 400m hekk i 2026?",
-    description: "Resolves YES om Karsten Warholm løper 400m hekk under 46.00 sekunder i 2026.",
+    title: "Karsten Warholm to run sub-46 seconds in 400m hurdles in 2026?",
+    description: "Resolves YES if Karsten Warholm runs 400m hurdles in under 46.00 seconds during 2026.",
     category: "SPORTS", prob: 0.28, volume: 34500, closesAt: daysFromNow(310), daysActive: 35, region: "NO",
   },
-
-  // ── NORSK ØKONOMI & FINANS (14) ──────────────────────────
   {
-    title: "Norges Bank rente under 3.5% innen 2026?",
-    description: "Resolves YES om styringsrenten i Norge settes under 3.5% innen utgangen av 2026.",
+    title: "Ada Hegerberg to win Ballon d'Or Féminin in 2026?",
+    description: "Resolves YES if Norwegian striker Ada Hegerberg wins the Ballon d'Or Féminin award in 2026.",
+    category: "SPORTS", prob: 0.12, volume: 31400, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
+  },
+  {
+    title: "Norwegian club in Champions League group stage 2026/27?",
+    description: "Resolves YES if any Norwegian football club qualifies for the 2026/27 Champions League group stage.",
+    category: "SPORTS", prob: 0.08, volume: 24600, closesAt: daysFromNow(250), daysActive: 35, region: "NO",
+  },
+
+  // ── NORWEGIAN ECONOMY & FINANCE (14) ───────────────────
+  {
+    title: "Norges Bank interest rate below 3.5% by end of 2026?",
+    description: "Resolves YES if the Norwegian central bank cuts the key policy rate below 3.5% before year-end 2026.",
     category: "ECONOMICS", prob: 0.55, volume: 87600, closesAt: daysFromNow(310), featured: true, daysActive: 70,
     imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=400&q=80", region: "NO",
   },
   {
-    title: "NOK/EUR under 11.00 i 2026?",
-    description: "Resolves YES om den norske kronen styrker seg til under 11.00 mot euro i 2026.",
+    title: "NOK/EUR exchange rate below 11.00 in 2026?",
+    description: "Resolves YES if the Norwegian krone strengthens to below 11.00 against the euro during 2026.",
     category: "FINANCIALS", prob: 0.32, volume: 72400, closesAt: daysFromNow(310), featured: true, daysActive: 65, region: "NO",
   },
   {
-    title: "Oslo Børs (OBX) over 1500 i 2026?",
-    description: "Resolves YES om OBX-indeksen lukker over 1500 poeng i løpet av 2026.",
+    title: "Oslo Børs (OBX) above 1500 in 2026?",
+    description: "Resolves YES if the OBX index closes above 1500 points at any time during 2026.",
     category: "FINANCIALS", prob: 0.42, volume: 56300, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
   },
   {
-    title: "Boligprisene i Oslo opp over 5% i 2026?",
-    description: "Resolves YES om boligprisindeksen i Oslo stiger mer enn 5% i 2026 (SSB/Eiendom Norge).",
+    title: "Oslo housing prices up more than 5% in 2026?",
+    description: "Resolves YES if the Oslo housing price index rises more than 5% during 2026 (SSB/Eiendom Norge).",
     category: "ECONOMICS", prob: 0.38, volume: 94200, closesAt: daysFromNow(310), featured: true, daysActive: 75,
     imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=80", region: "NO",
   },
   {
-    title: "Arbeidsledigheten i Norge over 4% i 2026?",
-    description: "Resolves YES om registrert arbeidsledighet (NAV) overstiger 4% i 2026.",
+    title: "Norwegian unemployment above 4% in 2026?",
+    description: "Resolves YES if registered unemployment (NAV) exceeds 4% at any point during 2026.",
     category: "ECONOMICS", prob: 0.22, volume: 41800, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
   },
   {
-    title: "Oljeprisen (Brent) over $90 i 2026?",
-    description: "Resolves YES om Brent-oljeprisen lukker over $90/fat i løpet av 2026.",
+    title: "Brent crude oil above $90/barrel in 2026?",
+    description: "Resolves YES if Brent crude oil price closes above $90/barrel at any point during 2026.",
     category: "FINANCIALS", prob: 0.55, volume: 68900, closesAt: daysFromNow(310), daysActive: 60,
     imageUrl: "https://images.unsplash.com/photo-1474314881477-04c4aac40a0e?w=400&q=80", region: "NO",
   },
   {
-    title: "Laksepris over 120 NOK/kg gjennomsnitt i 2026?",
-    description: "Resolves YES om gjennomsnittlig laksepris (NOS) overstiger 120 NOK/kg i 2026.",
+    title: "Norwegian salmon price average above 120 NOK/kg in 2026?",
+    description: "Resolves YES if the average salmon spot price exceeds 120 NOK/kg during 2026.",
     category: "FINANCIALS", prob: 0.48, volume: 38400, closesAt: daysFromNow(310), daysActive: 50, region: "NO",
   },
   {
-    title: "Equinor aksje over 400 NOK i 2026?",
-    description: "Resolves YES om Equinor (EQNR) lukker over 400 NOK på Oslo Børs i 2026.",
+    title: "Equinor stock above 400 NOK in 2026?",
+    description: "Resolves YES if Equinor (EQNR) closes above 400 NOK on the Oslo Stock Exchange during 2026.",
     category: "COMPANIES", prob: 0.35, volume: 52100, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
   },
   {
-    title: "Norsk KPI-inflasjon under 2.5% innen utgangen av 2026?",
-    description: "Resolves YES om norsk KPI (12-måneders vekst) faller under 2.5% innen desember 2026.",
+    title: "Norwegian CPI inflation below 2.5% by end of 2026?",
+    description: "Resolves YES if Norwegian CPI (12-month growth) falls below 2.5% by December 2026.",
     category: "ECONOMICS", prob: 0.48, volume: 44700, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
   },
   {
-    title: "Oljefondet over 20 000 milliarder NOK i 2026?",
-    description: "Resolves YES om Statens pensjonsfond utland (Oljefondet) passerer 20 000 milliarder NOK i markedsverdi i 2026.",
+    title: "Norway's sovereign wealth fund above 20 trillion NOK in 2026?",
+    description: "Resolves YES if the Government Pension Fund Global exceeds 20 trillion NOK in market value during 2026.",
     category: "ECONOMICS", prob: 0.58, volume: 78200, closesAt: daysFromNow(310), featured: true, daysActive: 65, region: "NO",
   },
   {
-    title: "NOK/USD under 10.00 i 2026?",
-    description: "Resolves YES om USD/NOK-kursen faller under 10.00 (kronen styrker seg) i 2026.",
+    title: "NOK/USD exchange rate below 10.00 in 2026?",
+    description: "Resolves YES if USD/NOK drops below 10.00 (krone strengthens) at any point during 2026.",
     category: "FINANCIALS", prob: 0.28, volume: 58600, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
   },
   {
-    title: "Norges Banks styringsrente uendret gjennom hele 2026?",
-    description: "Resolves YES om Norges Bank holder styringsrenten uendret gjennom alle rentemøter i 2026.",
-    category: "ECONOMICS", prob: 0.12, volume: 41200, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
-  },
-  {
-    title: "Oslo Børs ny all-time high i 2026?",
-    description: "Resolves YES om Oslo Børs Hovedindeks (OSEBX) setter ny all-time high i 2026.",
+    title: "Oslo Børs new all-time high in 2026?",
+    description: "Resolves YES if the Oslo Børs main index (OSEBX) sets a new all-time high during 2026.",
     category: "FINANCIALS", prob: 0.58, volume: 63400, closesAt: daysFromNow(310), daysActive: 50, region: "NO",
   },
   {
-    title: "Strømpris i Sør-Norge gjennomsnitt over 1.50 kr/kWh i 2026?",
-    description: "Resolves YES om gjennomsnittlig spotpris (NO2) overstiger 1.50 kr/kWh for et kvartal i 2026.",
+    title: "South Norway electricity price average above 1.50 kr/kWh in 2026?",
+    description: "Resolves YES if the average spot price (NO2 area) exceeds 1.50 kr/kWh for any quarter in 2026.",
     category: "ECONOMICS", prob: 0.32, volume: 82400, closesAt: daysFromNow(310), featured: true, daysActive: 70, region: "NO",
   },
-
-  // ── NORSK TECH, SELSKAPER & KLIMA (18) ───────────────────
   {
-    title: "Kahoot! kjøpt opp eller tatt av børs i 2026?",
-    description: "Resolves YES om Kahoot! blir kjøpt opp eller tatt av Oslo Børs i 2026.",
+    title: "Norway's trade surplus above 500 billion NOK in 2026?",
+    description: "Resolves YES if Norway's trade balance (exports minus imports) exceeds 500 billion NOK in 2026.",
+    category: "ECONOMICS", prob: 0.42, volume: 34800, closesAt: daysFromNow(350), daysActive: 40, region: "NO",
+  },
+
+  // ── NORWEGIAN TECH, COMPANIES & CLIMATE (18) ──────────
+  {
+    title: "Kahoot! to be acquired or delisted in 2026?",
+    description: "Resolves YES if Kahoot! is acquired or delisted from the Oslo Stock Exchange during 2026.",
     category: "COMPANIES", prob: 0.22, volume: 31200, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
   },
   {
-    title: "Aker BP fusjoner eller kjøper et stort oljeselskap i 2026?",
-    description: "Resolves YES om Aker BP gjennomfører en stor M&A-transaksjon (over 10 mrd NOK) i 2026.",
+    title: "Aker BP major M&A deal (>10B NOK) in 2026?",
+    description: "Resolves YES if Aker BP completes a major merger or acquisition exceeding 10 billion NOK in 2026.",
     category: "COMPANIES", prob: 0.18, volume: 28700, closesAt: daysFromNow(310), daysActive: 35, region: "NO",
   },
   {
-    title: "Norsk startup verdsatt over 10 mrd NOK (unicorn) i 2026?",
-    description: "Resolves YES om et norsk tech-selskap oppnår unicorn-status (over 10 mrd NOK verdsettelse) i 2026.",
+    title: "Norwegian tech startup to reach unicorn status in 2026?",
+    description: "Resolves YES if a Norwegian tech company achieves a valuation above 10 billion NOK (~$1B) in 2026.",
     category: "TECH_SCIENCE", prob: 0.32, volume: 44100, closesAt: daysFromNow(310), daysActive: 50, region: "NO",
   },
   {
-    title: "Autonom ferge i fast rute i Norge innen 2026?",
-    description: "Resolves YES om en autonom (selvkjørende) ferge settes i kommersiell fast rute i Norge innen 2026.",
+    title: "Autonomous ferry in regular service in Norway by 2026?",
+    description: "Resolves YES if an autonomous ferry begins commercial scheduled service in Norway during 2026.",
     category: "TECH_SCIENCE", prob: 0.25, volume: 22800, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
   },
   {
-    title: "DNB lanserer krypto-handel i appen i 2026?",
-    description: "Resolves YES om DNB tilbyr kryptovaluta-handel direkte i sin mobilapp innen 2026.",
+    title: "DNB to launch crypto trading in its app in 2026?",
+    description: "Resolves YES if DNB Bank offers cryptocurrency trading directly in its mobile app by end of 2026.",
     category: "CRYPTO", prob: 0.15, volume: 36400, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
   },
   {
-    title: "Mowi aksjekurs over 250 NOK i 2026?",
-    description: "Resolves YES om Mowi ASA lukker over 250 NOK på Oslo Børs i 2026.",
+    title: "Mowi stock above 250 NOK in 2026?",
+    description: "Resolves YES if Mowi ASA closes above 250 NOK on the Oslo Stock Exchange during 2026.",
     category: "COMPANIES", prob: 0.42, volume: 29800, closesAt: daysFromNow(310), daysActive: 35, region: "NO",
   },
   {
-    title: "Hydrogen-ferge i kommersiell drift i Norge i 2026?",
-    description: "Resolves YES om en hydrogendrevet ferge er i daglig kommersiell drift i Norge innen utgangen av 2026.",
+    title: "Hydrogen-powered ferry in commercial operation in Norway in 2026?",
+    description: "Resolves YES if a hydrogen-powered ferry operates daily commercial routes in Norway by end of 2026.",
     category: "TECH_SCIENCE", prob: 0.35, volume: 25400, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
   },
   {
-    title: "Yara-aksjen over 400 NOK i 2026?",
-    description: "Resolves YES om Yara International lukker over 400 NOK på Oslo Børs i 2026.",
+    title: "Yara International stock above 400 NOK in 2026?",
+    description: "Resolves YES if Yara International closes above 400 NOK on the Oslo Stock Exchange during 2026.",
     category: "COMPANIES", prob: 0.28, volume: 21200, closesAt: daysFromNow(310), daysActive: 30, region: "NO",
   },
   {
-    title: "Norge vinner Eurovision 2026?",
-    description: "Resolves YES om Norge vinner Eurovision Song Contest 2026.",
+    title: "Norway to win Eurovision 2026?",
+    description: "Resolves YES if Norway wins the Eurovision Song Contest in 2026.",
     category: "CULTURE", prob: 0.08, volume: 67200, closesAt: daysFromNow(100), featured: true, daysActive: 45,
     imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80", region: "NO",
   },
   {
-    title: "Norsk film nominert til Oscar i 2026?",
-    description: "Resolves YES om en norsk film blir nominert til Academy Award (beste internasjonale film) for 2026-seremoni.",
+    title: "Norwegian film nominated for Oscar in 2026?",
+    description: "Resolves YES if a Norwegian film is nominated for Academy Award (Best International Feature) at the 2026 ceremony.",
     category: "ENTERTAINMENT", prob: 0.15, volume: 28400, closesAt: daysFromNow(310), daysActive: 35, region: "NO",
   },
   {
-    title: "Skam-reboot eller ny sesong annonsert i 2026?",
-    description: "Resolves YES om NRK eller annen norsk kanal annonserer en ny sesong eller reboot av SKAM i 2026.",
+    title: "SKAM reboot or new season announced in 2026?",
+    description: "Resolves YES if NRK or another Norwegian broadcaster announces a new season or reboot of SKAM in 2026.",
     category: "ENTERTAINMENT", prob: 0.12, volume: 34500, closesAt: daysFromNow(310), daysActive: 30, region: "NO",
   },
   {
-    title: "Norge under 2% utslippskutt-mål i 2026?",
-    description: "Resolves YES om Norges klimagassutslipp reduseres med minst 2% i 2026 sammenlignet med 2025.",
+    title: "Norway emissions cut at least 2% in 2026 vs 2025?",
+    description: "Resolves YES if Norway's greenhouse gas emissions decrease by at least 2% in 2026 compared to 2025.",
     category: "CLIMATE", prob: 0.35, volume: 38900, closesAt: daysFromNow(350), daysActive: 50, region: "NO",
   },
   {
-    title: "Vindkraft-utbygging på land stoppet av regjering i 2026?",
-    description: "Resolves YES om regjeringen innfører moratorium eller stopper nye vindkraftkonsesjoner på land i 2026.",
+    title: "Government to halt onshore wind farm permits in Norway in 2026?",
+    description: "Resolves YES if the Norwegian government imposes a moratorium on new onshore wind power concessions in 2026.",
     category: "CLIMATE", prob: 0.22, volume: 26800, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
   },
   {
-    title: "Havvind-utbygging i Nordsjøen: Byggestart i 2026?",
-    description: "Resolves YES om fysisk byggearbeid starter på et norsk havvind-prosjekt i Nordsjøen i 2026.",
+    title: "North Sea offshore wind: Construction to begin in 2026?",
+    description: "Resolves YES if physical construction begins on a Norwegian offshore wind project in the North Sea during 2026.",
     category: "CLIMATE", prob: 0.48, volume: 44100, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
   },
   {
-    title: "Første norske CCS-anlegg (karbonfangst) i drift i 2026?",
-    description: "Resolves YES om Norges første fullskala karbonfangst- og lagringsanlegg (Langskip/Northern Lights) er operativt i 2026.",
+    title: "Norway's first full-scale CCS plant operational in 2026?",
+    description: "Resolves YES if Norway's Langskip/Northern Lights carbon capture and storage facility becomes operational in 2026.",
     category: "CLIMATE", prob: 0.55, volume: 35200, closesAt: daysFromNow(310), daysActive: 50, region: "NO",
   },
   {
-    title: "Handelsbalanse Norge: Overskudd over 500 mrd NOK i 2026?",
-    description: "Resolves YES om Norges handelsbalanse (eksport minus import) overstiger 500 milliarder NOK i 2026.",
-    category: "ECONOMICS", prob: 0.42, volume: 34800, closesAt: daysFromNow(350), daysActive: 40, region: "NO",
-  },
-  {
-    title: "Telenor aksje over 200 NOK i 2026?",
-    description: "Resolves YES om Telenor ASA lukker over 200 NOK på Oslo Børs i 2026.",
+    title: "Telenor stock above 200 NOK in 2026?",
+    description: "Resolves YES if Telenor ASA closes above 200 NOK on the Oslo Stock Exchange during 2026.",
     category: "COMPANIES", prob: 0.38, volume: 24600, closesAt: daysFromNow(310), daysActive: 35, region: "NO",
   },
   {
-    title: "Nel ASA aksje over 10 NOK igjen i 2026?",
-    description: "Resolves YES om Nel ASA lukker over 10 NOK på Oslo Børs i 2026.",
+    title: "Nel ASA stock above 10 NOK again in 2026?",
+    description: "Resolves YES if Nel ASA closes above 10 NOK on the Oslo Stock Exchange during 2026.",
     category: "COMPANIES", prob: 0.22, volume: 31800, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
+  },
+  {
+    title: "Electric car share above 95% of new sales in Norway in 2026?",
+    description: "Resolves YES if electric vehicles account for more than 95% of new car registrations in Norway during any month in 2026.",
+    category: "TECH_SCIENCE", prob: 0.72, volume: 41200, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
   },
 ];
 
@@ -655,7 +673,7 @@ async function main() {
   for (let mIdx = 0; mIdx < markets.length; mIdx++) {
     const m = markets[mIdx]!;
     const volumeFactor = Math.log10(m.def.volume) / Math.log10(250000);
-    const numTrades = Math.max(30, Math.round(volumeFactor * 200));
+    const numTrades = Math.max(15, Math.round(volumeFactor * 80));
     for (let t = 0; t < numTrades; t++) {
       const user = pick(users);
       const yesBias = m.def.prob;
@@ -671,7 +689,7 @@ async function main() {
   }
 
   console.log(`  Total trades to insert: ${allTrades.length}`);
-  const BATCH_SIZE = 50;
+  const BATCH_SIZE = 20;
   for (let i = 0; i < allTrades.length; i += BATCH_SIZE) {
     const batch = allTrades.slice(i, i + BATCH_SIZE);
     await Promise.all(batch.map((td) => {
@@ -680,7 +698,9 @@ async function main() {
         data: { marketId: market.id, userId: td.userId, side: td.side, direction: td.direction, amount: td.amount, shares: td.shares, price: td.price, createdAt: td.createdAt },
       });
     }));
-    if (i % 500 === 0 && i > 0) console.log(`  Inserted ${i}/${allTrades.length} trades...`);
+    if (i % 200 === 0 && i > 0) console.log(`  Inserted ${i}/${allTrades.length} trades...`);
+    // Small delay to avoid overwhelming Turso free tier
+    if (i % 100 === 0) await new Promise(r => setTimeout(r, 50));
   }
 
   console.log("Computing positions...");
@@ -704,6 +724,7 @@ async function main() {
         data: { userId: userId!, marketId: marketId!, side: side!, shares: pos.shares, avgPrice: pos.shares > 0 ? pos.cost / pos.shares : 0 },
       });
     }));
+    if (i % 100 === 0) await new Promise(r => setTimeout(r, 50));
   }
 
   console.log("Generating price snapshots...");
@@ -726,20 +747,21 @@ async function main() {
       ));
     }
     snapshotCount += snapshots.length;
+    if (snapshotCount % 500 === 0) await new Promise(r => setTimeout(r, 50));
   }
 
   console.log("Generating comments...");
   const COMMENT_TEMPLATES = [
-    "Veldig bullish her. Fundamentalene er sterke.", "Kjøper mer YES. Virker underpriset.",
-    "NO er riktig spill. Markedet overvurderer dette.", "Interessant marked. Følger med.",
-    "Lastet opp med aksjer. Vi får se.", "Nåværende pris virker riktig.",
-    "Altfor volatilt akkurat nå.", "Flott mulighet til å kjøpe dippet.",
-    "Tror markedet mispriser dette.", "Solgte med fortjeneste. Lykke til!",
-    "Burde handles høyere, eller?", "NO-siden virker tryggere her.",
-    "Gale odds. Easy money.", "Markedet korrigerer snart.",
-    "Sterk overbevisning. Økte posisjonen.", "Hva er tesen deres?",
-    "Nettopp begynt med dette. Fascinerende!", "Sannsynligheten har endret seg mye.",
-    "Tar profitt. Opp 40%.", "Et av de mest spennende markedene her.",
+    "Very bullish here. Fundamentals are strong.", "Buying more YES. Seems underpriced.",
+    "NO is the right play. Market is overestimating this.", "Interesting market. Watching closely.",
+    "Loaded up on shares. We'll see.", "Current price seems about right.",
+    "Way too volatile right now.", "Great opportunity to buy the dip.",
+    "I think the market is mispricing this.", "Sold for a profit. Good luck everyone!",
+    "Should be trading higher, no?", "NO side feels safer here.",
+    "Crazy odds. Easy money.", "Market will correct soon.",
+    "High conviction. Increased my position.", "What's your thesis?",
+    "Just started trading this. Fascinating!", "Probability has shifted a lot.",
+    "Taking profit. Up 40%.", "One of the most exciting markets on here.",
   ];
 
   const featuredMarkets = markets.filter((m) => m.def.featured);
