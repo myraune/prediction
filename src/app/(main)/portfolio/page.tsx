@@ -1,6 +1,5 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { getPrice } from "@/lib/amm";
 import { formatPoints, formatDate } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
@@ -10,33 +9,35 @@ import { cn } from "@/lib/utils";
 
 export default async function PortfolioPage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/login");
 
   let user = { balance: 0 };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let positions: any[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let trades: any[] = [];
-  try {
-    user = await prisma.user.findUniqueOrThrow({
-      where: { id: session.user.id },
-      select: { balance: true },
-    });
 
-    positions = await prisma.position.findMany({
-      where: { userId: session.user.id, shares: { gt: 0 } },
-      include: { market: true },
-      orderBy: { market: { closesAt: "asc" } },
-    });
+  if (session?.user?.id) {
+    try {
+      user = await prisma.user.findUniqueOrThrow({
+        where: { id: session.user.id },
+        select: { balance: true },
+      });
 
-    trades = await prisma.trade.findMany({
-      where: { userId: session.user.id },
-      include: { market: { select: { title: true } } },
-      orderBy: { createdAt: "desc" },
-      take: 20,
-    });
-  } catch {
-    // Database not available
+      positions = await prisma.position.findMany({
+        where: { userId: session.user.id, shares: { gt: 0 } },
+        include: { market: true },
+        orderBy: { market: { closesAt: "asc" } },
+      });
+
+      trades = await prisma.trade.findMany({
+        where: { userId: session.user.id },
+        include: { market: { select: { title: true } } },
+        orderBy: { createdAt: "desc" },
+        take: 20,
+      });
+    } catch {
+      // Database not available
+    }
   }
 
   let investedValue = 0;

@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Search, User, LogOut, Shield } from "lucide-react";
+import { Search, User, LogOut, Shield, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -53,55 +53,66 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
         </form>
 
         <div className="flex items-center gap-2">
-          {balance !== undefined && (
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-sm font-semibold tabular-nums">
-              {balance.toLocaleString()}
-              <span className="text-muted-foreground text-xs font-normal">pts</span>
-            </div>
-          )}
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
-                <Avatar className="h-7 w-7">
-                  <AvatarFallback className="bg-foreground text-background text-xs font-semibold">
-                    {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
-                  </AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <div className="px-2 py-1.5 text-sm">
-                <p className="font-medium">{session?.user?.name}</p>
-                <p className="text-muted-foreground text-xs">{session?.user?.email}</p>
-              </div>
-              <DropdownMenuSeparator />
+          {session?.user ? (
+            <>
               {balance !== undefined && (
-                <div className="px-2 py-1.5 text-sm sm:hidden">
-                  <span className="font-medium">{balance.toLocaleString()} pts</span>
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-sm font-semibold tabular-nums">
+                  {balance.toLocaleString()}
+                  <span className="text-muted-foreground text-xs font-normal">pts</span>
                 </div>
               )}
-              <DropdownMenuItem asChild>
-                <Link href="/profile" className="gap-2">
-                  <User className="h-4 w-4" />
-                  Profile
-                </Link>
-              </DropdownMenuItem>
-              {isAdmin && (
-                <DropdownMenuItem asChild>
-                  <Link href="/admin" className="gap-2">
-                    <Shield className="h-4 w-4" />
-                    Admin
-                  </Link>
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="gap-2">
-                <LogOut className="h-4 w-4" />
-                Sign Out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
+                    <Avatar className="h-7 w-7">
+                      <AvatarFallback className="bg-foreground text-background text-xs font-semibold">
+                        {session.user.name?.charAt(0)?.toUpperCase() ?? "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <div className="px-2 py-1.5 text-sm">
+                    <p className="font-medium">{session.user.name}</p>
+                    <p className="text-muted-foreground text-xs">{session.user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  {balance !== undefined && (
+                    <div className="px-2 py-1.5 text-sm sm:hidden">
+                      <span className="font-medium">{balance.toLocaleString()} pts</span>
+                    </div>
+                  )}
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="gap-2">
+                      <User className="h-4 w-4" />
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin" className="gap-2">
+                        <Shield className="h-4 w-4" />
+                        Admin
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })} className="gap-2">
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
+          ) : (
+            <Button variant="ghost" size="sm" asChild className="gap-1.5 text-sm">
+              <Link href="/login">
+                <LogIn className="h-4 w-4" />
+                Sign In
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

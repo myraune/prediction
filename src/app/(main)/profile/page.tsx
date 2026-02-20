@@ -1,12 +1,27 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
 import { formatPoints, formatDate } from "@/lib/format";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export default async function ProfilePage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/login");
+
+  if (!session?.user?.id) {
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight">Profile</h1>
+        </div>
+        <div className="rounded-xl border p-6 bg-card text-center">
+          <p className="text-muted-foreground">Sign in to view your profile</p>
+          <Link href="/login" className="text-sm text-foreground hover:underline mt-2 inline-block">
+            Go to Login
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   let user;
   try {
@@ -17,7 +32,16 @@ export default async function ProfilePage() {
       },
     });
   } catch {
-    redirect("/login");
+    return (
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight">Profile</h1>
+        </div>
+        <div className="rounded-xl border p-6 bg-card text-center">
+          <p className="text-muted-foreground">Unable to load profile</p>
+        </div>
+      </div>
+    );
   }
 
   return (
