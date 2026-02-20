@@ -63,7 +63,7 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         {/* Logo */}
         <div className="flex items-center gap-2 px-5 h-16 border-b">
-          <TrendingUp className="h-6 w-6 text-[var(--color-mint)]" />
+          <TrendingUp className="h-6 w-6 text-[var(--color-yes)]" />
           <span className="text-lg font-semibold">Norsk Predikt</span>
         </div>
 

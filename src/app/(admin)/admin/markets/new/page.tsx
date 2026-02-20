@@ -27,6 +27,7 @@ export default function CreateMarketPage() {
       category: formData.get("category") as string,
       closesAt: formData.get("closesAt") as string,
       featured: formData.get("featured") === "on",
+      imageUrl: (formData.get("imageUrl") as string) || undefined,
     });
 
     if (result.error) {
@@ -83,6 +84,17 @@ export default function CreateMarketPage() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="imageUrl">Image URL (optional)</Label>
+              <Input
+                id="imageUrl"
+                name="imageUrl"
+                type="url"
+                placeholder="https://images.unsplash.com/..."
+              />
+              <p className="text-xs text-muted-foreground">Thumbnail shown on market cards. Use a landscape image URL.</p>
             </div>
 
             <div className="space-y-2">

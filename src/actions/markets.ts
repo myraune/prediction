@@ -12,6 +12,7 @@ export async function createMarket(formData: {
   category: string;
   closesAt: string;
   featured: boolean;
+  imageUrl?: string;
 }) {
   const session = await auth();
   if (!session?.user?.id) return { error: "Not authenticated" };
@@ -35,6 +36,7 @@ export async function createMarket(formData: {
       category: parsed.data.category,
       closesAt: parsed.data.closesAt,
       featured: parsed.data.featured,
+      imageUrl: parsed.data.imageUrl || null,
       createdById: session.user.id,
       poolYes: INITIAL_POOL_SIZE,
       poolNo: INITIAL_POOL_SIZE,

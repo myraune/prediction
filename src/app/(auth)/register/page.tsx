@@ -58,7 +58,7 @@ export default function RegisterPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <TrendingUp className="h-8 w-8 text-[var(--color-mint)]" />
+            <TrendingUp className="h-8 w-8 text-[var(--color-yes)]" />
             <span className="text-2xl font-bold">Norsk Predikt</span>
           </div>
           <CardTitle className="text-xl">Create your account</CardTitle>
@@ -93,7 +93,7 @@ export default function RegisterPage() {
           </form>
           <div className="mt-4 text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="text-[var(--color-mint)] hover:underline font-medium">
+            <Link href="/login" className="text-[var(--color-yes)] hover:underline font-medium">
               Sign in
             </Link>
           </div>

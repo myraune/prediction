@@ -62,6 +62,7 @@ async function main() {
         featured: true,
         poolYes: 80,
         poolNo: 120,
+        imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80",
       },
       {
         title: "Will MDG pass the sperregrense (4%) in the next election?",
@@ -72,6 +73,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 120,
         poolNo: 80,
+        imageUrl: "https://images.unsplash.com/photo-1494172961521-33799ddd43a5?w=800&q=80",
       },
 
       // ── SPORTS ──
@@ -85,6 +87,7 @@ async function main() {
         featured: true,
         poolYes: 90,
         poolNo: 110,
+        imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80",
       },
       {
         title: "Will Norway qualify for the 2026 FIFA World Cup?",
@@ -96,6 +99,7 @@ async function main() {
         featured: true,
         poolYes: 110,
         poolNo: 90,
+        imageUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80",
       },
 
       // ── CRYPTO ──
@@ -109,6 +113,7 @@ async function main() {
         featured: true,
         poolYes: 85,
         poolNo: 115,
+        imageUrl: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&q=80",
       },
       {
         title: "Will Norway introduce a CBDC (digital krone) pilot by 2026?",
@@ -119,6 +124,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 130,
         poolNo: 70,
+        imageUrl: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&q=80",
       },
 
       // ── CLIMATE ──
@@ -131,6 +137,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 95,
         poolNo: 105,
+        imageUrl: "https://images.unsplash.com/photo-1561484930-998b6a7b22e8?w=800&q=80",
       },
       {
         title: "Will Arctic sea ice reach a new record low in 2025?",
@@ -141,6 +148,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 115,
         poolNo: 85,
+        imageUrl: "https://images.unsplash.com/photo-1468276898234-c5bec60dbef2?w=800&q=80",
       },
 
       // ── ECONOMICS ──
@@ -154,6 +162,7 @@ async function main() {
         featured: true,
         poolYes: 75,
         poolNo: 125,
+        imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80",
       },
       {
         title: "Will USD/NOK exchange rate drop below 10.00 in 2025?",
@@ -164,6 +173,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 130,
         poolNo: 70,
+        imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80",
       },
 
       // ── CULTURE ──
@@ -176,6 +186,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 115,
         poolNo: 85,
+        imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80",
       },
       {
         title: "Will Norway finish top 10 in Eurovision 2025?",
@@ -187,6 +198,7 @@ async function main() {
         featured: true,
         poolYes: 100,
         poolNo: 100,
+        imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80",
       },
 
       // ── COMPANIES ──
@@ -199,6 +211,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 105,
         poolNo: 95,
+        imageUrl: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80",
       },
       {
         title: "Will Kahoot! be acquired by a foreign company in 2025?",
@@ -209,6 +222,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 140,
         poolNo: 60,
+        imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
       },
 
       // ── FINANCIALS ──
@@ -222,6 +236,7 @@ async function main() {
         featured: true,
         poolYes: 105,
         poolNo: 95,
+        imageUrl: "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&q=80",
       },
       {
         title: "Will Oslo Boers main index (OBX) hit a new all-time high in 2025?",
@@ -232,6 +247,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 70,
         poolNo: 130,
+        imageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=80",
       },
 
       // ── TECH & SCIENCE ──
@@ -244,6 +260,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 120,
         poolNo: 80,
+        imageUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80",
       },
       {
         title: "Will Norway's 5G coverage reach 90% of the population by end of 2025?",
@@ -254,6 +271,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 90,
         poolNo: 110,
+        imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
       },
 
       // ── ENTERTAINMENT ──
@@ -266,6 +284,7 @@ async function main() {
         createdById: admin.id,
         poolYes: 140,
         poolNo: 60,
+        imageUrl: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=800&q=80",
       },
       {
         title: "Will a Norwegian film be nominated for an Oscar in 2026?",
@@ -276,13 +295,14 @@ async function main() {
         createdById: admin.id,
         poolYes: 110,
         poolNo: 90,
+        imageUrl: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=800&q=80",
       },
     ],
   });
 
   console.log("Seed complete!");
   console.log(`  1 admin + 4 users`);
-  console.log(`  20 Norwegian prediction markets (10 categories)`);
+  console.log(`  20 Norwegian prediction markets (10 categories) with images`);
   console.log("");
   console.log("  Login credentials:");
   console.log("  admin@norskpredikt.no / password123");

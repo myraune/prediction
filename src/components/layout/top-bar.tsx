@@ -72,7 +72,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
                 <Avatar className="h-7 w-7">
-                  <AvatarFallback className="bg-[var(--color-mint)] text-[var(--color-ink)] text-xs font-bold">
+                  <AvatarFallback className="bg-[var(--color-yes)] text-white text-xs font-bold">
                     {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
                   </AvatarFallback>
                 </Avatar>

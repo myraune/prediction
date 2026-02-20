@@ -94,7 +94,7 @@ export default function AdminMarketDetailPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
-              <AlertTriangle className="h-5 w-5 text-[var(--color-signal)]" />
+              <AlertTriangle className="h-5 w-5 text-[var(--color-no)]" />
               Resolve Market
             </CardTitle>
           </CardHeader>
@@ -114,14 +114,14 @@ export default function AdminMarketDetailPage() {
               <Button
                 onClick={() => handleResolve("YES")}
                 disabled={loading}
-                className="flex-1 bg-[var(--color-mint)] text-[var(--color-ink)] hover:bg-[var(--color-mint)]/90"
+                className="flex-1 bg-[var(--color-yes)] text-white hover:bg-[var(--color-yes)]/90"
               >
                 Resolve YES
               </Button>
               <Button
                 onClick={() => handleResolve("NO")}
                 disabled={loading}
-                className="flex-1 bg-[var(--color-signal)] text-white hover:bg-[var(--color-signal)]/90"
+                className="flex-1 bg-[var(--color-no)] text-white hover:bg-[var(--color-no)]/90"
               >
                 Resolve NO
               </Button>

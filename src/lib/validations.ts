@@ -27,6 +27,7 @@ export const marketSchema = z.object({
   category: z.enum(["POLITICS", "SPORTS", "CRYPTO", "CLIMATE", "ECONOMICS", "CULTURE", "COMPANIES", "FINANCIALS", "TECH_SCIENCE", "ENTERTAINMENT"]),
   closesAt: z.coerce.date({ error: "Closing date is required" }),
   featured: z.boolean().default(false),
+  imageUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
 });
 
 export type MarketFormData = z.infer<typeof marketSchema>;

@@ -79,6 +79,7 @@ model Market {
   status         String    @default("OPEN")
   resolution     String?
   resolutionNote String?
+  imageUrl       String?
   closesAt       DateTime
   resolvedAt     DateTime?
   createdById    String

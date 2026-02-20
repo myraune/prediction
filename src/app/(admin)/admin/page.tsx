@@ -26,7 +26,7 @@ export default async function AdminDashboardPage() {
 
   const stats = [
     { label: "Total Users", value: userCount, icon: Users, color: "text-blue-500" },
-    { label: "Open Markets", value: openMarkets, icon: TrendingUp, color: "text-[var(--color-mint)]" },
+    { label: "Open Markets", value: openMarkets, icon: TrendingUp, color: "text-[var(--color-yes)]" },
     { label: "Resolved Markets", value: resolvedMarkets, icon: CheckCircle, color: "text-purple-500" },
     { label: "Total Volume", value: `${totalVolumeSum.toLocaleString("nb-NO")} pts`, icon: BarChart3, color: "text-amber-500" },
   ];

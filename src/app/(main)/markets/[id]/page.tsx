@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { getPrice } from "@/lib/amm";
@@ -90,6 +91,20 @@ export default async function MarketDetailPage({
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
       {/* Main content */}
       <div className="space-y-6 min-w-0">
+        {/* Market image banner */}
+        {market.imageUrl && (
+          <div className="relative h-48 sm:h-56 w-full rounded-lg overflow-hidden bg-muted">
+            <Image
+              src={market.imageUrl}
+              alt={market.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              priority
+            />
+          </div>
+        )}
+
         {/* Title + badges + large price */}
         <div>
           <div className="flex items-center gap-2 mb-3">

@@ -66,8 +66,8 @@ export default async function PortfolioPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-[var(--color-mint)]/10 rounded-lg">
-                <Wallet className="h-5 w-5 text-[var(--color-mint)]" />
+              <div className="p-2 bg-[var(--color-yes)]/10 rounded-lg">
+                <Wallet className="h-5 w-5 text-[var(--color-yes)]" />
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Available Balance</p>
@@ -92,14 +92,14 @@ export default async function PortfolioPage() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
-              <div className={`p-2 rounded-lg ${unrealizedPnl >= 0 ? "bg-[var(--color-mint)]/10" : "bg-[var(--color-signal)]/10"}`}>
+              <div className={`p-2 rounded-lg ${unrealizedPnl >= 0 ? "bg-[var(--color-yes)]/10" : "bg-[var(--color-no)]/10"}`}>
                 {unrealizedPnl >= 0
-                  ? <TrendingUp className="h-5 w-5 text-[var(--color-mint)]" />
-                  : <TrendingDown className="h-5 w-5 text-[var(--color-signal)]" />}
+                  ? <TrendingUp className="h-5 w-5 text-[var(--color-yes)]" />
+                  : <TrendingDown className="h-5 w-5 text-[var(--color-no)]" />}
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Unrealized P/L</p>
-                <p className={`text-2xl font-bold ${unrealizedPnl >= 0 ? "text-[var(--color-mint)]" : "text-[var(--color-signal)]"}`}>
+                <p className={`text-2xl font-bold ${unrealizedPnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"}`}>
                   {unrealizedPnl >= 0 ? "+" : ""}{formatPoints(unrealizedPnl)}
                 </p>
               </div>
@@ -118,7 +118,7 @@ export default async function PortfolioPage() {
             <div className="text-center py-8 text-muted-foreground">
               <p>No active positions</p>
               <p className="text-sm mt-1">
-                <Link href="/markets" className="text-[var(--color-mint)] hover:underline">
+                <Link href="/markets" className="text-[var(--color-yes)] hover:underline">
                   Browse markets
                 </Link>{" "}
                 to start trading
@@ -153,8 +153,8 @@ export default async function PortfolioPage() {
                       <TableCell>
                         <Badge className={
                           pos.side === "YES"
-                            ? "bg-[var(--color-mint)]/20 text-[var(--color-mint)]"
-                            : "bg-[var(--color-signal)]/20 text-[var(--color-signal)]"
+                            ? "bg-[var(--color-yes)]/20 text-[var(--color-yes)]"
+                            : "bg-[var(--color-no)]/20 text-[var(--color-no)]"
                         }>
                           {pos.side}
                         </Badge>
@@ -162,7 +162,7 @@ export default async function PortfolioPage() {
                       <TableCell className="text-right">{pos.shares.toFixed(2)}</TableCell>
                       <TableCell className="text-right">{pos.avgPrice.toFixed(2)}</TableCell>
                       <TableCell className="text-right">{currentPrice.toFixed(2)}</TableCell>
-                      <TableCell className={`text-right font-medium ${pnl >= 0 ? "text-[var(--color-mint)]" : "text-[var(--color-signal)]"}`}>
+                      <TableCell className={`text-right font-medium ${pnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"}`}>
                         {pnl >= 0 ? "+" : ""}{pnl.toFixed(2)}
                       </TableCell>
                     </TableRow>

@@ -62,13 +62,8 @@ export default async function LandingPage() {
 
   return (
     <div className="min-h-screen">
-      {/* Hero — Exchange-style, information-dense */}
-      <section className="bg-[var(--color-ink)] text-white relative overflow-hidden">
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: "linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-        }} />
+      {/* Hero — Kalshi-style clean white */}
+      <section className="bg-card border-b relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative">
           <div className="flex items-center gap-2.5 mb-5">
             <TrendingUp className="h-8 w-8 text-[var(--color-yes)]" />
@@ -78,25 +73,25 @@ export default async function LandingPage() {
             Trade on what happens{" "}
             <span className="text-[var(--color-yes)]">next</span>
           </h1>
-          <p className="mt-3 text-base sm:text-lg text-gray-400 max-w-xl">
+          <p className="mt-3 text-base sm:text-lg text-muted-foreground max-w-xl">
             Buy and sell on the outcome of Norwegian events. Politics, sports, crypto, climate — all priced 0–99¢.
           </p>
 
           {/* Stats row */}
           <div className="flex items-center gap-6 mt-6 text-sm">
             <div>
-              <p className="text-2xl font-bold tabular-nums text-white">{totalMarkets || "50+"}</p>
-              <p className="text-gray-500 text-xs uppercase tracking-wider">Live Markets</p>
+              <p className="text-2xl font-bold tabular-nums">{totalMarkets || "50+"}</p>
+              <p className="text-muted-foreground text-xs uppercase tracking-wider">Live Markets</p>
             </div>
-            <div className="h-8 w-px bg-white/10" />
+            <div className="h-8 w-px bg-border" />
             <div>
-              <p className="text-2xl font-bold tabular-nums text-white">1,000</p>
-              <p className="text-gray-500 text-xs uppercase tracking-wider">Starting Pts</p>
+              <p className="text-2xl font-bold tabular-nums">1,000</p>
+              <p className="text-muted-foreground text-xs uppercase tracking-wider">Starting Pts</p>
             </div>
-            <div className="h-8 w-px bg-white/10" />
+            <div className="h-8 w-px bg-border" />
             <div>
               <p className="text-2xl font-bold tabular-nums text-[var(--color-yes)]">Free</p>
-              <p className="text-gray-500 text-xs uppercase tracking-wider">To Play</p>
+              <p className="text-muted-foreground text-xs uppercase tracking-wider">To Play</p>
             </div>
           </div>
 
@@ -108,7 +103,7 @@ export default async function LandingPage() {
               </Button>
             </Link>
             <Link href="/markets">
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button size="lg" variant="outline" className="gap-2">
                 Browse Markets
               </Button>
             </Link>
