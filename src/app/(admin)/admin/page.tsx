@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Users, BarChart3, CheckCircle, TrendingUp } from "lucide-react";
+import { Users, BarChart3, CheckCircle, TrendingUp, Newspaper } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   let userCount = 0;
@@ -59,12 +59,18 @@ export default async function AdminDashboardPage() {
         ))}
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
         <Link href="/admin/markets">
           <Button variant="outline">Manage Markets</Button>
         </Link>
         <Link href="/admin/users">
           <Button variant="outline">Manage Users</Button>
+        </Link>
+        <Link href="/admin/news-pipeline">
+          <Button variant="outline" className="gap-2">
+            <Newspaper className="h-4 w-4" />
+            News Pipeline
+          </Button>
         </Link>
       </div>
     </div>

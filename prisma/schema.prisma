@@ -155,6 +155,38 @@ model PriceSnapshot {
   @@index([marketId, timestamp])
 }
 
+// ─── NEWS PIPELINE ─────────────────────────────────────
+
+model SuggestedMarket {
+  id             String   @id @default(cuid())
+  title          String
+  description    String
+  category       String
+  closesAt       DateTime
+  imageUrl       String?
+  sourceHeadline String
+  sourceUrl      String?
+  sourceName     String?
+  aiReasoning    String?
+  status         String   @default("PENDING") // PENDING, APPROVED, REJECTED, PUBLISHED
+  reviewedAt     DateTime?
+  publishedMarketId String?
+  createdAt      DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model PipelineRun {
+  id            String   @id @default(cuid())
+  source        String   // "newsapi", "gnews", "manual", "cron"
+  articlesFound Int      @default(0)
+  suggested     Int      @default(0)
+  errors        String?
+  duration      Int      @default(0) // milliseconds
+  createdAt     DateTime @default(now())
+}
+
 // ─── COMMENTS ───────────────────────────────────────────
 
 model Comment {
