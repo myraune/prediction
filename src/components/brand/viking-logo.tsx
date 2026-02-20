@@ -35,6 +35,7 @@ export function VikingLogo({ className, size = "md" }: VikingLogoProps) {
       height={px}
       className={cn(sizeMap[size], "rounded-sm", className)}
       priority
+      unoptimized
     />
   );
 }
@@ -62,6 +63,7 @@ export function VikingWordmark({
         height={height}
         className={cn("dark:hidden", className)}
         priority
+        unoptimized
       />
       {/* Dark mode: show light logo */}
       <Image
@@ -71,6 +73,7 @@ export function VikingWordmark({
         height={height}
         className={cn("hidden dark:block", className)}
         priority
+        unoptimized
       />
     </>
   );
