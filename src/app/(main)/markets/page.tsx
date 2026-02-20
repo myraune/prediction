@@ -3,6 +3,8 @@ import { MarketCard } from "@/components/markets/market-card";
 import { MarketSortTabs } from "@/components/markets/market-sort-tabs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { formatCompactNumber } from "@/lib/format";
+import { BarChart3, TrendingUp, Activity } from "lucide-react";
 import type { Prisma } from "@/generated/prisma/client";
 
 export default async function MarketsPage({
@@ -44,11 +46,23 @@ export default async function MarketsPage({
   }
 
   let markets: Awaited<ReturnType<typeof prisma.market.findMany>> = [];
+  let totalVolume = 0;
+  let totalTrades = 0;
   try {
-    markets = await prisma.market.findMany({
-      where,
-      orderBy,
-    });
+    const [marketsResult, volAgg, tradeCount] = await Promise.all([
+      prisma.market.findMany({
+        where,
+        orderBy,
+      }),
+      prisma.market.aggregate({
+        where,
+        _sum: { totalVolume: true },
+      }),
+      prisma.trade.count(),
+    ]);
+    markets = marketsResult;
+    totalVolume = volAgg._sum.totalVolume ?? 0;
+    totalTrades = tradeCount;
   } catch {
     // Database not available
   }
@@ -64,11 +78,18 @@ export default async function MarketsPage({
     return `/markets${qs ? `?${qs}` : ""}`;
   }
 
+  const categoryLabel = category
+    ? category.charAt(0) + category.slice(1).toLowerCase().replace("_", " & ")
+    : null;
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      {/* Header with stats */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div>
-          <h1 className="text-xl font-semibold tracking-tight">Markets</h1>
+          <h1 className="text-xl font-semibold tracking-tight">
+            {categoryLabel ? `${categoryLabel} Markets` : "Markets"}
+          </h1>
           {q && (
             <p className="text-muted-foreground mt-1">
               Results for &ldquo;{q}&rdquo;
@@ -78,9 +99,22 @@ export default async function MarketsPage({
             </p>
           )}
         </div>
-        <span className="text-sm text-muted-foreground tabular-nums">
-          {markets.length} market{markets.length !== 1 ? "s" : ""}
-        </span>
+
+        {/* Quick stats bar */}
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <Activity className="h-3 w-3" />
+            {markets.length} market{markets.length !== 1 ? "s" : ""}
+          </span>
+          <span className="flex items-center gap-1">
+            <BarChart3 className="h-3 w-3" />
+            {formatCompactNumber(totalVolume)} vol.
+          </span>
+          <span className="flex items-center gap-1">
+            <TrendingUp className="h-3 w-3" />
+            {totalTrades.toLocaleString()} trades
+          </span>
+        </div>
       </div>
 
       {/* Sort pills */}

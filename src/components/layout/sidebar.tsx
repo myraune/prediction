@@ -52,7 +52,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 h-16 border-b shrink-0">
         <TrendingUp className="h-6 w-6 text-[var(--color-brand)]" />
-        <span className="text-lg font-semibold">Norsk Predikt</span>
+        <span className="text-lg font-semibold">Viking Market</span>
       </div>
 
       {/* Main nav */}

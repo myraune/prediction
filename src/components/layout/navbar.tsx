@@ -35,7 +35,7 @@ export function Navbar({ balance }: { balance?: number }) {
           {/* Logo */}
           <Link href="/markets" className="flex items-center gap-2">
             <TrendingUp className="h-6 w-6 text-[var(--color-brand)]" />
-            <span className="text-lg font-bold hidden sm:inline">Norsk Predikt</span>
+            <span className="text-lg font-bold hidden sm:inline">Viking Market</span>
           </Link>
 
           {/* Desktop nav */}

@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Norsk Predikt - Norwegian Prediction Markets",
-  description: "Trade virtual NOK points on Norwegian politics, sports, economy, culture and more.",
+  title: "Viking Market — Prediction Markets",
+  description: "Trade on future events. Buy and sell YES/NO shares on politics, sports, crypto, climate and more. Real-time pricing, zero risk.",
 };
 
 export default function RootLayout({

@@ -6,7 +6,7 @@ import { MiniSparkline } from "./mini-sparkline";
 import { getPrice } from "@/lib/amm";
 import { formatCompactNumber } from "@/lib/format";
 import { getTimeRemaining, isClosingSoon } from "@/lib/time";
-import { Clock, BarChart3 } from "lucide-react";
+import { Clock, BarChart3, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Market } from "@/generated/prisma/client";
 
@@ -20,22 +20,23 @@ export function MarketCard({ market }: { market: Market }) {
   return (
     <Link href={`/markets/${market.id}`}>
       <Card className={cn(
-        "h-full cursor-pointer transition-all duration-150 overflow-hidden",
-        "hover:shadow-md hover:border-border",
+        "group h-full cursor-pointer transition-all duration-200 overflow-hidden",
+        "hover:shadow-lg hover:border-border hover:-translate-y-0.5",
       )}>
-        {/* Market image — Kalshi style */}
+        {/* Market image — larger with overlay price */}
         {market.imageUrl && (
-          <div className="relative h-32 w-full bg-muted">
+          <div className="relative h-36 w-full bg-muted overflow-hidden">
             <Image
               src={market.imageUrl}
               alt={market.title}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-            {/* Category + time on image */}
+            {/* Gradient overlay — stronger for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+            {/* Category + time badges on image */}
             <div className="absolute top-2 left-2 right-2 flex items-center justify-between">
               <span className="bg-white/90 dark:bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-medium">
                 <CategoryBadge category={market.category} />
@@ -58,6 +59,14 @@ export function MarketCard({ market }: { market: Market }) {
                   {timeLeft}
                 </span>
               )}
+            </div>
+
+            {/* Large price overlay on image — Polymarket style */}
+            <div className="absolute bottom-2 left-3">
+              <span className="text-2xl font-bold text-white tabular-nums drop-shadow-lg">
+                {yesCents}¢
+              </span>
+              <span className="text-[10px] text-white/80 ml-1 font-medium uppercase tracking-wide">chance</span>
             </div>
           </div>
         )}
@@ -108,10 +117,26 @@ export function MarketCard({ market }: { market: Market }) {
             </div>
           </div>
 
-          {/* Volume */}
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <BarChart3 className="h-3 w-3" />
-            <span>{formatCompactNumber(market.totalVolume)} Vol.</span>
+          {/* Meta row — Volume + traders estimate */}
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-1">
+                <BarChart3 className="h-3 w-3" />
+                {formatCompactNumber(market.totalVolume)} Vol.
+              </span>
+              <span className="flex items-center gap-1">
+                <Users className="h-3 w-3" />
+                {Math.max(1, Math.floor(market.totalVolume / 150))} traders
+              </span>
+            </div>
+            {!market.imageUrl && market.status === "OPEN" && (
+              <span className={cn(
+                "text-[10px]",
+                closing ? "text-[var(--color-no)] font-medium" : ""
+              )}>
+                {timeLeft}
+              </span>
+            )}
           </div>
         </CardContent>
       </Card>

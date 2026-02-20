@@ -43,7 +43,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
             <TrendingUp className="h-8 w-8 text-[var(--color-brand)]" />
-            <span className="text-2xl font-bold">Norsk Predikt</span>
+            <span className="text-2xl font-bold">Viking Market</span>
           </div>
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Sign in to your account to start predicting</CardDescription>
