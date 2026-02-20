@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Search, User, LogOut, Shield, LogIn } from "lucide-react";
+import { Search, User, LogOut, Shield, LogIn, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -40,14 +40,14 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
       <div className="flex h-14 items-center gap-3 px-4 sm:px-6">
         <MobileSidebar categoryCounts={categoryCounts} />
 
-        <form onSubmit={handleSearch} className="flex-1 max-w-md">
+        <form onSubmit={handleSearch} className="flex-1 max-w-xl">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search markets..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="pl-9 h-9 bg-muted border-0 focus-visible:ring-1 text-sm"
+              className="pl-10 h-9 bg-muted border-0 focus-visible:ring-1 text-sm"
             />
           </div>
         </form>
@@ -57,6 +57,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
             <>
               {balance !== undefined && (
                 <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-sm font-semibold tabular-nums">
+                  <Wallet className="h-3.5 w-3.5 text-muted-foreground" />
                   {balance.toLocaleString()}
                   <span className="text-muted-foreground text-xs font-normal">pts</span>
                 </div>

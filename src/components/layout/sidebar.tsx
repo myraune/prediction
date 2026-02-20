@@ -15,6 +15,7 @@ import {
   Cpu,
   Tv,
   LayoutGrid,
+  Globe,
 } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
 import { cn } from "@/lib/utils";
@@ -33,10 +34,23 @@ const categoryIcons: Record<string, React.ElementType> = {
   ENTERTAINMENT: Tv,
 };
 
+const categoryLabelsNO: Record<string, string> = {
+  POLITICS: "Politikk",
+  SPORTS: "Sport",
+  CRYPTO: "Krypto",
+  CLIMATE: "Klima",
+  ECONOMICS: "Økonomi",
+  CULTURE: "Kultur",
+  COMPANIES: "Selskaper",
+  FINANCIALS: "Finans",
+  TECH_SCIENCE: "Tech & Vitenskap",
+  ENTERTAINMENT: "Underholdning",
+};
+
 const mainNav = [
-  { href: "/markets", label: "Markets", icon: LayoutGrid },
-  { href: "/portfolio", label: "Portfolio", icon: BarChart3 },
-  { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
+  { href: "/markets", label: "Markeder", icon: LayoutGrid },
+  { href: "/portfolio", label: "Portefølje", icon: BarChart3 },
+  { href: "/leaderboard", label: "Toppliste", icon: Trophy },
 ];
 
 interface SidebarProps {
@@ -47,6 +61,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category");
+  const activeRegion = searchParams.get("region");
 
   return (
     <aside className="hidden lg:flex flex-col w-[220px] border-r bg-background h-screen sticky top-0 overflow-y-auto">
@@ -72,14 +87,53 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
             >
               <link.icon className="h-4 w-4" />
               {link.label}
+              {link.label === "Markeder" && (
+                <span className="relative ml-auto flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-yes)] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-yes)]" />
+                </span>
+              )}
             </Link>
           );
         })}
       </nav>
 
-      <div className="px-3 mt-6 flex-1">
+      {/* Region quick links */}
+      <div className="px-3 mt-5">
         <p className="px-3 mb-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
-          Categories
+          Region
+        </p>
+        <nav className="flex flex-col gap-0.5">
+          <Link
+            href="/markets?region=NO"
+            className={cn(
+              "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] transition-colors",
+              activeRegion === "NO" && pathname === "/markets"
+                ? "bg-muted text-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+            )}
+          >
+            <span className="text-sm">🇳🇴</span>
+            <span className="flex-1">Norge</span>
+          </Link>
+          <Link
+            href="/markets?region=INT"
+            className={cn(
+              "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] transition-colors",
+              activeRegion === "INT" && pathname === "/markets"
+                ? "bg-muted text-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+            )}
+          >
+            <Globe className="h-3.5 w-3.5 shrink-0" />
+            <span className="flex-1">Internasjonalt</span>
+          </Link>
+        </nav>
+      </div>
+
+      <div className="px-3 mt-5 flex-1">
+        <p className="px-3 mb-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
+          Kategorier
         </p>
         <nav className="flex flex-col gap-0.5">
           {CATEGORIES.map((cat) => {
@@ -98,7 +152,7 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
                 )}
               >
                 <Icon className="h-3.5 w-3.5 shrink-0" />
-                <span className="truncate flex-1">{cat.label}</span>
+                <span className="truncate flex-1">{categoryLabelsNO[cat.value] ?? cat.label}</span>
                 {count > 0 && (
                   <span className="text-[11px] tabular-nums text-muted-foreground/60">{count}</span>
                 )}

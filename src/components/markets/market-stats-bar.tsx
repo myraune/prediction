@@ -23,7 +23,7 @@ export function MarketStatsBar({
   const stats = [
     { label: "Yes", value: `${Math.round(yesPrice * 100)}¢`, color: "text-[var(--color-yes)]" },
     { label: "No", value: `${Math.round(noPrice * 100)}¢`, color: "text-[var(--color-no)]" },
-    { label: "Volume", value: formatCompactNumber(totalVolume), color: "" },
+    { label: "Volume", value: `$${formatCompactNumber(totalVolume)}`, color: "" },
     { label: "Trades", value: tradeCount.toLocaleString(), color: "" },
     { label: "Closes", value: timeLeft, color: cn(closing && "text-[var(--color-no)]") },
   ];

@@ -62,12 +62,27 @@ export default async function MarketDetailPage({
   }
 
   let relatedMarkets: Awaited<ReturnType<typeof prisma.market.findMany>> = [];
+  let priceChange24h: number | null = null;
   try {
-    relatedMarkets = await prisma.market.findMany({
-      where: { category: market.category, id: { not: market.id }, status: "OPEN" },
-      orderBy: { totalVolume: "desc" },
-      take: 4,
-    });
+    const [related, snapshot24h] = await Promise.all([
+      prisma.market.findMany({
+        where: { category: market.category, id: { not: market.id }, status: "OPEN" },
+        orderBy: { totalVolume: "desc" },
+        take: 4,
+      }),
+      prisma.priceSnapshot.findFirst({
+        where: {
+          marketId: id,
+          timestamp: { lte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+        },
+        orderBy: { timestamp: "desc" },
+      }),
+    ]);
+    relatedMarkets = related;
+    if (snapshot24h) {
+      const currentYes = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo }).yes;
+      priceChange24h = Math.round((currentYes - snapshot24h.yesPrice) * 100);
+    }
   } catch {
     // non-critical
   }
@@ -79,9 +94,9 @@ export default async function MarketDetailPage({
   const timeLeft = getTimeRemaining(market.closesAt);
 
   const categoryLabels: Record<string, string> = {
-    POLITICS: "Politics", SPORTS: "Sports", CRYPTO: "Crypto", CLIMATE: "Climate",
-    ECONOMICS: "Economics", CULTURE: "Culture", COMPANIES: "Companies",
-    FINANCIALS: "Financials", TECH_SCIENCE: "Tech & Science", ENTERTAINMENT: "Entertainment",
+    POLITICS: "Politikk", SPORTS: "Sport", CRYPTO: "Krypto", CLIMATE: "Klima",
+    ECONOMICS: "Økonomi", CULTURE: "Kultur", COMPANIES: "Selskaper",
+    FINANCIALS: "Finans", TECH_SCIENCE: "Tech & Vitenskap", ENTERTAINMENT: "Underholdning",
   };
 
   return (
@@ -127,6 +142,14 @@ export default async function MarketDetailPage({
             <span className="text-3xl font-bold tabular-nums text-[var(--color-no)]">{noCents}¢</span>
             <span className="text-sm text-muted-foreground">No</span>
           </div>
+          {priceChange24h !== null && priceChange24h !== 0 && (
+            <span className={cn(
+              "text-sm font-semibold tabular-nums",
+              priceChange24h > 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"
+            )}>
+              {priceChange24h > 0 ? "▲" : "▼"} {Math.abs(priceChange24h)}¢ 24h
+            </span>
+          )}
         </div>
 
         <ProbabilityBar yesPercent={price.yes * 100} size="lg" />
@@ -245,7 +268,7 @@ export default async function MarketDetailPage({
           <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Market Info</h4>
           {[
             { label: "Status", value: market.status === "OPEN" ? "Open" : market.status.charAt(0) + market.status.slice(1).toLowerCase() },
-            { label: "Volume", value: `${formatCompactNumber(market.totalVolume)} pts` },
+            { label: "Volume", value: `$${formatCompactNumber(market.totalVolume)}` },
             { label: "Traders", value: String(uniqueTraders) },
             { label: "Trades", value: String(market._count.trades) },
             { label: "Closes", value: timeLeft },

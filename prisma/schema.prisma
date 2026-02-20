@@ -84,6 +84,7 @@ model Market {
   resolvedAt     DateTime?
   createdById    String
   featured       Boolean   @default(false)
+  region         String    @default("NO") // "NO" = Norway, "INT" = International
 
   poolYes     Float @default(100)
   poolNo      Float @default(100)
@@ -101,6 +102,7 @@ model Market {
   @@index([status])
   @@index([featured])
   @@index([closesAt])
+  @@index([region])
 }
 
 // ─── TRADING ─────────────────────────────────────────────

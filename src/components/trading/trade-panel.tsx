@@ -106,6 +106,16 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
         </div>
       ) : (
         <div className="space-y-4">
+          {/* Current price header */}
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Trade</span>
+            <div className="flex items-center gap-2 text-sm tabular-nums">
+              <span className="font-bold text-[var(--color-yes)]">{yesCents}¢</span>
+              <span className="text-muted-foreground/40">/</span>
+              <span className="font-bold text-[var(--color-no)]">{noCents}¢</span>
+            </div>
+          </div>
+
           {/* BUY / SELL toggle */}
           <div className="flex rounded-lg bg-muted p-0.5">
             <button
@@ -195,7 +205,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     onClick={() => setAmount(String(Math.min(qa, userBalance)))}
                     disabled={qa > userBalance}
                   >
-                    {qa} pts
+                    ${qa}
                   </Button>
                 ))}
               </div>
@@ -220,9 +230,15 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     </span>
                   </div>
                   <div className="flex justify-between border-t pt-1.5">
-                    <span className="text-muted-foreground">Potential return</span>
-                    <span className="font-semibold text-[var(--color-yes)]">
+                    <span className="text-muted-foreground">Payout if {side}</span>
+                    <span className="font-medium tabular-nums">
                       {buyPreview.shares.toFixed(2)} pts
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Max profit</span>
+                    <span className="font-semibold text-[var(--color-yes)] tabular-nums">
+                      +{(buyPreview.shares - amountNum).toFixed(2)} pts
                     </span>
                   </div>
                 </div>
