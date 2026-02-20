@@ -48,14 +48,17 @@
   /* Trading colors — universal, never changes */
   --color-yes: #2ecc71;
   --color-no: #e74c3c;
-  /* Brand color — dark red */
-  --color-brand: #a31621;
-  --color-ink: #0a0a0a;
-  --color-fog: #fafafa;
+  /* Brand + contextual colors — driven by CSS vars for dark mode */
+  --color-brand: var(--brand);
+  --color-ink: var(--ink);
+  --color-fog: var(--fog);
 }
 
 :root {
   --radius: 0.375rem;
+  --brand: #a31621;
+  --ink: #0a0a0a;
+  --fog: #fafafa;
   --background: #fafafa;
   --foreground: #0a0a0a;
   --card: #ffffff;
@@ -90,6 +93,9 @@
 }
 
 .dark {
+  --brand: #d4343f;
+  --ink: #e8ebf0;
+  --fog: #0a0c0f;
   --background: #0a0c0f;
   --foreground: #e8ebf0;
   --card: #12161e;

@@ -18,6 +18,7 @@ import {
   Menu,
 } from "lucide-react";
 import { VikingLogo } from "@/components/brand/viking-logo";
+import { ThemeToggleInline } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -94,7 +95,7 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
         <div className="mx-3 border-b border-border/60" />
 
         {/* Categories */}
-        <div className="p-3">
+        <div className="p-3 flex-1">
           <p className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             Categories
           </p>
@@ -122,6 +123,11 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
               );
             })}
           </nav>
+        </div>
+
+        {/* Theme toggle */}
+        <div className="p-3 border-t border-border/60">
+          <ThemeToggleInline className="w-full" />
         </div>
       </SheetContent>
     </Sheet>
