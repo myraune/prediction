@@ -17,7 +17,7 @@ import {
   Tv,
   Menu,
 } from "lucide-react";
-import { VikingLogo } from "@/components/brand/viking-logo";
+import { VikingWordmark } from "@/components/brand/viking-logo";
 import { ThemeToggleInline } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -64,9 +64,8 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
       <SheetContent side="left" className="w-72 p-0">
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         {/* Logo */}
-        <div className="flex items-center gap-2 px-5 h-16 border-b">
-          <VikingLogo size="md" className="text-[var(--color-brand)]" />
-          <span className="text-lg font-semibold tracking-tight lowercase">viking market</span>
+        <div className="flex items-center px-5 h-16 border-b">
+          <VikingWordmark height={24} />
         </div>
 
         {/* Main nav */}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface VikingLogoProps {
@@ -13,35 +14,86 @@ const sizeMap = {
   xl: "h-10 w-10",
 };
 
+const iconPixelMap = {
+  sm: 20,
+  md: 24,
+  lg: 32,
+  xl: 40,
+};
+
 /**
- * Viking Market "V" logo mark — a stylized tulip/viking horn SVG.
- * Uses `currentColor` so it inherits the parent's text color.
+ * Viking Market icon — uses the new branded icon SVG.
+ * Falls back to inline SVG "V" mark if image fails.
  */
 export function VikingLogo({ className, size = "md" }: VikingLogoProps) {
+  const px = iconPixelMap[size];
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 80 80"
-      fill="none"
-      className={cn(sizeMap[size], className)}
-      aria-hidden="true"
-    >
-      <path
-        d="M16 10C16 10 14 12 16 18C18 24 24 40 28 50C30 55 31.5 60 34 64C36 67 38 70 40 70C42 70 44 67 46 64C48.5 60 50 55 52 50C56 40 62 24 64 18C66 12 64 10 64 10C62 10 58 12 54 22C50 32 46 46 44 52C42 58 41 62 40 62C39 62 38 58 36 52C34 46 30 32 26 22C22 12 18 10 16 10Z"
-        fill="currentColor"
-      />
-    </svg>
+    <Image
+      src="/icon-1.svg"
+      alt="Viking Market"
+      width={px}
+      height={px}
+      className={cn(sizeMap[size], "rounded-sm", className)}
+      priority
+    />
   );
 }
 
 /**
- * Full brand lockup — logo mark + "viking market" text
+ * Viking Market full wordmark logo — shows the branded horizontal logo.
+ * Switches between light and dark variants based on theme.
+ */
+export function VikingWordmark({
+  className,
+  height = 28,
+}: {
+  className?: string;
+  height?: number;
+}) {
+  const width = Math.round(height * (613 / 86)); // maintain aspect ratio
+
+  return (
+    <>
+      {/* Light mode: show dark logo */}
+      <Image
+        src="/logo-light.svg"
+        alt="Viking Market"
+        width={width}
+        height={height}
+        className={cn("dark:hidden", className)}
+        priority
+      />
+      {/* Dark mode: show light logo */}
+      <Image
+        src="/logo-dark.svg"
+        alt="Viking Market"
+        width={width}
+        height={height}
+        className={cn("hidden dark:block", className)}
+        priority
+      />
+    </>
+  );
+}
+
+/**
+ * Full brand lockup — logo icon + "viking market" text
+ * or use the wordmark variant
  */
 export function VikingBrand({
   className,
   size = "md",
   showText = true,
-}: VikingLogoProps & { showText?: boolean }) {
+  useWordmark = false,
+}: VikingLogoProps & { showText?: boolean; useWordmark?: boolean }) {
+  if (useWordmark) {
+    return (
+      <div className={cn("flex items-center", className)}>
+        <VikingWordmark height={size === "lg" ? 36 : size === "xl" ? 44 : 28} />
+      </div>
+    );
+  }
+
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <VikingLogo size={size} />

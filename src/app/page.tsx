@@ -31,7 +31,7 @@ import {
   Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { VikingLogo } from "@/components/brand/viking-logo";
+import { VikingWordmark } from "@/components/brand/viking-logo";
 
 const categoryIcons: Record<string, React.ReactNode> = {
   POLITICS: <Landmark className="h-5 w-5" />,
@@ -131,9 +131,8 @@ export default async function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
-              <div className="flex items-center gap-2.5 mb-4">
-                <VikingLogo size="lg" className="text-[var(--color-brand)]" />
-                <span className="text-2xl font-bold tracking-tight lowercase">viking market</span>
+              <div className="mb-4">
+                <VikingWordmark height={36} />
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
                 Trade on what happens{" "}
@@ -444,9 +443,8 @@ export default async function LandingPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <VikingLogo size="sm" className="text-[var(--color-brand)]" />
-                <span className="font-bold tracking-tight lowercase">viking market</span>
+              <div className="mb-2">
+                <VikingWordmark height={20} />
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Virtual prediction market platform. Trade on the outcome of real-world events with zero financial risk.
