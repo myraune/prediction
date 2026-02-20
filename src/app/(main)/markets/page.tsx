@@ -151,14 +151,14 @@ export default async function MarketsPage({
         })}
       </div>
 
-      {/* Markets grid */}
+      {/* Markets list — Kalshi style rows */}
       {markets.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           <p className="text-lg font-medium">No markets found</p>
           <p className="text-sm mt-1">Try a different filter or search term</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+        <div className="divide-y divide-border/40">
           {markets.map((market) => (
             <MarketCard key={market.id} market={market} />
           ))}

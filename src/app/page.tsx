@@ -284,7 +284,7 @@ export default async function LandingPage() {
               View All <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="divide-y divide-border/40 rounded-lg border border-border/60 overflow-hidden bg-card">
             {featuredMarkets.map((market) => (
               <MarketCard key={market.id} market={market} />
             ))}
