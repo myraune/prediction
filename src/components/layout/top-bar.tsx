@@ -14,7 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { MobileSidebar } from "./mobile-sidebar";
 import Link from "next/link";
 
@@ -37,40 +36,35 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-card/80 backdrop-blur-xl">
-      <div className="flex h-14 items-center gap-4 px-4 sm:px-6">
-        {/* Mobile hamburger */}
+    <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-lg">
+      <div className="flex h-14 items-center gap-3 px-4 sm:px-6">
         <MobileSidebar categoryCounts={categoryCounts} />
 
-        {/* Search */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-lg">
+        <form onSubmit={handleSearch} className="flex-1 max-w-md">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
             <Input
               placeholder="Search markets..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="pl-9 h-9 bg-muted/50 border-0 focus-visible:ring-1"
+              className="pl-9 h-9 bg-muted border-0 focus-visible:ring-1 text-sm"
             />
           </div>
         </form>
 
-        {/* Right side */}
         <div className="flex items-center gap-2">
-          {/* Balance pill — exchange style */}
           {balance !== undefined && (
-            <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-brand)]/10 text-[var(--color-brand)] px-3 py-1.5 rounded text-sm font-bold tabular-nums">
-              <span>{balance.toLocaleString("nb-NO")}</span>
-              <span className="text-[var(--color-brand)]/60 text-xs font-medium">pts</span>
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-sm font-semibold tabular-nums">
+              {balance.toLocaleString()}
+              <span className="text-muted-foreground text-xs font-normal">pts</span>
             </div>
           )}
 
-          {/* Avatar dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
+              <Button variant="ghost" size="icon" className="rounded-full h-8 w-8">
                 <Avatar className="h-7 w-7">
-                  <AvatarFallback className="bg-[var(--color-brand)] text-white text-xs font-bold">
+                  <AvatarFallback className="bg-foreground text-background text-xs font-semibold">
                     {session?.user?.name?.charAt(0)?.toUpperCase() ?? "U"}
                   </AvatarFallback>
                 </Avatar>
@@ -84,7 +78,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
               <DropdownMenuSeparator />
               {balance !== undefined && (
                 <div className="px-2 py-1.5 text-sm sm:hidden">
-                  <span className="font-medium">{balance.toLocaleString("nb-NO")} pts</span>
+                  <span className="font-medium">{balance.toLocaleString()} pts</span>
                 </div>
               )}
               <DropdownMenuItem asChild>

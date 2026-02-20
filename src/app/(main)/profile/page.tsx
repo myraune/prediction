@@ -2,7 +2,6 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { formatPoints, formatDate } from "@/lib/format";
-import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default async function ProfilePage() {
@@ -24,47 +23,37 @@ export default async function ProfilePage() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Profile</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Profile</h1>
       </div>
 
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-16 w-16">
-              <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
-                {user.name.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <h2 className="text-xl font-bold">{user.name}</h2>
-              <p className="text-muted-foreground">{user.email}</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Joined {formatDate(user.createdAt)}
-              </p>
-            </div>
+      <div className="rounded-xl border p-6 bg-card">
+        <div className="flex items-center gap-4">
+          <Avatar className="h-14 w-14">
+            <AvatarFallback className="bg-foreground text-background text-xl">
+              {user.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div>
+            <h2 className="text-lg font-semibold">{user.name}</h2>
+            <p className="text-sm text-muted-foreground">{user.email}</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Joined {formatDate(user.createdAt)}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <p className="text-2xl font-bold">{formatPoints(user.balance)}</p>
-            <p className="text-sm text-muted-foreground">Balance</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <p className="text-2xl font-bold">{user._count.trades}</p>
-            <p className="text-sm text-muted-foreground">Total Trades</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6 text-center">
-            <p className="text-2xl font-bold">{user._count.positions}</p>
-            <p className="text-sm text-muted-foreground">Positions</p>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {[
+          { label: "Balance", value: formatPoints(user.balance) },
+          { label: "Total Trades", value: String(user._count.trades) },
+          { label: "Positions", value: String(user._count.positions) },
+        ].map((stat) => (
+          <div key={stat.label} className="rounded-xl border p-4 bg-card text-center">
+            <p className="text-2xl font-bold tabular-nums">{stat.value}</p>
+            <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

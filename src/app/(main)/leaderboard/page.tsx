@@ -1,10 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { getPrice } from "@/lib/amm";
 import { formatPoints } from "@/lib/format";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Trophy } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default async function LeaderboardPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +23,6 @@ export default async function LeaderboardPage() {
     // Database not available
   }
 
-  // Calculate total portfolio value for each user
   const leaderboard = users
     .map((user) => {
       let positionValue = 0;
@@ -43,50 +41,52 @@ export default async function LeaderboardPage() {
     })
     .sort((a, b) => b.totalValue - a.totalValue);
 
-  const rankColors = ["text-[var(--color-brand)]", "text-muted-foreground", "text-muted-foreground/70"];
-
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Leaderboard</h1>
-        <p className="text-muted-foreground mt-1">Top predictors ranked by portfolio value</p>
+        <h1 className="text-xl font-semibold tracking-tight">Leaderboard</h1>
+        <p className="text-sm text-muted-foreground mt-1">Top predictors ranked by portfolio value</p>
       </div>
 
       {/* Top 3 podium */}
       {leaderboard.length >= 3 && (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-3">
           {[1, 0, 2].map((idx) => {
             const user = leaderboard[idx];
             if (!user) return null;
             const rank = idx + 1;
             return (
-              <Card key={user.id} className={`text-center ${idx === 0 ? "ring-2 ring-[var(--color-brand)]/50 order-2 sm:order-1" : idx === 1 ? "order-1 sm:order-2" : "order-3"}`}>
-                <CardContent className="pt-6 pb-4">
-                  <div className={`text-3xl font-bold mb-2 ${rankColors[idx] ?? ""}`}>
-                    {rank === 1 ? <Trophy className="h-8 w-8 mx-auto text-[var(--color-brand)]" /> : `#${rank}`}
-                  </div>
-                  <Avatar className="h-12 w-12 mx-auto mb-2">
-                    <AvatarFallback className="bg-primary text-primary-foreground">
-                      {user.name.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <p className="font-semibold">{user.name}</p>
-                  <p className="text-lg font-bold text-[var(--color-brand)] mt-1">
-                    {formatPoints(user.totalValue)}
-                  </p>
-                </CardContent>
-              </Card>
+              <div
+                key={user.id}
+                className={cn(
+                  "rounded-xl border p-4 bg-card text-center",
+                  idx === 0 ? "ring-1 ring-foreground/20 order-2 sm:order-1" : idx === 1 ? "order-1 sm:order-2" : "order-3"
+                )}
+              >
+                <div className="text-2xl font-bold mb-2 text-muted-foreground">
+                  #{rank}
+                </div>
+                <Avatar className="h-10 w-10 mx-auto mb-2">
+                  <AvatarFallback className="bg-foreground text-background text-sm">
+                    {user.name.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="text-sm font-semibold">{user.name}</p>
+                <p className="text-lg font-bold tabular-nums mt-1">
+                  {formatPoints(user.totalValue)}
+                </p>
+              </div>
             );
           })}
         </div>
       )}
 
       {/* Full ranking table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Rankings</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="rounded-xl border bg-card">
+        <div className="px-4 py-3 border-b">
+          <h3 className="text-sm font-medium">Rankings</h3>
+        </div>
+        <div className="p-4">
           <Table>
             <TableHeader>
               <TableRow>
@@ -101,29 +101,29 @@ export default async function LeaderboardPage() {
               {leaderboard.map((user, i) => (
                 <TableRow key={user.id}>
                   <TableCell>
-                    <span className={`font-bold ${i < 3 ? rankColors[i] : "text-muted-foreground"}`}>
+                    <span className={cn("font-bold tabular-nums", i < 3 ? "text-foreground" : "text-muted-foreground")}>
                       #{i + 1}
                     </span>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Avatar className="h-7 w-7">
-                        <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                        <AvatarFallback className="bg-foreground text-background text-xs">
                           {user.name.charAt(0).toUpperCase()}
                         </AvatarFallback>
                       </Avatar>
                       <span className="font-medium">{user.name}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-right">{formatPoints(user.balance)}</TableCell>
-                  <TableCell className="text-right">{formatPoints(user.positionValue)}</TableCell>
-                  <TableCell className="text-right font-bold">{formatPoints(user.totalValue)}</TableCell>
+                  <TableCell className="text-right tabular-nums">{formatPoints(user.balance)}</TableCell>
+                  <TableCell className="text-right tabular-nums">{formatPoints(user.positionValue)}</TableCell>
+                  <TableCell className="text-right font-bold tabular-nums">{formatPoints(user.totalValue)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }

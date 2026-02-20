@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Flame, Clock, Timer, TrendingUp } from "lucide-react";
 
 const sortOptions = [
-  { value: "trending", label: "Trending", icon: Flame },
-  { value: "new", label: "New", icon: Clock },
-  { value: "ending", label: "Ending Soon", icon: Timer },
-  { value: "popular", label: "Popular", icon: TrendingUp },
+  { value: "trending", label: "Trending" },
+  { value: "new", label: "New" },
+  { value: "ending", label: "Ending Soon" },
+  { value: "popular", label: "Popular" },
 ] as const;
 
 export function MarketSortTabs() {
@@ -30,7 +29,7 @@ export function MarketSortTabs() {
   }
 
   return (
-    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+    <div className="flex items-center gap-1 overflow-x-auto pb-1">
       {sortOptions.map((opt) => {
         const isActive = currentSort === opt.value;
         return (
@@ -38,13 +37,12 @@ export function MarketSortTabs() {
             key={opt.value}
             href={buildHref(opt.value)}
             className={cn(
-              "flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium rounded-full transition-colors whitespace-nowrap",
+              "px-3 py-1.5 text-sm font-medium rounded-full transition-colors whitespace-nowrap",
               isActive
-                ? "bg-primary text-primary-foreground"
+                ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
             )}
           >
-            <opt.icon className="h-3.5 w-3.5" />
             {opt.label}
           </Link>
         );

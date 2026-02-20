@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { VikingLogo } from "@/components/brand/viking-logo";
 
 export default function LoginPage() {
@@ -39,42 +38,42 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <VikingLogo size="lg" className="text-[var(--color-brand)]" />
-            <span className="text-2xl font-bold tracking-tight lowercase">viking market</span>
-          </div>
-          <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>Sign in to your account to start predicting</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={onSubmit} className="space-y-4">
-            {error && (
-              <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md">
-                {error}
-              </div>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" placeholder="ola@example.no" required />
+      <div className="w-full max-w-sm space-y-8">
+        <div className="text-center">
+          <Link href="/" className="inline-flex items-center gap-2 mb-6">
+            <VikingLogo size="lg" />
+            <span className="text-xl font-semibold tracking-tight">Viking Market</span>
+          </Link>
+          <h1 className="text-xl font-semibold">Welcome back</h1>
+          <p className="text-sm text-muted-foreground mt-1">Sign in to your account to start predicting</p>
+        </div>
+
+        <form onSubmit={onSubmit} className="space-y-4">
+          {error && (
+            <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg">
+              {error}
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" name="password" type="password" required />
-            </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
-          <div className="mt-4 text-center text-sm text-muted-foreground">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-[var(--color-brand)] hover:underline font-medium">
-              Sign up
-            </Link>
+          )}
+          <div className="space-y-2">
+            <Label htmlFor="email">Email</Label>
+            <Input id="email" name="email" type="email" placeholder="you@example.com" required />
           </div>
-        </CardContent>
-      </Card>
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" name="password" type="password" required />
+          </div>
+          <Button type="submit" className="w-full bg-foreground text-background hover:bg-foreground/90" disabled={loading}>
+            {loading ? "Signing in..." : "Sign In"}
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{" "}
+          <Link href="/register" className="text-foreground hover:underline font-medium">
+            Sign up
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

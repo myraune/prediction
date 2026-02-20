@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MessageSquare, Reply, Trash2, Send } from "lucide-react";
@@ -55,7 +54,6 @@ export function CommentsSection({ marketId }: { marketId: string }) {
       toast.error(result.error);
     } else {
       setNewComment("");
-      // Refresh comments
       const res = await getCommentsAction(marketId);
       setComments(res.comments as Comment[]);
     }
@@ -92,19 +90,18 @@ export function CommentsSection({ marketId }: { marketId: string }) {
   }
 
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base flex items-center gap-2">
-          <MessageSquare className="h-4 w-4" />
-          Comments ({comments.length})
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <div className="rounded-xl border p-4 bg-card">
+      <h3 className="text-sm font-medium flex items-center gap-2 mb-4">
+        <MessageSquare className="h-4 w-4" />
+        Comments ({comments.length})
+      </h3>
+
+      <div className="space-y-4">
         {/* New comment input */}
         {session?.user && (
           <div className="flex gap-3">
             <Avatar className="h-8 w-8 shrink-0">
-              <AvatarFallback className="bg-[var(--color-brand)] text-white text-xs font-bold">
+              <AvatarFallback className="bg-foreground text-background text-xs font-bold">
                 {session.user.name?.charAt(0)?.toUpperCase() ?? "U"}
               </AvatarFallback>
             </Avatar>
@@ -113,7 +110,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-brand)]"
+                className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20"
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handlePost()}
               />
               <Button
@@ -178,7 +175,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                       value={replyContent}
                       onChange={(e) => setReplyContent(e.target.value)}
                       placeholder="Write a reply..."
-                      className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-brand)]"
+                      className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground/20"
                       onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleReply(comment.id)}
                       autoFocus
                     />
@@ -195,7 +192,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
 
                 {/* Replies */}
                 {comment.replies.length > 0 && (
-                  <div className="ml-10 space-y-3 border-l border-border/60 pl-4">
+                  <div className="ml-10 space-y-3 border-l pl-4">
                     {comment.replies.map((reply) => (
                       <div key={reply.id} className="flex gap-3">
                         <Avatar className="h-6 w-6 shrink-0">
@@ -227,7 +224,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
             ))}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

@@ -23,10 +23,6 @@ function MarketImage({ src, alt }: { src: string; alt: string }) {
   );
 }
 
-/**
- * Kalshi/Polymarket-style market row.
- * Compact horizontal layout: thumbnail | title + meta | YES/NO buttons
- */
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesCents = Math.round(price.yes * 100);
@@ -36,14 +32,9 @@ export function MarketCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`}>
-      <div
-        className={cn(
-          "group flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-3 rounded-lg border border-transparent",
-          "hover:bg-muted/50 hover:border-border/60 transition-colors cursor-pointer"
-        )}
-      >
+      <div className="group flex items-center gap-3 px-4 py-3.5 transition-colors hover:bg-muted/50">
         {/* Thumbnail */}
-        <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-muted shrink-0">
+        <div className="relative h-10 w-10 rounded-lg overflow-hidden bg-muted shrink-0">
           {market.imageUrl ? (
             <MarketImage src={market.imageUrl} alt={market.title} />
           ) : (
@@ -53,16 +44,16 @@ export function MarketCard({ market }: { market: Market }) {
 
         {/* Title + meta */}
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-medium leading-snug line-clamp-1 group-hover:text-foreground">
+          <h3 className="text-sm font-medium leading-snug line-clamp-1">
             {market.title}
           </h3>
-          <div className="flex items-center gap-2 mt-0.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 mt-0.5 text-xs text-muted-foreground">
             <span>{formatCompactNumber(market.totalVolume)} Vol</span>
-            <span className="text-border">·</span>
+            <span>·</span>
             {market.status === "RESOLVED" ? (
               <span
                 className={cn(
-                  "font-semibold",
+                  "font-medium",
                   market.resolution === "YES"
                     ? "text-[var(--color-yes)]"
                     : "text-[var(--color-no)]"
@@ -78,36 +69,30 @@ export function MarketCard({ market }: { market: Market }) {
           </div>
         </div>
 
-        {/* YES / NO buttons — right side */}
+        {/* YES / NO buttons */}
         <div className="flex items-center gap-1.5 shrink-0">
-          <div
-            className={cn(
-              "flex flex-col items-center justify-center w-16 h-10 rounded-md text-center",
-              "bg-[var(--color-yes)]/10 border border-[var(--color-yes)]/20",
-              "group-hover:bg-[var(--color-yes)]/15 transition-colors"
-            )}
+          <button
+            className="flex flex-col items-center justify-center w-[60px] h-9 rounded-md bg-[var(--color-yes)]/8 hover:bg-[var(--color-yes)]/15 transition-colors"
+            onClick={(e) => e.stopPropagation()}
           >
-            <span className="text-sm font-bold tabular-nums text-[var(--color-yes)] leading-none">
+            <span className="text-[13px] font-semibold tabular-nums text-[var(--color-yes)] leading-none">
               {yesCents}¢
             </span>
-            <span className="text-[9px] font-medium text-[var(--color-yes)]/70 uppercase">
+            <span className="text-[9px] font-medium text-[var(--color-yes)]/60 uppercase mt-0.5">
               Yes
             </span>
-          </div>
-          <div
-            className={cn(
-              "flex flex-col items-center justify-center w-16 h-10 rounded-md text-center",
-              "bg-[var(--color-no)]/10 border border-[var(--color-no)]/20",
-              "group-hover:bg-[var(--color-no)]/15 transition-colors"
-            )}
+          </button>
+          <button
+            className="flex flex-col items-center justify-center w-[60px] h-9 rounded-md bg-[var(--color-no)]/8 hover:bg-[var(--color-no)]/15 transition-colors"
+            onClick={(e) => e.stopPropagation()}
           >
-            <span className="text-sm font-bold tabular-nums text-[var(--color-no)] leading-none">
+            <span className="text-[13px] font-semibold tabular-nums text-[var(--color-no)] leading-none">
               {noCents}¢
             </span>
-            <span className="text-[9px] font-medium text-[var(--color-no)]/70 uppercase">
+            <span className="text-[9px] font-medium text-[var(--color-no)]/60 uppercase mt-0.5">
               No
             </span>
-          </div>
+          </button>
         </div>
       </div>
     </Link>

@@ -21,39 +21,19 @@ export function MarketStatsBar({
   const timeLeft = getTimeRemaining(closesAt);
 
   const stats = [
-    {
-      label: "YES",
-      value: `${Math.round(yesPrice * 100)}¢`,
-      className: "text-[var(--color-yes)]",
-    },
-    {
-      label: "NO",
-      value: `${Math.round(noPrice * 100)}¢`,
-      className: "text-[var(--color-no)]",
-    },
-    {
-      label: "Volume",
-      value: formatCompactNumber(totalVolume),
-      className: "",
-    },
-    {
-      label: "Trades",
-      value: tradeCount.toLocaleString(),
-      className: "",
-    },
-    {
-      label: "Closes",
-      value: timeLeft,
-      className: cn(closing && "text-[var(--color-no)]"),
-    },
+    { label: "Yes", value: `${Math.round(yesPrice * 100)}¢`, color: "text-[var(--color-yes)]" },
+    { label: "No", value: `${Math.round(noPrice * 100)}¢`, color: "text-[var(--color-no)]" },
+    { label: "Volume", value: formatCompactNumber(totalVolume), color: "" },
+    { label: "Trades", value: tradeCount.toLocaleString(), color: "" },
+    { label: "Closes", value: timeLeft, color: cn(closing && "text-[var(--color-no)]") },
   ];
 
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-2 py-3 px-1 border-y border-border/60">
+    <div className="flex flex-wrap gap-x-6 gap-y-2 py-3 border-y">
       {stats.map((stat) => (
         <div key={stat.label} className="flex flex-col">
-          <span className="text-[10px] text-muted-foreground uppercase tracking-wider">{stat.label}</span>
-          <span className={cn("text-sm font-semibold tabular-nums", stat.className)}>
+          <span className="text-[11px] text-muted-foreground uppercase tracking-wider">{stat.label}</span>
+          <span className={cn("text-sm font-semibold tabular-nums", stat.color)}>
             {stat.value}
           </span>
         </div>

@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 
 export function formatPoints(amount: number): string {
-  return `${amount.toLocaleString("nb-NO", { maximumFractionDigits: 0 })} pts`;
+  return `${amount.toLocaleString("en-US", { maximumFractionDigits: 0 })} pts`;
 }
 
 export function formatPercent(value: number): string {
@@ -27,5 +27,5 @@ export function formatPrice(price: number): string {
 export function formatCompactNumber(num: number): string {
   if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
   if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
-  return num.toLocaleString("nb-NO", { maximumFractionDigits: 0 });
+  return num.toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
