@@ -16,8 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Viking Market — Prediction Markets",
+  title: "viking market — prediction markets",
   description: "Trade on future events. Buy and sell YES/NO shares on politics, sports, crypto, climate and more. Real-time pricing, zero risk.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

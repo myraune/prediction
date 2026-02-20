@@ -11,7 +11,6 @@ import { getPrice } from "@/lib/amm";
 import { formatCompactNumber } from "@/lib/format";
 import { getTimeRemaining, isClosingSoon } from "@/lib/time";
 import {
-  TrendingUp,
   Landmark,
   Trophy,
   Bitcoin,
@@ -32,6 +31,7 @@ import {
   Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { VikingLogo } from "@/components/brand/viking-logo";
 
 const categoryIcons: Record<string, React.ReactNode> = {
   POLITICS: <Landmark className="h-5 w-5" />,
@@ -132,8 +132,8 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <div className="flex items-center gap-2.5 mb-4">
-                <TrendingUp className="h-8 w-8 text-[var(--color-brand)]" />
-                <span className="text-2xl font-bold tracking-tight">Viking Market</span>
+                <VikingLogo size="lg" className="text-[var(--color-brand)]" />
+                <span className="text-2xl font-bold tracking-tight lowercase">viking market</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
                 Trade on what happens{" "}
@@ -445,8 +445,8 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <TrendingUp className="h-5 w-5 text-[var(--color-brand)]" />
-                <span className="font-bold">Viking Market</span>
+                <VikingLogo size="sm" className="text-[var(--color-brand)]" />
+                <span className="font-bold tracking-tight lowercase">viking market</span>
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Virtual prediction market platform. Trade on the outcome of real-world events with zero financial risk.
@@ -471,7 +471,7 @@ export default async function LandingPage() {
             </div>
           </div>
           <div className="border-t border-border/60 mt-6 pt-6 flex items-center justify-between text-xs text-muted-foreground">
-            <span>© 2025 Viking Market</span>
+            <span>© 2025 viking market</span>
             <span>Virtual prediction market · No real money</span>
           </div>
         </div>

@@ -16,6 +16,7 @@ import {
   Cpu,
   Tv,
 } from "lucide-react";
+import { VikingLogo } from "@/components/brand/viking-logo";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
 
@@ -51,8 +52,8 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
     <aside className="hidden lg:flex flex-col w-56 border-r border-border/60 bg-card h-screen sticky top-0 overflow-y-auto">
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 h-16 border-b shrink-0">
-        <TrendingUp className="h-6 w-6 text-[var(--color-brand)]" />
-        <span className="text-lg font-semibold">Viking Market</span>
+        <VikingLogo size="md" className="text-[var(--color-brand)]" />
+        <span className="text-lg font-semibold tracking-tight lowercase">viking market</span>
       </div>
 
       {/* Main nav */}

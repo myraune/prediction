@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { TrendingUp, BarChart3, Trophy, User, LogOut, Shield, Menu, X } from "lucide-react";
+import { BarChart3, Trophy, User, LogOut, Shield, Menu, X } from "lucide-react";
+import { VikingLogo } from "@/components/brand/viking-logo";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,7 +18,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/markets", label: "Markets", icon: TrendingUp },
+  { href: "/markets", label: "Markets", icon: BarChart3 },
   { href: "/portfolio", label: "Portfolio", icon: BarChart3 },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
 ];
@@ -34,8 +35,8 @@ export function Navbar({ balance }: { balance?: number }) {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/markets" className="flex items-center gap-2">
-            <TrendingUp className="h-6 w-6 text-[var(--color-brand)]" />
-            <span className="text-lg font-bold hidden sm:inline">Viking Market</span>
+            <VikingLogo size="md" className="text-[var(--color-brand)]" />
+            <span className="text-lg font-bold hidden sm:inline tracking-tight lowercase">viking market</span>
           </Link>
 
           {/* Desktop nav */}

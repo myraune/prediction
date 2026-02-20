@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp } from "lucide-react";
+import { VikingLogo } from "@/components/brand/viking-logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,8 +42,8 @@ export default function LoginPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <TrendingUp className="h-8 w-8 text-[var(--color-brand)]" />
-            <span className="text-2xl font-bold">Viking Market</span>
+            <VikingLogo size="lg" className="text-[var(--color-brand)]" />
+            <span className="text-2xl font-bold tracking-tight lowercase">viking market</span>
           </div>
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>Sign in to your account to start predicting</CardDescription>
