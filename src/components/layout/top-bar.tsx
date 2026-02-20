@@ -43,7 +43,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
         <MobileSidebar categoryCounts={categoryCounts} />
 
         {/* Search */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-md">
+        <form onSubmit={handleSearch} className="flex-1 max-w-lg">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -57,11 +57,11 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
 
         {/* Right side */}
         <div className="flex items-center gap-2">
-          {/* Balance pill */}
+          {/* Balance pill — exchange style */}
           {balance !== undefined && (
-            <div className="hidden sm:flex items-center gap-1.5 bg-muted text-foreground px-3 py-1.5 rounded-md text-sm font-semibold">
+            <div className="hidden sm:flex items-center gap-1.5 bg-[var(--color-yes)]/10 text-[var(--color-yes)] px-3 py-1.5 rounded text-sm font-bold tabular-nums">
               <span>{balance.toLocaleString("nb-NO")}</span>
-              <span className="text-muted-foreground text-xs">pts</span>
+              <span className="text-[var(--color-yes)]/60 text-xs font-medium">pts</span>
             </div>
           )}
 

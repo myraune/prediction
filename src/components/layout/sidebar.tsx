@@ -33,7 +33,7 @@ const categoryIcons: Record<string, React.ElementType> = {
 };
 
 const mainNav = [
-  { href: "/markets", label: "Markets", icon: TrendingUp },
+  { href: "/markets", label: "Markets", icon: TrendingUp, live: true },
   { href: "/portfolio", label: "Portfolio", icon: BarChart3 },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
 ];
@@ -72,6 +72,9 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
             >
               <link.icon className="h-4 w-4" />
               {link.label}
+              {"live" in link && link.live && (
+                <span className="ml-auto h-2 w-2 rounded-full bg-[var(--color-yes)] animate-pulse" />
+              )}
             </Link>
           );
         })}

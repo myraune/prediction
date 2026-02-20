@@ -9,6 +9,7 @@ import { PriceChart } from "@/components/charts/price-chart";
 import { TradePanel } from "@/components/trading/trade-panel";
 import { CommentsSection } from "@/components/markets/comments-section";
 import { RelatedMarkets } from "@/components/markets/related-markets";
+import { ProbabilityBar } from "@/components/markets/probability-bar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -75,10 +76,12 @@ export default async function MarketDetailPage({
   }
 
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
+  const yesCents = Math.round(price.yes * 100);
+  const noCents = Math.round(price.no * 100);
 
   const statusColor =
     market.status === "OPEN"
-      ? "bg-green-500/10 text-green-700 dark:text-green-400"
+      ? "bg-[var(--color-yes)]/10 text-[var(--color-yes)]"
       : market.status === "RESOLVED"
       ? "bg-blue-500/10 text-blue-700 dark:text-blue-400"
       : "bg-gray-500/10 text-gray-700 dark:text-gray-400";
@@ -87,7 +90,7 @@ export default async function MarketDetailPage({
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6">
       {/* Main content */}
       <div className="space-y-6 min-w-0">
-        {/* Title + badges */}
+        {/* Title + badges + large price */}
         <div>
           <div className="flex items-center gap-2 mb-3">
             <CategoryBadge category={market.category} />
@@ -97,8 +100,8 @@ export default async function MarketDetailPage({
             {market.resolution && (
               <Badge className={
                 market.resolution === "YES"
-                  ? "bg-[var(--color-mint)] text-[var(--color-ink)]"
-                  : "bg-[var(--color-signal)] text-white"
+                  ? "bg-[var(--color-yes)] text-white"
+                  : "bg-[var(--color-no)] text-white"
               }>
                 Resolved: {market.resolution}
               </Badge>
@@ -106,7 +109,23 @@ export default async function MarketDetailPage({
           </div>
           <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">{market.title}</h1>
           <p className="text-muted-foreground mt-2 text-sm">{market.description}</p>
+
+          {/* Large cent price display — Kalshi style */}
+          <div className="flex items-baseline gap-4 mt-4">
+            <div className="flex items-baseline gap-1">
+              <span className="text-4xl font-bold tabular-nums text-[var(--color-yes)]">{yesCents}¢</span>
+              <span className="text-sm font-medium text-[var(--color-yes)]/70">YES</span>
+            </div>
+            <div className="text-muted-foreground text-lg">/</div>
+            <div className="flex items-baseline gap-1">
+              <span className="text-4xl font-bold tabular-nums text-[var(--color-no)]">{noCents}¢</span>
+              <span className="text-sm font-medium text-[var(--color-no)]/70">NO</span>
+            </div>
+          </div>
         </div>
+
+        {/* Probability bar */}
+        <ProbabilityBar yesPercent={price.yes * 100} size="lg" />
 
         {/* Stats bar */}
         <MarketStatsBar
@@ -151,24 +170,24 @@ export default async function MarketDetailPage({
                   const currentPrice = pos.side === "YES" ? price.yes : price.no;
                   const pnl = pos.shares * (currentPrice - pos.avgPrice);
                   return (
-                    <div key={pos.id} className="flex items-center justify-between p-3 bg-muted rounded-md">
+                    <div key={pos.id} className="flex items-center justify-between p-3 bg-muted rounded">
                       <div className="flex items-center gap-2">
                         <Badge className={
                           pos.side === "YES"
-                            ? "bg-[var(--color-mint)]/20 text-[var(--color-mint)]"
-                            : "bg-[var(--color-signal)]/20 text-[var(--color-signal)]"
+                            ? "bg-[var(--color-yes)]/20 text-[var(--color-yes)]"
+                            : "bg-[var(--color-no)]/20 text-[var(--color-no)]"
                         }>
                           {pos.side}
                         </Badge>
-                        <span className="text-sm font-medium">
+                        <span className="text-sm font-medium tabular-nums">
                           {pos.shares.toFixed(2)} shares
                         </span>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-medium">
-                          Avg: {pos.avgPrice.toFixed(2)} pts
+                        <p className="text-sm font-medium tabular-nums">
+                          Avg: {Math.round(pos.avgPrice * 100)}¢
                         </p>
-                        <p className={`text-xs ${pnl >= 0 ? "text-[var(--color-mint)]" : "text-[var(--color-signal)]"}`}>
+                        <p className={`text-xs tabular-nums ${pnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"}`}>
                           {pnl >= 0 ? "+" : ""}{pnl.toFixed(2)} pts
                         </p>
                       </div>
@@ -193,16 +212,16 @@ export default async function MarketDetailPage({
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{trade.user.name}</span>
                       <span className="text-muted-foreground">{trade.direction.toLowerCase()}</span>
-                      <Badge variant="outline" className={
+                      <span className={
                         trade.side === "YES"
-                          ? "bg-[var(--color-mint)]/10 text-[var(--color-mint)]"
-                          : "bg-[var(--color-signal)]/10 text-[var(--color-signal)]"
+                          ? "text-[var(--color-yes)] font-medium text-xs"
+                          : "text-[var(--color-no)] font-medium text-xs"
                       }>
                         {trade.side}
-                      </Badge>
+                      </span>
                     </div>
-                    <div className="text-right text-xs text-muted-foreground">
-                      <span>{trade.shares.toFixed(2)} @ {trade.price.toFixed(2)}</span>
+                    <div className="text-right text-xs text-muted-foreground tabular-nums">
+                      <span>{trade.shares.toFixed(2)} @ {Math.round(trade.price * 100)}¢</span>
                       <span className="ml-2">{formatRelativeDate(trade.createdAt)}</span>
                     </div>
                   </div>

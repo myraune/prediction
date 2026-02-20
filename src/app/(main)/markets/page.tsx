@@ -66,37 +66,42 @@ export default async function MarketsPage({
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold tracking-tight">Markets</h1>
-        {q && (
-          <p className="text-muted-foreground mt-1">
-            Results for &ldquo;{q}&rdquo;
-            <Link href="/markets" className="ml-2 text-[var(--color-mint)] hover:underline text-sm">
-              Clear
-            </Link>
-          </p>
-        )}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight">Markets</h1>
+          {q && (
+            <p className="text-muted-foreground mt-1">
+              Results for &ldquo;{q}&rdquo;
+              <Link href="/markets" className="ml-2 text-[var(--color-yes)] hover:underline text-sm">
+                Clear
+              </Link>
+            </p>
+          )}
+        </div>
+        <span className="text-sm text-muted-foreground tabular-nums">
+          {markets.length} market{markets.length !== 1 ? "s" : ""}
+        </span>
       </div>
 
-      {/* Sort tabs */}
+      {/* Sort pills */}
       <MarketSortTabs />
 
-      {/* Status filter — iOS segmented control */}
-      <div className="inline-flex bg-secondary rounded-lg p-0.5 mt-4 mb-6">
+      {/* Status filter — inline text links */}
+      <div className="flex items-center gap-4 mt-4 mb-6 text-sm">
         {["OPEN", "RESOLVED", "ALL"].map((s) => {
           const isActive = status === s || (s === "OPEN" && !params.status);
           return (
-            <Link key={s} href={statusHref(s)}>
-              <button
-                className={cn(
-                  "px-4 py-1.5 text-sm font-medium rounded-md transition-colors",
-                  isActive
-                    ? "bg-background text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {s === "ALL" ? "All" : s.charAt(0) + s.slice(1).toLowerCase()}
-              </button>
+            <Link
+              key={s}
+              href={statusHref(s)}
+              className={cn(
+                "transition-colors",
+                isActive
+                  ? "text-foreground font-medium"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {s === "ALL" ? "All" : s.charAt(0) + s.slice(1).toLowerCase()}
             </Link>
           );
         })}
@@ -109,7 +114,7 @@ export default async function MarketsPage({
           <p className="text-sm mt-1">Try a different filter or search term</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
           {markets.map((market) => (
             <MarketCard key={market.id} market={market} />
           ))}

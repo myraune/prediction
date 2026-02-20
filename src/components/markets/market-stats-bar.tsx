@@ -23,13 +23,13 @@ export function MarketStatsBar({
   const stats = [
     {
       label: "YES",
-      value: `${(yesPrice * 100).toFixed(1)}%`,
-      className: "text-[var(--color-mint)]",
+      value: `${Math.round(yesPrice * 100)}¢`,
+      className: "text-[var(--color-yes)]",
     },
     {
       label: "NO",
-      value: `${(noPrice * 100).toFixed(1)}%`,
-      className: "text-[var(--color-signal)]",
+      value: `${Math.round(noPrice * 100)}¢`,
+      className: "text-[var(--color-no)]",
     },
     {
       label: "Volume",
@@ -44,7 +44,7 @@ export function MarketStatsBar({
     {
       label: "Closes",
       value: timeLeft,
-      className: cn(closing && "text-[var(--color-signal)]"),
+      className: cn(closing && "text-[var(--color-no)]"),
     },
   ];
 

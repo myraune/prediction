@@ -104,7 +104,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
         {session?.user && (
           <div className="flex gap-3">
             <Avatar className="h-8 w-8 shrink-0">
-              <AvatarFallback className="bg-[var(--color-mint)] text-[var(--color-ink)] text-xs font-bold">
+              <AvatarFallback className="bg-[var(--color-yes)] text-white text-xs font-bold">
                 {session.user.name?.charAt(0)?.toUpperCase() ?? "U"}
               </AvatarFallback>
             </Avatar>
@@ -113,7 +113,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Add a comment..."
-                className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-mint)]"
+                className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-yes)]"
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handlePost()}
               />
               <Button
@@ -161,7 +161,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                       {session?.user?.id === comment.user.id && (
                         <button
                           onClick={() => handleDelete(comment.id)}
-                          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-[var(--color-signal)] transition-colors"
+                          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-[var(--color-no)] transition-colors"
                         >
                           <Trash2 className="h-3 w-3" />
                           Delete
@@ -178,7 +178,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                       value={replyContent}
                       onChange={(e) => setReplyContent(e.target.value)}
                       placeholder="Write a reply..."
-                      className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-mint)]"
+                      className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[var(--color-yes)]"
                       onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleReply(comment.id)}
                       autoFocus
                     />
@@ -212,7 +212,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
                           {session?.user?.id === reply.user.id && (
                             <button
                               onClick={() => handleDelete(reply.id)}
-                              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-[var(--color-signal)] transition-colors mt-1"
+                              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-[var(--color-no)] transition-colors mt-1"
                             >
                               <Trash2 className="h-3 w-3" />
                               Delete

@@ -30,7 +30,7 @@ export function MarketSortTabs() {
   }
 
   return (
-    <div className="flex items-center gap-1 border-b pb-px">
+    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
       {sortOptions.map((opt) => {
         const isActive = currentSort === opt.value;
         return (
@@ -38,10 +38,10 @@ export function MarketSortTabs() {
             key={opt.value}
             href={buildHref(opt.value)}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-2 text-sm font-medium border-b-2 transition-colors -mb-px",
+              "flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium rounded-full transition-colors whitespace-nowrap",
               isActive
-                ? "border-foreground text-foreground"
-                : "border-transparent text-muted-foreground hover:text-foreground hover:border-muted-foreground/30"
+                ? "bg-primary text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted"
             )}
           >
             <opt.icon className="h-3.5 w-3.5" />

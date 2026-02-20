@@ -44,7 +44,7 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
                     </span>
                     <span className={cn(
                       "flex items-center gap-1",
-                      closing && "text-[var(--color-signal)]"
+                      closing && "text-[var(--color-no)]"
                     )}>
                       <Clock className="h-3 w-3" />
                       {timeLeft}
@@ -52,8 +52,8 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <span className="text-lg font-semibold text-[var(--color-mint)]">
-                    {yesPercent.toFixed(0)}%
+                  <span className="text-lg font-semibold tabular-nums text-[var(--color-yes)]">
+                    {Math.round(yesPercent)}¢
                   </span>
                   <p className="text-[10px] text-muted-foreground">YES</p>
                 </div>
