@@ -55,7 +55,7 @@ export function VikingWordmark({
 
   return (
     <Image
-      src="/logo-light.svg"
+      src="/logo-dark.svg"
       alt="Viking Market"
       width={width}
       height={height}
