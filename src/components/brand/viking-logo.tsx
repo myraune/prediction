@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface VikingLogoProps {
   className?: string;
-  /** Size of the icon — maps to h-N w-N */
   size?: "sm" | "md" | "lg" | "xl";
 }
 
@@ -21,10 +24,6 @@ const iconPixelMap = {
   xl: 40,
 };
 
-/**
- * Viking Market icon — uses the new branded icon SVG.
- * Falls back to inline SVG "V" mark if image fails.
- */
 export function VikingLogo({ className, size = "md" }: VikingLogoProps) {
   const px = iconPixelMap[size];
   return (
@@ -40,10 +39,6 @@ export function VikingLogo({ className, size = "md" }: VikingLogoProps) {
   );
 }
 
-/**
- * Viking Market full wordmark logo — shows the branded horizontal logo.
- * Switches between light and dark variants based on theme.
- */
 export function VikingWordmark({
   className,
   height = 28,
@@ -51,11 +46,16 @@ export function VikingWordmark({
   className?: string;
   height?: number;
 }) {
-  const width = Math.round(height * (613 / 86)); // maintain aspect ratio
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const width = Math.round(height * (613 / 86));
+  const src = mounted && resolvedTheme === "dark" ? "/logo-light.svg" : "/logo-dark.svg";
 
   return (
     <Image
-      src="/logo-dark.svg"
+      src={src}
       alt="Viking Market"
       width={width}
       height={height}
@@ -66,10 +66,6 @@ export function VikingWordmark({
   );
 }
 
-/**
- * Full brand lockup — logo icon + "viking market" text
- * or use the wordmark variant
- */
 export function VikingBrand({
   className,
   size = "md",

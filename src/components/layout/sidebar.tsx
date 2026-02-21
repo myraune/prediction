@@ -51,10 +51,10 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
   const activeRegion = searchParams.get("region");
 
   return (
-    <aside className="hidden lg:flex flex-col w-[220px] border-r bg-background h-screen sticky top-0 overflow-y-auto">
-      <div className="flex items-center px-5 h-14 shrink-0">
+    <aside className="hidden lg:flex flex-col w-[200px] border-r bg-background h-screen sticky top-0 overflow-y-auto">
+      <div className="flex items-center px-4 h-12 shrink-0">
         <Link href="/">
-          <VikingWordmark height={22} />
+          <VikingWordmark height={18} />
         </Link>
       </div>
 
@@ -66,26 +66,20 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
               key={link.href}
               href={link.href}
               className={cn(
-                "flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors",
+                "flex items-center gap-2.5 px-3 py-2 rounded text-[13px] font-medium transition-colors",
                 isActive
                   ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
               )}
             >
               <link.icon className="h-4 w-4" />
               {link.label}
-              {link.label === "Markets" && (
-                <span className="relative ml-auto flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-yes)] opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-yes)]" />
-                </span>
-              )}
             </Link>
           );
         })}
       </nav>
 
-      {/* Region quick links */}
+      {/* Region */}
       <div className="px-3 mt-5">
         <p className="px-3 mb-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
           Region
@@ -94,22 +88,22 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
           <Link
             href="/markets?region=NO"
             className={cn(
-              "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] transition-colors",
+              "flex items-center gap-2.5 px-3 py-1.5 rounded text-[13px] transition-colors",
               activeRegion === "NO" && pathname === "/markets"
-                ? "bg-muted text-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-accent text-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent"
             )}
           >
-            <span className="text-sm">🇳🇴</span>
+            <span className="text-xs text-muted-foreground font-medium">NO</span>
             <span className="flex-1">Norway</span>
           </Link>
           <Link
             href="/markets?region=INT"
             className={cn(
-              "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] transition-colors",
+              "flex items-center gap-2.5 px-3 py-1.5 rounded text-[13px] transition-colors",
               activeRegion === "INT" && pathname === "/markets"
-                ? "bg-muted text-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                ? "bg-accent text-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-accent"
             )}
           >
             <Globe className="h-3.5 w-3.5 shrink-0" />
@@ -132,10 +126,10 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
                 key={cat.value}
                 href={`/markets?category=${cat.value}`}
                 className={cn(
-                  "flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-[13px] transition-colors",
+                  "flex items-center gap-2.5 px-3 py-1.5 rounded text-[13px] transition-colors",
                   isActive
-                    ? "bg-muted text-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    ? "bg-accent text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 )}
               >
                 <Icon className="h-3.5 w-3.5 shrink-0" />

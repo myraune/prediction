@@ -98,7 +98,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
   const quickSellPercents = [25, 50, 75, 100];
 
   return (
-    <div className="rounded-xl border p-4 bg-card">
+    <div className="rounded-lg border p-3 bg-card">
       {isDisabled ? (
         <div className="text-center py-6 text-muted-foreground">
           <p className="font-medium">Market is {marketStatus.toLowerCase()}</p>
@@ -117,7 +117,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
           </div>
 
           {/* BUY / SELL toggle */}
-          <div className="flex rounded-lg bg-muted p-0.5">
+          <div className="flex rounded bg-accent p-0.5">
             <button
               onClick={() => { setDirection("BUY"); setAmount(""); }}
               className={cn(
@@ -170,7 +170,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
 
           {/* Current position indicator */}
           {hasPosition && (
-            <div className="flex items-center justify-between py-2 px-3 bg-muted/50 rounded-lg text-xs">
+            <div className="flex items-center justify-between py-2 px-3 bg-accent/50 rounded text-xs">
               <span className="text-muted-foreground">Your {side} position</span>
               <span className="font-medium tabular-nums">{currentPosition.shares.toFixed(2)} shares</span>
             </div>
@@ -211,7 +211,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
               </div>
 
               {buyPreview && amountNum > 0 && (
-                <div className="bg-muted rounded-lg p-3 space-y-1.5 text-sm">
+                <div className="bg-accent rounded p-3 space-y-1.5 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shares</span>
                     <span className="font-medium tabular-nums">{buyPreview.shares.toFixed(2)}</span>
@@ -302,7 +302,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                   </div>
 
                   {sellPreview && amountNum > 0 && (
-                    <div className="bg-muted rounded-lg p-3 space-y-1.5 text-sm">
+                    <div className="bg-accent rounded p-3 space-y-1.5 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Selling</span>
                         <span className="font-medium tabular-nums">{amountNum.toFixed(2)} shares</span>

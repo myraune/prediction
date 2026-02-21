@@ -37,7 +37,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur-lg">
-      <div className="flex h-14 items-center gap-3 px-4 sm:px-6">
+      <div className="flex h-12 items-center gap-3 px-4 sm:px-6">
         <MobileSidebar categoryCounts={categoryCounts} />
 
         <form onSubmit={handleSearch} className="flex-1 max-w-xl">
@@ -47,7 +47,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
               placeholder="Search markets..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="pl-10 h-9 bg-muted border-0 focus-visible:ring-1 text-sm"
+              className="pl-10 h-9 bg-accent border-0 focus-visible:ring-1 text-sm"
             />
           </div>
         </form>
@@ -56,7 +56,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
           {session?.user ? (
             <>
               {balance !== undefined && (
-                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-muted text-sm font-semibold tabular-nums">
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded bg-accent text-sm font-semibold tabular-nums">
                   <Wallet className="h-3.5 w-3.5 text-muted-foreground" />
                   {balance.toLocaleString()}
                   <span className="text-muted-foreground text-xs font-normal">pts</span>

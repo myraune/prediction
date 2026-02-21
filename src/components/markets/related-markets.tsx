@@ -13,7 +13,7 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
   if (markets.length === 0) return null;
 
   return (
-    <div className="rounded-xl border p-4 bg-card">
+    <div className="rounded-lg border p-3 bg-card">
       <h3 className="text-sm font-medium mb-3">Related Markets</h3>
       <div className="divide-y">
         {markets.map((market) => {

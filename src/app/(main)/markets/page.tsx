@@ -88,7 +88,7 @@ export default async function MarketsPage({
     return `/markets${qs ? `?${qs}` : ""}`;
   }
 
-  const regionTitle = region === "NO" ? "🇳🇴 Norway" : region === "INT" ? "🌍 International" : null;
+  const regionTitle = region === "NO" ? "Norway" : region === "INT" ? "International" : null;
 
   return (
     <div>
@@ -115,8 +115,8 @@ export default async function MarketsPage({
       <div className="flex items-center gap-1.5 mb-4">
         {[
           { label: "All", value: undefined as string | undefined, count: regionCounts.total },
-          { label: "🇳🇴 Norway", value: "NO", count: regionCounts.no },
-          { label: "🌍 Intl", value: "INT", count: regionCounts.int },
+          { label: "Norway", value: "NO", count: regionCounts.no },
+          { label: "Intl", value: "INT", count: regionCounts.int },
         ].map((tab) => {
           const isActive = region === tab.value || (!region && !tab.value);
           return (
@@ -124,10 +124,10 @@ export default async function MarketsPage({
               key={tab.label}
               href={buildHref({ region: tab.value, category: undefined })}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
+                "flex items-center gap-1.5 px-3 py-1.5 rounded text-sm font-medium transition-colors whitespace-nowrap",
                 isActive
                   ? "bg-foreground text-background"
-                  : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
+                  : "bg-accent text-muted-foreground hover:text-foreground hover:bg-accent/80"
               )}
             >
               {tab.label}
@@ -165,7 +165,7 @@ export default async function MarketsPage({
           <p className="text-sm mt-1">Try a different filter or search</p>
         </div>
       ) : (
-        <div className="rounded-xl border divide-y overflow-hidden bg-card">
+        <div className="rounded border divide-y overflow-hidden bg-card">
           {markets.map((market) => (
             <MarketCard key={market.id} market={market} />
           ))}

@@ -16,7 +16,7 @@ function MarketImage({ src, alt }: { src: string; alt: string }) {
       alt={alt}
       fill
       className="object-cover"
-      sizes="48px"
+      sizes="32px"
       onError={(e) => {
         e.currentTarget.style.display = "none";
       }}
@@ -34,9 +34,9 @@ export function MarketCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`}>
-      <div className="group flex items-center gap-3 px-4 py-3 transition-colors hover:bg-muted/50">
+      <div className="group flex items-center gap-3 px-3 py-2.5 transition-colors hover:bg-accent">
         {/* Thumbnail */}
-        <div className="relative h-10 w-10 rounded-md overflow-hidden bg-muted shrink-0">
+        <div className="relative h-8 w-8 rounded overflow-hidden bg-muted shrink-0">
           {market.imageUrl ? (
             <MarketImage src={market.imageUrl} alt={market.title} />
           ) : (
@@ -79,25 +79,19 @@ export function MarketCard({ market }: { market: Market }) {
         {/* YES / NO buttons */}
         <div className="flex items-center gap-1.5 shrink-0">
           <div
-            className="flex flex-col items-center justify-center w-[56px] h-9 rounded-md bg-[var(--color-yes)]/10 hover:bg-[var(--color-yes)]/18 transition-colors cursor-pointer"
+            className="px-2.5 py-1 rounded bg-[var(--color-yes)]/10 hover:bg-[var(--color-yes)]/20 transition-colors cursor-pointer"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="text-[13px] font-bold tabular-nums text-[var(--color-yes)] leading-none">
-              {yesCents}¢
-            </span>
-            <span className="text-[9px] font-semibold text-[var(--color-yes)]/50 uppercase mt-0.5">
-              Yes
+            <span className="text-xs font-semibold tabular-nums text-[var(--color-yes)]">
+              Yes {yesCents}¢
             </span>
           </div>
           <div
-            className="flex flex-col items-center justify-center w-[56px] h-9 rounded-md bg-[var(--color-no)]/10 hover:bg-[var(--color-no)]/18 transition-colors cursor-pointer"
+            className="px-2.5 py-1 rounded bg-[var(--color-no)]/10 hover:bg-[var(--color-no)]/20 transition-colors cursor-pointer"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="text-[13px] font-bold tabular-nums text-[var(--color-no)] leading-none">
-              {noCents}¢
-            </span>
-            <span className="text-[9px] font-semibold text-[var(--color-no)]/50 uppercase mt-0.5">
-              No
+            <span className="text-xs font-semibold tabular-nums text-[var(--color-no)]">
+              No {noCents}¢
             </span>
           </div>
         </div>
