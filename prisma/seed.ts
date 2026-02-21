@@ -44,13 +44,13 @@ const NO_MARKETS: MarketDef[] = [
     title: "Will Arbeiderpartiet be the largest party in the 2025 Storting election?",
     description: "Resolves YES if the Labour Party (Ap) receives the most votes in the September 2025 Norwegian parliamentary election.",
     category: "POLITICS", prob: 0.38, volume: 124000, closesAt: daysFromNow(200), featured: true, daysActive: 90,
-    imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80", region: "NO",
   },
   {
     title: "Will Erna Solberg become Prime Minister again after the 2025 election?",
     description: "Resolves YES if Erna Solberg (Høyre/Conservative Party) becomes PM after the 2025 Storting election.",
     category: "POLITICS", prob: 0.52, volume: 98700, closesAt: daysFromNow(210), featured: true, daysActive: 85,
-    imageUrl: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=800&q=80", region: "NO",
   },
   {
     title: "Høyre (Conservative Party) above 30% in the 2025 election?",
@@ -118,19 +118,19 @@ const NO_MARKETS: MarketDef[] = [
     title: "Erling Haaland top scorer in Premier League 2025/26?",
     description: "Resolves YES if Erling Braut Haaland finishes as the Premier League top scorer in the 2025/26 season.",
     category: "SPORTS", prob: 0.38, volume: 156000, closesAt: daysFromNow(260), featured: true, daysActive: 75,
-    imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&q=80", region: "NO",
   },
   {
     title: "Norway to qualify for 2026 FIFA World Cup?",
     description: "Resolves YES if the Norwegian men's national team qualifies for the 2026 FIFA World Cup.",
     category: "SPORTS", prob: 0.15, volume: 198000, closesAt: daysFromNow(120), featured: true, daysActive: 90,
-    imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80", region: "NO",
   },
   {
     title: "Norway to win most gold medals at 2026 Winter Olympics?",
     description: "Resolves YES if Norway wins the most gold medals at the 2026 Milano Cortina Winter Olympics.",
     category: "SPORTS", prob: 0.52, volume: 87400, closesAt: daysFromNow(12), featured: true, daysActive: 60,
-    imageUrl: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80", region: "NO",
   },
   {
     title: "Norway most total medals at 2026 Winter Olympics?",
@@ -156,7 +156,7 @@ const NO_MARKETS: MarketDef[] = [
     title: "Jakob Ingebrigtsen to set new 1500m world record in 2026?",
     description: "Resolves YES if Jakob Ingebrigtsen sets a new 1500m world record during 2026.",
     category: "SPORTS", prob: 0.22, volume: 52300, closesAt: daysFromNow(310), daysActive: 50,
-    imageUrl: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80", region: "NO",
   },
   {
     title: "Therese Johaug comeback at 2026 Winter Olympics?",
@@ -194,7 +194,7 @@ const NO_MARKETS: MarketDef[] = [
     title: "Norges Bank interest rate below 3.5% by end of 2026?",
     description: "Resolves YES if the Norwegian central bank cuts the key policy rate below 3.5% before year-end 2026.",
     category: "ECONOMICS", prob: 0.55, volume: 87600, closesAt: daysFromNow(310), featured: true, daysActive: 70,
-    imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80", region: "NO",
   },
   {
     title: "NOK/EUR exchange rate below 11.00 in 2026?",
@@ -210,7 +210,7 @@ const NO_MARKETS: MarketDef[] = [
     title: "Oslo housing prices up more than 5% in 2026?",
     description: "Resolves YES if the Oslo housing price index rises more than 5% during 2026 (SSB/Eiendom Norge).",
     category: "ECONOMICS", prob: 0.38, volume: 94200, closesAt: daysFromNow(310), featured: true, daysActive: 75,
-    imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian unemployment above 4% in 2026?",
@@ -221,7 +221,7 @@ const NO_MARKETS: MarketDef[] = [
     title: "Brent crude oil above $90/barrel in 2026?",
     description: "Resolves YES if Brent crude oil price closes above $90/barrel at any point during 2026.",
     category: "FINANCIALS", prob: 0.55, volume: 68900, closesAt: daysFromNow(310), daysActive: 60,
-    imageUrl: "https://images.unsplash.com/photo-1474314881477-04c4aac40a0e?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1474314881477-04c4aac40a0e?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian salmon price average above 120 NOK/kg in 2026?",
@@ -309,7 +309,7 @@ const NO_MARKETS: MarketDef[] = [
     title: "Norway to win Eurovision 2026?",
     description: "Resolves YES if Norway wins the Eurovision Song Contest in 2026.",
     category: "CULTURE", prob: 0.08, volume: 67200, closesAt: daysFromNow(100), featured: true, daysActive: 45,
-    imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&q=80", region: "NO",
+    imageUrl: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian film nominated for Oscar in 2026?",
@@ -369,13 +369,13 @@ const INT_MARKETS: MarketDef[] = [
     title: "Will Republicans keep control of the House after 2026 midterms?",
     description: "Resolves YES if the Republican Party retains a majority in the U.S. House following the November 2026 midterm elections.",
     category: "POLITICS", prob: 0.42, volume: 87400, closesAt: daysFromNow(280), featured: true, daysActive: 60,
-    imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80", region: "INT",
   },
   {
     title: "Ukraine-Russia peace deal signed by end of 2026?",
     description: "Resolves YES if Ukraine and Russia sign a formal peace agreement before December 31, 2026.",
     category: "POLITICS", prob: 0.22, volume: 134000, closesAt: daysFromNow(310), featured: true, daysActive: 90,
-    imageUrl: "https://images.unsplash.com/photo-1555448248-2571daf6344b?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1555448248-2571daf6344b?w=800&q=80", region: "INT",
   },
   {
     title: "Trump approval rating above 45% on July 1, 2026?",
@@ -413,13 +413,13 @@ const INT_MARKETS: MarketDef[] = [
     title: "2026 FIFA World Cup: Will USA reach the semifinals?",
     description: "Resolves YES if the United States reaches the semifinal round of the 2026 FIFA World Cup.",
     category: "SPORTS", prob: 0.32, volume: 156000, closesAt: daysFromNow(160), featured: true, daysActive: 75,
-    imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80", region: "INT",
   },
   {
     title: "2026 World Cup: Brazil to win the tournament?",
     description: "Resolves YES if Brazil wins the 2026 FIFA World Cup.",
     category: "SPORTS", prob: 0.14, volume: 198000, closesAt: daysFromNow(160), daysActive: 80,
-    imageUrl: "https://images.unsplash.com/photo-1574375927938-d5a98e8d6f2b?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1574375927938-d5a98e8d6f2b?w=800&q=80", region: "INT",
   },
   {
     title: "Will Lewis Hamilton win a race for Ferrari in 2026?",
@@ -437,7 +437,7 @@ const INT_MARKETS: MarketDef[] = [
     title: "Bitcoin above $150K by end of 2026?",
     description: "Resolves YES if BTC/USD closes above $150,000 before December 31, 2026.",
     category: "CRYPTO", prob: 0.52, volume: 234000, closesAt: daysFromNow(310), featured: true, daysActive: 90,
-    imageUrl: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&q=80", region: "INT",
   },
   {
     title: "Bitcoin above $200K at any point in 2026?",
@@ -470,7 +470,7 @@ const INT_MARKETS: MarketDef[] = [
     title: "Will OpenAI release GPT-5 in 2026?",
     description: "Resolves YES if OpenAI releases a model officially branded as GPT-5 during 2026.",
     category: "TECH_SCIENCE", prob: 0.72, volume: 112000, closesAt: daysFromNow(310), featured: true, daysActive: 75,
-    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80", region: "INT",
   },
   {
     title: "Tesla Full Self-Driving Level 4 approval in any US state?",
@@ -508,7 +508,7 @@ const INT_MARKETS: MarketDef[] = [
     title: "S&P 500 above 7,000 in 2026?",
     description: "Resolves YES if the S&P 500 closes above 7,000 on any trading day during 2026.",
     category: "ECONOMICS", prob: 0.55, volume: 112000, closesAt: daysFromNow(310), daysActive: 65,
-    imageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=80", region: "INT",
   },
   {
     title: "Gold above $3,500/oz in 2026?",
@@ -541,7 +541,7 @@ const INT_MARKETS: MarketDef[] = [
     title: "Nvidia market cap above $5 trillion in 2026?",
     description: "Resolves YES if Nvidia's market cap exceeds $5 trillion during 2026.",
     category: "COMPANIES", prob: 0.42, volume: 87400, closesAt: daysFromNow(310), featured: true, daysActive: 55,
-    imageUrl: "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1639322537504-6427a16b0a28?w=800&q=80", region: "INT",
   },
   {
     title: "TikTok still operational in the US by end of 2026?",
@@ -562,7 +562,7 @@ const INT_MARKETS: MarketDef[] = [
     title: "GTA 6 sales to exceed 30M copies in first month?",
     description: "Resolves YES if GTA VI sells over 30 million copies within 30 days of release.",
     category: "ENTERTAINMENT", prob: 0.62, volume: 88700, closesAt: daysFromNow(310), featured: true, daysActive: 55,
-    imageUrl: "https://images.unsplash.com/photo-1592155931584-901ac15763e3?w=400&q=80", region: "INT",
+    imageUrl: "https://images.unsplash.com/photo-1592155931584-901ac15763e3?w=800&q=80", region: "INT",
   },
   {
     title: "Nintendo Switch 2 to sell 20M+ units in 2026?",

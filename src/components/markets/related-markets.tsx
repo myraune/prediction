@@ -13,7 +13,7 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
   if (markets.length === 0) return null;
 
   return (
-    <div className="rounded-lg border p-3 bg-card">
+    <div className="rounded-xl border p-3 bg-card">
       <h3 className="text-sm font-medium mb-3">Related Markets</h3>
       <div className="divide-y">
         {markets.map((market) => {
@@ -40,10 +40,10 @@ export function RelatedMarkets({ markets }: RelatedMarketsProps) {
                 </div>
               </div>
               <div className="text-right shrink-0">
-                <span className="text-lg font-semibold tabular-nums text-[var(--color-yes)]">
-                  {Math.round(yesPercent)}¢
+                <span className="text-lg font-semibold tabular-nums">
+                  {Math.round(yesPercent)}%
                 </span>
-                <p className="text-[10px] text-muted-foreground">YES</p>
+                <p className="text-[10px] text-muted-foreground">chance</p>
               </div>
             </Link>
           );

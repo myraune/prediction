@@ -59,7 +59,7 @@ export default async function LeaderboardPage() {
               <div
                 key={user.id}
                 className={cn(
-                  "rounded-lg border p-4 bg-card text-center",
+                  "rounded-xl border p-4 bg-card text-center",
                   idx === 0 ? "ring-1 ring-foreground/20 order-2 sm:order-1" : idx === 1 ? "order-1 sm:order-2" : "order-3"
                 )}
               >
@@ -82,7 +82,7 @@ export default async function LeaderboardPage() {
       )}
 
       {/* Full ranking table */}
-      <div className="rounded-lg border bg-card">
+      <div className="rounded-xl border bg-card">
         <div className="px-4 py-3 border-b">
           <h3 className="text-sm font-medium">Rankings</h3>
         </div>

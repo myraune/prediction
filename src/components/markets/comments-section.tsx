@@ -90,7 +90,7 @@ export function CommentsSection({ marketId }: { marketId: string }) {
   }
 
   return (
-    <div className="rounded-lg border p-3 bg-card">
+    <div className="rounded-xl border p-3 bg-card">
       <h3 className="text-sm font-medium flex items-center gap-2 mb-4">
         <MessageSquare className="h-4 w-4" />
         Comments ({comments.length})

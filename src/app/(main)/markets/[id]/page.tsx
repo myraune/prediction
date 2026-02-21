@@ -105,7 +105,7 @@ export default async function MarketDetailPage({
       <div className="space-y-6 min-w-0">
         {/* Image */}
         {market.imageUrl && (
-          <div className="relative h-36 sm:h-44 w-full rounded-lg overflow-hidden bg-muted">
+          <div className="relative h-44 sm:h-56 w-full rounded-xl overflow-hidden bg-muted">
             <Image src={market.imageUrl} alt={market.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 66vw" priority />
           </div>
         )}
@@ -170,14 +170,14 @@ export default async function MarketDetailPage({
         </div>
 
         {/* Chart */}
-        <div className="rounded-lg border p-3 bg-card">
+        <div className="rounded-xl border p-3 bg-card">
           <h3 className="text-sm font-medium mb-3">Price History</h3>
           <PriceChart marketId={market.id} currentYesPrice={price.yes} />
         </div>
 
         {/* Resolution rules */}
         {market.resolutionNote && (
-          <div className="rounded-lg border p-3 bg-card">
+          <div className="rounded-xl border p-3 bg-card">
             <h3 className="text-sm font-medium mb-2">Resolution Rules</h3>
             <p className="text-sm text-muted-foreground leading-relaxed">{market.resolutionNote}</p>
           </div>
@@ -185,7 +185,7 @@ export default async function MarketDetailPage({
 
         {/* User positions */}
         {userPositions.length > 0 && (
-          <div className="rounded-lg border p-3 bg-card">
+          <div className="rounded-xl border p-3 bg-card">
             <h3 className="text-sm font-medium mb-3">Your Positions</h3>
             <div className="space-y-2">
               {userPositions.map((pos) => {
@@ -214,7 +214,7 @@ export default async function MarketDetailPage({
 
         {/* Recent trades */}
         {market.trades.length > 0 && (
-          <div className="rounded-lg border p-3 bg-card">
+          <div className="rounded-xl border p-3 bg-card">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-sm font-medium">Recent Activity</h3>
               <span className="text-xs text-muted-foreground">{market._count.trades} total</span>
@@ -249,7 +249,7 @@ export default async function MarketDetailPage({
       </div>
 
       {/* Sidebar */}
-      <div className="lg:sticky lg:top-[72px] lg:h-fit space-y-4">
+      <div className="lg:sticky lg:top-[64px] lg:h-fit space-y-4">
         <TradePanel
           marketId={market.id}
           poolYes={market.poolYes}
@@ -264,7 +264,7 @@ export default async function MarketDetailPage({
         />
 
         {/* Market info */}
-        <div className="rounded-lg border p-3 bg-card space-y-2.5">
+        <div className="rounded-xl border p-3 bg-card space-y-2.5">
           <h4 className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Market Info</h4>
           {[
             { label: "Status", value: market.status === "OPEN" ? "Open" : market.status.charAt(0) + market.status.slice(1).toLowerCase() },

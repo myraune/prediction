@@ -21,7 +21,7 @@ function FeaturedCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="relative rounded-lg overflow-hidden bg-card border border-border hover:border-border/80 transition-all hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
+      <div className="relative rounded-xl overflow-hidden bg-card border border-border hover:border-border/80 transition-all duration-200 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20 hover:-translate-y-0.5">
         {/* Image */}
         <div className="relative aspect-[16/9] bg-muted">
           {market.imageUrl ? (
@@ -85,7 +85,7 @@ function MarketCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg overflow-hidden bg-card border border-border hover:border-border/80 transition-all hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 h-full flex flex-col">
+      <div className="rounded-xl overflow-hidden bg-card border border-border hover:border-border/80 transition-all duration-200 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 hover:-translate-y-0.5 h-full flex flex-col">
         {/* Image */}
         <div className="relative aspect-[2/1] bg-muted">
           {market.imageUrl ? (
@@ -173,7 +173,7 @@ function TopicTile({ label, href, color }: { label: string; href: string; color:
   return (
     <Link
       href={href}
-      className="group relative flex items-end p-3 rounded-lg h-20 overflow-hidden transition-all hover:scale-[1.02]"
+      className="group relative flex items-end p-3 rounded-xl h-20 overflow-hidden transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
       style={{ background: color }}
     >
       <span className="text-white text-sm font-semibold drop-shadow-sm">{label}</span>
@@ -186,46 +186,21 @@ export default async function LandingPage() {
   let norskTrending: Market[] = [];
   let intlTrending: Market[] = [];
   let closingSoon: Market[] = [];
-  let recentlyAdded: Market[] = [];
   let totalMarkets = 0;
   let totalVolume = 0;
   let categoryCounts: Record<string, number> = {};
 
   try {
+    // Phase 1: fetch featured + aggregates
     const [
       featuredResult,
-      noTrending,
-      intTrending,
-      closing,
-      newMarkets,
       volAgg,
       marketCount,
       catCounts,
     ] = await Promise.all([
-      // Featured: highest volume markets for hero
       prisma.market.findMany({
         where: { status: "OPEN" },
         orderBy: { totalVolume: "desc" },
-        take: 4,
-      }),
-      prisma.market.findMany({
-        where: { status: "OPEN", region: "NO" },
-        orderBy: { totalVolume: "desc" },
-        take: 6,
-      }),
-      prisma.market.findMany({
-        where: { status: "OPEN", region: "INT" },
-        orderBy: { totalVolume: "desc" },
-        take: 6,
-      }),
-      prisma.market.findMany({
-        where: { status: "OPEN", closesAt: { gt: new Date() } },
-        orderBy: { closesAt: "asc" },
-        take: 5,
-      }),
-      prisma.market.findMany({
-        where: { status: "OPEN" },
-        orderBy: { createdAt: "desc" },
         take: 6,
       }),
       prisma.market.aggregate({ _sum: { totalVolume: true } }),
@@ -237,13 +212,32 @@ export default async function LandingPage() {
       }),
     ]);
     featured = featuredResult;
-    norskTrending = noTrending;
-    intlTrending = intTrending;
-    closingSoon = closing;
-    recentlyAdded = newMarkets;
     totalVolume = volAgg._sum.totalVolume ?? 0;
     totalMarkets = marketCount;
     categoryCounts = Object.fromEntries(catCounts.map((c) => [c.category, c._count]));
+
+    // Phase 2: exclude featured IDs from trending to avoid dupes
+    const featuredIds = featured.map((m) => m.id);
+    const [noTrending, intTrending, closing] = await Promise.all([
+      prisma.market.findMany({
+        where: { status: "OPEN", region: "NO", id: { notIn: featuredIds } },
+        orderBy: { totalVolume: "desc" },
+        take: 6,
+      }),
+      prisma.market.findMany({
+        where: { status: "OPEN", region: "INT", id: { notIn: featuredIds } },
+        orderBy: { totalVolume: "desc" },
+        take: 6,
+      }),
+      prisma.market.findMany({
+        where: { status: "OPEN", closesAt: { gt: new Date() }, id: { notIn: featuredIds } },
+        orderBy: { closesAt: "asc" },
+        take: 5,
+      }),
+    ]);
+    norskTrending = noTrending;
+    intlTrending = intTrending;
+    closingSoon = closing;
   } catch {
     // Database not available
   }
@@ -272,9 +266,9 @@ export default async function LandingPage() {
     ENTERTAINMENT: "Entertainment",
   };
 
-  // Separate hero (first 2) from grid (next 2)
+  // Hero: top 2 for large cards, rest for smaller grid
   const heroMarkets = featured.slice(0, 2);
-  const gridMarkets = featured.slice(2, 4);
+  const gridMarkets = featured.slice(2, 6);
 
   return (
     <div className="min-h-screen bg-background">
@@ -333,10 +327,6 @@ export default async function LandingPage() {
             {gridMarkets.length > 0 && (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
                 {gridMarkets.map((market) => (
-                  <MarketCard key={market.id} market={market} />
-                ))}
-                {/* Fill remaining grid slots with recently added */}
-                {recentlyAdded.slice(0, 4 - gridMarkets.length).map((market) => (
                   <MarketCard key={market.id} market={market} />
                 ))}
               </div>
@@ -399,7 +389,7 @@ export default async function LandingPage() {
                 View all <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
-            <div className="rounded-lg border bg-card divide-y overflow-hidden">
+            <div className="rounded-xl border bg-card divide-y overflow-hidden">
               {closingSoon.map((market) => (
                 <CompactRow key={market.id} market={market} />
               ))}

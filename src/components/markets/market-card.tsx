@@ -34,7 +34,7 @@ export function MarketCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg overflow-hidden bg-card border border-border hover:border-border/80 transition-all hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 h-full flex flex-col">
+      <div className="rounded-xl overflow-hidden bg-card border border-border hover:border-border/80 transition-all duration-200 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 hover:-translate-y-0.5 h-full flex flex-col">
         {/* Image */}
         <div className="relative aspect-[2/1] bg-muted">
           {market.imageUrl ? (

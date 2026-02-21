@@ -71,7 +71,7 @@ export default async function PortfolioPage() {
             color: unrealizedPnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]",
           },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-lg border p-4 bg-card">
+          <div key={stat.label} className="rounded-xl border p-4 bg-card">
             <p className="text-xs text-muted-foreground">{stat.label}</p>
             <p className={cn("text-2xl font-bold mt-1 tabular-nums", stat.color)}>{stat.value}</p>
           </div>
@@ -79,7 +79,7 @@ export default async function PortfolioPage() {
       </div>
 
       {/* Active Positions */}
-      <div className="rounded-lg border bg-card">
+      <div className="rounded-xl border bg-card">
         <div className="px-4 py-3 border-b">
           <h3 className="text-sm font-medium">Active Positions</h3>
         </div>
@@ -145,7 +145,7 @@ export default async function PortfolioPage() {
       </div>
 
       {/* Trade History */}
-      <div className="rounded-lg border bg-card">
+      <div className="rounded-xl border bg-card">
         <div className="px-4 py-3 border-b">
           <h3 className="text-sm font-medium">Recent Trades</h3>
         </div>

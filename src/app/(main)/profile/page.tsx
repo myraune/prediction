@@ -13,7 +13,7 @@ export default async function ProfilePage() {
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Profile</h1>
         </div>
-        <div className="rounded-lg border p-6 bg-card text-center">
+        <div className="rounded-xl border p-6 bg-card text-center">
           <p className="text-muted-foreground">Sign in to view your profile</p>
           <Link href="/login" className="text-sm text-foreground hover:underline mt-2 inline-block">
             Go to Login
@@ -37,7 +37,7 @@ export default async function ProfilePage() {
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Profile</h1>
         </div>
-        <div className="rounded-lg border p-6 bg-card text-center">
+        <div className="rounded-xl border p-6 bg-card text-center">
           <p className="text-muted-foreground">Unable to load profile</p>
         </div>
       </div>
@@ -50,7 +50,7 @@ export default async function ProfilePage() {
         <h1 className="text-xl font-semibold tracking-tight">Profile</h1>
       </div>
 
-      <div className="rounded-lg border p-6 bg-card">
+      <div className="rounded-xl border p-6 bg-card">
         <div className="flex items-center gap-4">
           <Avatar className="h-14 w-14">
             <AvatarFallback className="bg-foreground text-background text-xl">
@@ -73,7 +73,7 @@ export default async function ProfilePage() {
           { label: "Total Trades", value: String(user._count.trades) },
           { label: "Positions", value: String(user._count.positions) },
         ].map((stat) => (
-          <div key={stat.label} className="rounded-lg border p-4 bg-card text-center">
+          <div key={stat.label} className="rounded-xl border p-4 bg-card text-center">
             <p className="text-2xl font-bold tabular-nums">{stat.value}</p>
             <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
           </div>
