@@ -165,7 +165,7 @@ export default async function MarketsPage({
           <p className="text-sm mt-1">Try a different filter or search</p>
         </div>
       ) : (
-        <div className="rounded border divide-y overflow-hidden bg-card">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {markets.map((market) => (
             <MarketCard key={market.id} market={market} />
           ))}

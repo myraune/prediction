@@ -15,8 +15,8 @@ function MarketImage({ src, alt }: { src: string; alt: string }) {
       src={src}
       alt={alt}
       fill
-      className="object-cover"
-      sizes="32px"
+      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       onError={(e) => {
         e.currentTarget.style.display = "none";
       }}
@@ -26,73 +26,76 @@ function MarketImage({ src, alt }: { src: string; alt: string }) {
 
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
-  const yesCents = Math.round(price.yes * 100);
+  const yesPercent = Math.round(price.yes * 100);
   const noCents = Math.round(price.no * 100);
   const closing = isClosingSoon(market.closesAt);
   const timeLeft = getTimeRemaining(market.closesAt);
   const catLabel = CATEGORIES.find((c) => c.value === market.category)?.label;
 
   return (
-    <Link href={`/markets/${market.id}`}>
-      <div className="group flex items-center gap-3 px-3 py-2.5 transition-colors hover:bg-accent">
-        {/* Thumbnail */}
-        <div className="relative h-8 w-8 rounded overflow-hidden bg-muted shrink-0">
+    <Link href={`/markets/${market.id}`} className="group block">
+      <div className="rounded-lg overflow-hidden bg-card border border-border hover:border-border/80 transition-all hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 h-full flex flex-col">
+        {/* Image */}
+        <div className="relative aspect-[2/1] bg-muted">
           {market.imageUrl ? (
             <MarketImage src={market.imageUrl} alt={market.title} />
           ) : (
-            <div className="h-full w-full bg-muted" />
+            <div className="h-full w-full bg-gradient-to-br from-accent to-muted" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          {/* Large percentage overlay */}
+          <div className="absolute bottom-2 right-2">
+            <span className="text-2xl font-bold text-white tabular-nums drop-shadow-lg">
+              {yesPercent}%
+            </span>
+          </div>
+          {catLabel && (
+            <span className="absolute top-2 left-2 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider bg-black/50 text-white/80 rounded backdrop-blur-sm">
+              {catLabel}
+            </span>
           )}
         </div>
 
-        {/* Title + meta */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 mb-0.5">
-            {catLabel && (
-              <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground/70">{catLabel}</span>
-            )}
-          </div>
-          <h3 className="text-sm font-medium leading-tight line-clamp-1">
+        {/* Content */}
+        <div className="p-2.5 flex-1 flex flex-col">
+          <h3 className="text-[13px] font-medium leading-snug line-clamp-2 flex-1">
             {market.title}
           </h3>
-          <div className="flex items-center gap-1.5 mt-0.5 text-xs text-muted-foreground">
-            <span className="tabular-nums">${formatCompactNumber(market.totalVolume)} Vol</span>
-            <span className="text-muted-foreground/40">&middot;</span>
-            {market.status === "RESOLVED" ? (
+          <div className="flex items-center justify-between mt-2 gap-2">
+            <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground min-w-0">
+              <span className="tabular-nums">${formatCompactNumber(market.totalVolume)} Vol</span>
+              <span className="text-muted-foreground/40">&middot;</span>
+              {market.status === "RESOLVED" ? (
+                <span
+                  className={cn(
+                    "font-medium",
+                    market.resolution === "YES"
+                      ? "text-[var(--color-yes)]"
+                      : "text-[var(--color-no)]"
+                  )}
+                >
+                  Resolved {market.resolution}
+                </span>
+              ) : (
+                <span className={cn("truncate", closing && "text-[var(--color-no)] font-medium")}>
+                  {timeLeft}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1 shrink-0">
               <span
-                className={cn(
-                  "font-medium",
-                  market.resolution === "YES"
-                    ? "text-[var(--color-yes)]"
-                    : "text-[var(--color-no)]"
-                )}
+                className="px-2 py-0.5 text-[11px] font-semibold tabular-nums rounded bg-[var(--color-yes)]/15 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/25 transition-colors cursor-pointer"
+                onClick={(e) => e.preventDefault()}
               >
-                Resolved {market.resolution}
+                Yes {yesPercent}¢
               </span>
-            ) : (
-              <span className={cn(closing && "text-[var(--color-no)] font-medium")}>
-                {timeLeft}
+              <span
+                className="px-2 py-0.5 text-[11px] font-semibold tabular-nums rounded bg-[var(--color-no)]/15 text-[var(--color-no)] hover:bg-[var(--color-no)]/25 transition-colors cursor-pointer"
+                onClick={(e) => e.preventDefault()}
+              >
+                No {noCents}¢
               </span>
-            )}
-          </div>
-        </div>
-
-        {/* YES / NO buttons */}
-        <div className="flex items-center gap-1.5 shrink-0">
-          <div
-            className="px-2.5 py-1 rounded bg-[var(--color-yes)]/10 hover:bg-[var(--color-yes)]/20 transition-colors cursor-pointer"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="text-xs font-semibold tabular-nums text-[var(--color-yes)]">
-              Yes {yesCents}¢
-            </span>
-          </div>
-          <div
-            className="px-2.5 py-1 rounded bg-[var(--color-no)]/10 hover:bg-[var(--color-no)]/20 transition-colors cursor-pointer"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className="text-xs font-semibold tabular-nums text-[var(--color-no)]">
-              No {noCents}¢
-            </span>
+            </div>
           </div>
         </div>
       </div>
