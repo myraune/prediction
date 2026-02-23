@@ -1,103 +1,103 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { getPrice } from "@/lib/amm";
 import { formatCompactNumber } from "@/lib/format";
 import { getTimeRemaining, isClosingSoon } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
+import { MiniSparkline } from "./mini-sparkline";
 import type { Market } from "@/generated/prisma/client";
 
-function MarketImage({ src, alt }: { src: string; alt: string }) {
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-      onError={(e) => {
-        e.currentTarget.style.display = "none";
-      }}
-    />
-  );
-}
-
+// ─── Compact Card — Kalshi-style, no large images ──────────────────
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
-  const noCents = Math.round(price.no * 100);
+  const noPercent = Math.round(price.no * 100);
   const closing = isClosingSoon(market.closesAt);
   const timeLeft = getTimeRemaining(market.closesAt);
   const catLabel = CATEGORIES.find((c) => c.value === market.category)?.label;
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-xl overflow-hidden bg-card border border-border hover:border-border/80 transition-all duration-200 hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 hover:-translate-y-0.5 h-full flex flex-col">
-        {/* Image */}
-        <div className="relative aspect-[2/1] bg-muted">
-          {market.imageUrl ? (
-            <MarketImage src={market.imageUrl} alt={market.title} />
-          ) : (
-            <div className="h-full w-full bg-gradient-to-br from-accent to-muted" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-          {/* Large percentage overlay */}
-          <div className="absolute bottom-2 right-2">
-            <span className="text-2xl font-bold text-white tabular-nums drop-shadow-lg">
-              {yesPercent}%
-            </span>
-          </div>
+      <div className="rounded-lg border bg-card hover:border-foreground/20 transition-all duration-150 p-3.5 h-full flex flex-col gap-2.5">
+        {/* Category + Time */}
+        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
           {catLabel && (
-            <span className="absolute top-2 left-2 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider bg-black/50 text-white/80 rounded backdrop-blur-sm">
-              {catLabel}
-            </span>
+            <span className="font-medium uppercase tracking-wide">{catLabel}</span>
           )}
+          <span className={cn(closing && "text-[var(--color-no)] font-medium")}>
+            {market.status === "RESOLVED" ? (
+              <span
+                className={cn(
+                  "font-semibold",
+                  market.resolution === "YES"
+                    ? "text-[var(--color-yes)]"
+                    : "text-[var(--color-no)]"
+                )}
+              >
+                Resolved {market.resolution}
+              </span>
+            ) : (
+              timeLeft
+            )}
+          </span>
         </div>
 
-        {/* Content */}
-        <div className="p-2.5 flex-1 flex flex-col">
-          <h3 className="text-[13px] font-medium leading-snug line-clamp-2 flex-1">
-            {market.title}
-          </h3>
-          <div className="flex items-center justify-between mt-2 gap-2">
-            <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground min-w-0">
-              <span className="tabular-nums">${formatCompactNumber(market.totalVolume)} Vol</span>
-              <span className="text-muted-foreground/40">&middot;</span>
-              {market.status === "RESOLVED" ? (
-                <span
-                  className={cn(
-                    "font-medium",
-                    market.resolution === "YES"
-                      ? "text-[var(--color-yes)]"
-                      : "text-[var(--color-no)]"
-                  )}
-                >
-                  Resolved {market.resolution}
-                </span>
-              ) : (
-                <span className={cn("truncate", closing && "text-[var(--color-no)] font-medium")}>
-                  {timeLeft}
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-1 shrink-0">
-              <span
-                className="px-2 py-0.5 text-[11px] font-semibold tabular-nums rounded bg-[var(--color-yes)]/15 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/25 transition-colors cursor-pointer"
-                onClick={(e) => e.preventDefault()}
-              >
-                Yes {yesPercent}¢
-              </span>
-              <span
-                className="px-2 py-0.5 text-[11px] font-semibold tabular-nums rounded bg-[var(--color-no)]/15 text-[var(--color-no)] hover:bg-[var(--color-no)]/25 transition-colors cursor-pointer"
-                onClick={(e) => e.preventDefault()}
-              >
-                No {noCents}¢
-              </span>
-            </div>
-          </div>
+        {/* Title */}
+        <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
+          {market.title}
+        </h3>
+
+        {/* Sparkline */}
+        <div className="h-6">
+          <MiniSparkline marketId={market.id} currentPrice={yesPercent} />
         </div>
+
+        {/* Yes / No buttons + volume */}
+        <div className="flex items-center gap-2">
+          <button
+            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20"
+            onClick={(e) => e.preventDefault()}
+          >
+            Yes {yesPercent}¢
+          </button>
+          <button
+            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20"
+            onClick={(e) => e.preventDefault()}
+          >
+            No {noPercent}¢
+          </button>
+          <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 ml-0.5">
+            ${formatCompactNumber(market.totalVolume)}
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// ─── Compact Row — for sidebar lists (Trending, Movers, New) ──────
+export function MarketRow({ market }: { market: Market }) {
+  const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
+  const yesPercent = Math.round(price.yes * 100);
+
+  return (
+    <Link
+      href={`/markets/${market.id}`}
+      className="group flex items-center gap-3 py-2.5 px-1 hover:bg-accent/50 transition-colors rounded"
+    >
+      <div className="flex-1 min-w-0">
+        <p className="text-[13px] font-medium leading-tight line-clamp-1 group-hover:text-foreground/80">
+          {market.title}
+        </p>
+        <span className="text-[10px] text-muted-foreground tabular-nums">
+          ${formatCompactNumber(market.totalVolume)} vol
+        </span>
+      </div>
+      <div className="shrink-0 flex items-center gap-1.5">
+        <span className="text-sm font-bold tabular-nums">{yesPercent}¢</span>
+        <span className="text-[10px] text-muted-foreground">Yes</span>
       </div>
     </Link>
   );

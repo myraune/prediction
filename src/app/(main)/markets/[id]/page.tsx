@@ -103,10 +103,10 @@ export default async function MarketDetailPage({
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
       {/* Main */}
       <div className="space-y-6 min-w-0">
-        {/* Image */}
+        {/* Small thumbnail — Kalshi-style (not a big hero) */}
         {market.imageUrl && (
-          <div className="relative h-44 sm:h-56 w-full rounded-xl overflow-hidden bg-muted">
-            <Image src={market.imageUrl} alt={market.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 66vw" priority />
+          <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-muted shrink-0 float-right ml-3 mb-1">
+            <Image src={market.imageUrl} alt={market.title} fill className="object-cover" sizes="48px" priority />
           </div>
         )}
 

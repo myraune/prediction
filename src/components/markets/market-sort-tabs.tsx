@@ -17,6 +17,7 @@ export function MarketSortTabs() {
   const category = searchParams.get("category");
   const status = searchParams.get("status");
   const q = searchParams.get("q");
+  const region = searchParams.get("region");
 
   function buildHref(sort: string) {
     const params = new URLSearchParams();
@@ -24,6 +25,7 @@ export function MarketSortTabs() {
     if (category) params.set("category", category);
     if (status && status !== "OPEN") params.set("status", status);
     if (q) params.set("q", q);
+    if (region) params.set("region", region);
     const qs = params.toString();
     return `/markets${qs ? `?${qs}` : ""}`;
   }
