@@ -3,134 +3,10 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
-import { formatCompactNumber } from "@/lib/format";
-import { getPrice } from "@/lib/amm";
-import { getTimeRemaining, isClosingSoon } from "@/lib/time";
-import { cn } from "@/lib/utils";
 import { ArrowRight, TrendingUp, Clock, Flame } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
-import { MiniSparkline } from "@/components/markets/mini-sparkline";
+import { FeaturedCard, CompactCard, SidebarRow } from "@/components/markets/landing-cards";
 import type { Market } from "@/generated/prisma/client";
-import { CATEGORIES } from "@/lib/constants";
-
-// ─── Featured Card — large with chart area ──────────────────
-function FeaturedCard({ market }: { market: Market }) {
-  const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
-  const yesPercent = Math.round(price.yes * 100);
-  const noPercent = Math.round(price.no * 100);
-  const catLabel = CATEGORIES.find((c) => c.value === market.category)?.label;
-  const timeLeft = getTimeRemaining(market.closesAt);
-  const closing = isClosingSoon(market.closesAt);
-
-  return (
-    <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg border bg-card hover:border-foreground/20 transition-all duration-150 p-4 h-full flex flex-col gap-3">
-        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-          {catLabel && (
-            <span className="font-medium uppercase tracking-wide">{catLabel}</span>
-          )}
-          <span className={cn(closing && "text-[var(--color-no)] font-medium")}>{timeLeft}</span>
-        </div>
-        <h3 className="text-base font-semibold leading-snug line-clamp-2 group-hover:text-foreground/80 transition-colors">
-          {market.title}
-        </h3>
-
-        {/* Sparkline chart — larger for featured */}
-        <div className="h-10 flex-1 min-h-[40px]">
-          <MiniSparkline marketId={market.id} currentPrice={yesPercent} />
-        </div>
-
-        {/* Yes / No + Volume */}
-        <div className="flex items-center gap-2 mt-auto">
-          <button
-            className="flex-1 py-2 text-sm font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20"
-            onClick={(e) => e.preventDefault()}
-          >
-            Yes {yesPercent}¢
-          </button>
-          <button
-            className="flex-1 py-2 text-sm font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20"
-            onClick={(e) => e.preventDefault()}
-          >
-            No {noPercent}¢
-          </button>
-          <span className="text-[11px] text-muted-foreground tabular-nums shrink-0 ml-1">
-            ${formatCompactNumber(market.totalVolume)}
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-// ─── Compact Card — standard card for grids ──────────────────
-function CompactCard({ market }: { market: Market }) {
-  const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
-  const yesPercent = Math.round(price.yes * 100);
-  const noPercent = Math.round(price.no * 100);
-  const catLabel = CATEGORIES.find((c) => c.value === market.category)?.label;
-  const timeLeft = getTimeRemaining(market.closesAt);
-  const closing = isClosingSoon(market.closesAt);
-
-  return (
-    <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg border bg-card hover:border-foreground/20 transition-all duration-150 p-3.5 h-full flex flex-col gap-2.5">
-        <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-          {catLabel && (
-            <span className="font-medium uppercase tracking-wide">{catLabel}</span>
-          )}
-          <span className={cn(closing && "text-[var(--color-no)] font-medium")}>{timeLeft}</span>
-        </div>
-        <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
-          {market.title}
-        </h3>
-        <div className="flex items-center gap-2">
-          <button
-            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20"
-            onClick={(e) => e.preventDefault()}
-          >
-            Yes {yesPercent}¢
-          </button>
-          <button
-            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20"
-            onClick={(e) => e.preventDefault()}
-          >
-            No {noPercent}¢
-          </button>
-          <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 ml-0.5">
-            ${formatCompactNumber(market.totalVolume)}
-          </span>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-// ─── Sidebar Row — compact list item ──────────────────
-function SidebarRow({ market }: { market: Market }) {
-  const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
-  const yesPercent = Math.round(price.yes * 100);
-
-  return (
-    <Link
-      href={`/markets/${market.id}`}
-      className="group flex items-center gap-3 py-2.5 hover:bg-accent/50 transition-colors rounded px-1"
-    >
-      <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-medium leading-tight line-clamp-1">
-          {market.title}
-        </p>
-        <span className="text-[10px] text-muted-foreground tabular-nums">
-          ${formatCompactNumber(market.totalVolume)} vol
-        </span>
-      </div>
-      <div className="shrink-0 flex items-center gap-1">
-        <span className="text-sm font-bold tabular-nums">{yesPercent}¢</span>
-        <span className="text-[10px] text-muted-foreground">Yes</span>
-      </div>
-    </Link>
-  );
-}
 
 export default async function LandingPage() {
   let featured: Market[] = [];
@@ -139,12 +15,14 @@ export default async function LandingPage() {
   let totalMarkets = 0;
   let categoryCounts: Record<string, number> = {};
 
+  const CATEGORY_LABELS: Record<string, string> = {
+    POLITICS: "Politics", SPORTS: "Sports", CRYPTO: "Crypto", CLIMATE: "Climate",
+    ECONOMICS: "Economics", CULTURE: "Culture", COMPANIES: "Companies",
+    FINANCIALS: "Financials", TECH_SCIENCE: "Tech & Science", ENTERTAINMENT: "Entertainment",
+  };
+
   try {
-    const [
-      featuredResult,
-      marketCount,
-      catCounts,
-    ] = await Promise.all([
+    const [featuredResult, marketCount, catCounts] = await Promise.all([
       prisma.market.findMany({
         where: { status: "OPEN" },
         orderBy: { totalVolume: "desc" },
@@ -160,7 +38,6 @@ export default async function LandingPage() {
     totalMarkets = marketCount;
     categoryCounts = Object.fromEntries(catCounts.map((c) => [c.category, c._count]));
 
-    // First 2 are featured (large with chart), rest go to grid
     featured = featuredResult.slice(0, 2);
     trending = featuredResult.slice(2, 14);
 
@@ -176,12 +53,6 @@ export default async function LandingPage() {
   } catch {
     // Database not available
   }
-
-  const CATEGORY_LABELS: Record<string, string> = {
-    POLITICS: "Politics", SPORTS: "Sports", CRYPTO: "Crypto", CLIMATE: "Climate",
-    ECONOMICS: "Economics", CULTURE: "Culture", COMPANIES: "Companies",
-    FINANCIALS: "Financials", TECH_SCIENCE: "Tech & Science", ENTERTAINMENT: "Entertainment",
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -282,7 +153,6 @@ export default async function LandingPage() {
 
           {/* ─── Right Sidebar ─── */}
           <aside className="hidden xl:block space-y-5">
-            {/* Closing Soon */}
             {closingSoon.length > 0 && (
               <div className="rounded-lg border bg-card p-3">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -299,7 +169,6 @@ export default async function LandingPage() {
               </div>
             )}
 
-            {/* Category breakdown */}
             <div className="rounded-lg border bg-card p-3">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                 Categories
