@@ -3,7 +3,6 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { EasterEggs } from "@/components/easter-eggs";
 import "./globals.css";
 
 const inter = Inter({
@@ -43,7 +42,6 @@ export default function RootLayout({
         <ThemeProvider>
           <SessionProvider>
             {children}
-            <EasterEggs />
             <Toaster />
           </SessionProvider>
         </ThemeProvider>

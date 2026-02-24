@@ -48,10 +48,7 @@ export function LivePrice({ marketId, initialYes, initialNo, initialVolume }: Li
         <span className="text-sm text-muted-foreground">No</span>
       </div>
       <div className="flex items-center gap-1.5 ml-2">
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-yes)] opacity-75" />
-          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--color-yes)]" />
-        </span>
+        <span className="inline-flex rounded-full h-1.5 w-1.5 bg-[var(--color-yes)]" />
         <span className="text-[11px] text-muted-foreground tabular-nums">
           ${formatCompactNumber(totalVolume)} vol
         </span>

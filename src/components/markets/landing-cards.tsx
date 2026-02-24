@@ -21,7 +21,7 @@ export function FeaturedCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg border bg-card hover:border-[var(--color-viking)]/30 transition-all duration-150 p-4 h-full flex flex-col gap-3 card-tilt">
+      <div className="rounded-lg border bg-card hover:border-foreground/10 transition-colors duration-150 p-4 h-full flex flex-col gap-3 ">
         <div className="flex items-center justify-between text-[11px] text-muted-foreground">
           {catLabel && (
             <span className="font-medium uppercase tracking-wide">{catLabel}</span>
@@ -79,7 +79,7 @@ export function CompactCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg border bg-card hover:border-[var(--color-viking)]/30 transition-all duration-150 p-3.5 h-full flex flex-col gap-2.5 card-tilt">
+      <div className="rounded-lg border bg-card hover:border-foreground/10 transition-colors duration-150 p-3.5 h-full flex flex-col gap-2.5 ">
         <div className="flex items-center justify-between text-[11px] text-muted-foreground">
           {catLabel && (
             <span className="font-medium uppercase tracking-wide">{catLabel}</span>

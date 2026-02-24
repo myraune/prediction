@@ -69,7 +69,7 @@ export function CountdownRow({ market }: { market: CountdownMarket }) {
           className={cn(
             "text-[10px] font-bold tabular-nums px-1.5 py-0.5 rounded",
             urgency === "urgent"
-              ? "bg-[var(--color-no)]/15 text-[var(--color-no)] animate-pulse"
+              ? "bg-[var(--color-no)]/15 text-[var(--color-no)]"
               : urgency === "soon"
                 ? "bg-[var(--color-viking)]/10 text-[var(--color-viking)]"
                 : "bg-accent text-muted-foreground"

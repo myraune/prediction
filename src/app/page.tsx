@@ -6,11 +6,9 @@ import { getPrice } from "@/lib/amm";
 import { formatCompactNumber } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { ArrowRight, TrendingUp, Clock, Flame, Zap, Target, Trophy, Shield, BarChart3, Users } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
 import { FeaturedCard, CompactCard } from "@/components/markets/landing-cards";
 import { LiveActivityTicker } from "@/components/markets/live-ticker";
-import { HeroStats } from "@/components/landing/hero-stats";
 import { TrendingTicker } from "@/components/landing/trending-ticker";
 import { CountdownRow } from "@/components/landing/countdown-row";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
@@ -112,7 +110,7 @@ export default async function LandingPage() {
               <VikingWordmark height={18} />
             </Link>
             <div className="hidden sm:flex items-center gap-1 overflow-x-auto scrollbar-none">
-              <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-[var(--color-viking)] hover:bg-accent transition-colors whitespace-nowrap viking-accent">
+              <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap">
                 Browse
               </Link>
               {Object.entries(categoryCounts)
@@ -122,7 +120,7 @@ export default async function LandingPage() {
                   <Link
                     key={cat}
                     href={`/markets?category=${cat}`}
-                    className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-[var(--color-viking)] hover:bg-accent transition-colors whitespace-nowrap viking-accent"
+                    className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap"
                   >
                     {CATEGORY_LABELS[cat] ?? cat}
                   </Link>
@@ -151,79 +149,26 @@ export default async function LandingPage() {
       {/* ─── Trending Ticker ─── */}
       <TrendingTicker markets={tickerMarkets} />
 
-      {/* ─── Hero Section ─── */}
-      <section className="relative overflow-hidden border-b">
-        {/* Subtle red gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-viking)]/5 via-transparent to-[var(--color-viking)]/3 pointer-events-none" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 relative">
+      {/* ─── Hero ─── */}
+      <section className="border-b">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-10">
           <div className="max-w-2xl">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1]">
-              Trade the future.<br />
-              <span className="viking-gradient-text">Bet on what you believe.</span>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-[1.1]">
+              Trade the future.
             </h1>
-            <p className="text-base sm:text-lg text-muted-foreground mt-4 max-w-lg leading-relaxed">
+            <p className="text-sm sm:text-base text-muted-foreground mt-3 max-w-lg">
               Buy and sell shares on real-world events. From Norwegian politics to global crypto
               markets &mdash; predict outcomes and win.
             </p>
-            <div className="flex items-center gap-3 mt-6">
+            <div className="flex items-center gap-4 mt-5">
               <Link href="/register">
-                <Button className="h-10 px-6 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white font-semibold">
+                <Button size="sm" className="h-8 px-4 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white text-xs font-medium">
                   Start Trading
-                  <ArrowRight className="h-4 w-4 ml-1" />
                 </Button>
               </Link>
-              <Link href="/markets">
-                <Button variant="outline" className="h-10 px-6">
-                  Browse Markets
-                </Button>
-              </Link>
-            </div>
-          </div>
-
-          {/* Animated stats */}
-          <div className="mt-10 pt-8 border-t max-w-md">
-            <HeroStats
-              totalMarkets={totalMarkets}
-              totalVolume={totalVolume}
-              totalTraders={totalTraders}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ─── How It Works ─── */}
-      <section className="border-b">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-6 text-center">
-            How It Works
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <div className="text-center group">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[var(--color-viking)]/10 text-[var(--color-viking)] mb-3 transition-transform group-hover:scale-110">
-                <Target className="h-5 w-5" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Pick a market</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Choose from {totalMarkets}+ markets on politics, sports, crypto, and more.
-              </p>
-            </div>
-            <div className="text-center group">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[var(--color-viking)]/10 text-[var(--color-viking)] mb-3 transition-transform group-hover:scale-110">
-                <Zap className="h-5 w-5" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Buy Yes or No</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Shares are priced 1&cent;&ndash;99&cent;. Buy Yes if you think it happens, No if it won&apos;t.
-              </p>
-            </div>
-            <div className="text-center group">
-              <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-[var(--color-viking)]/10 text-[var(--color-viking)] mb-3 transition-transform group-hover:scale-110">
-                <Trophy className="h-5 w-5" />
-              </div>
-              <h3 className="text-sm font-semibold mb-1">Win if you&apos;re right</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Correct shares pay out 100&cent;. Sell anytime before resolution for a profit.
-              </p>
+              <span className="text-xs text-muted-foreground tabular-nums">
+                {totalMarkets} markets &middot; ${formatCompactNumber(totalVolume)} vol &middot; {totalTraders} traders
+              </span>
             </div>
           </div>
         </div>
@@ -236,11 +181,8 @@ export default async function LandingPage() {
           <div className="min-w-0">
             {/* Featured Markets */}
             {featured.length > 0 && (
-              <section className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <TrendingUp className="h-4 w-4 text-[var(--color-viking)]" />
-                  <h2 className="text-sm font-semibold">Featured</h2>
-                </div>
+              <section className="mb-5">
+                <h2 className="text-sm font-medium text-muted-foreground mb-3">Featured</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {featured.map((market) => (
                     <FeaturedCard key={market.id} market={market} />
@@ -251,17 +193,14 @@ export default async function LandingPage() {
 
             {/* Top Markets */}
             {trending.length > 0 && (
-              <section className="mb-6">
+              <section className="mb-5">
                 <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
-                    <Flame className="h-4 w-4 text-[var(--color-viking)]" />
-                    <h2 className="text-sm font-semibold">Top Markets</h2>
-                  </div>
+                  <h2 className="text-sm font-medium text-muted-foreground">Top Markets</h2>
                   <Link
                     href="/markets"
-                    className="text-xs text-muted-foreground hover:text-[var(--color-viking)] transition-colors flex items-center gap-1"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    View all <ArrowRight className="h-3 w-3" />
+                    View all
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -271,31 +210,16 @@ export default async function LandingPage() {
                 </div>
               </section>
             )}
-
-            {/* Browse all CTA */}
-            <section className="py-6 border-t">
-              <div className="flex flex-col items-center gap-3">
-                <Link href="/markets">
-                  <Button variant="outline" size="lg" className="gap-2">
-                    Browse all {totalMarkets} markets
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-              </div>
-            </section>
           </div>
 
           {/* ─── Right Sidebar ─── */}
-          <aside className="hidden xl:block space-y-5">
-            {/* Closing Soon — with countdown timers */}
+          <aside className="hidden xl:block space-y-4">
+            {/* Closing Soon */}
             {closingSoon.length > 0 && (
               <div className="rounded-lg border bg-card p-3">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Clock className="h-3.5 w-3.5 text-[var(--color-viking)]" />
-                  <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    Closing Soon
-                  </h3>
-                </div>
+                <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                  Closing Soon
+                </h3>
                 <div className="divide-y">
                   {closingSoon.map((m) => (
                     <CountdownRow
@@ -314,25 +238,22 @@ export default async function LandingPage() {
               </div>
             )}
 
-            {/* Top Traders — leaderboard preview */}
+            {/* Top Traders */}
             {topTraders.length > 0 && (
               <div className="rounded-lg border bg-card p-3">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-1.5">
-                    <Trophy className="h-3.5 w-3.5 text-[var(--color-viking)]" />
-                    <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      Top Traders
-                    </h3>
-                  </div>
-                  <Link href="/leaderboard" className="text-[10px] text-muted-foreground hover:text-[var(--color-viking)] transition-colors">
+                  <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Top Traders
+                  </h3>
+                  <Link href="/leaderboard" className="text-[10px] text-muted-foreground hover:text-foreground transition-colors">
                     View all
                   </Link>
                 </div>
                 <div className="space-y-0">
                   {topTraders.map((trader, i) => (
                     <div key={trader.name} className="flex items-center gap-2 py-2">
-                      <span className="text-[11px] font-bold tabular-nums text-muted-foreground w-4">
-                        {i === 0 ? "\ud83e\udd47" : i === 1 ? "\ud83e\udd48" : i === 2 ? "\ud83e\udd49" : `#${i + 1}`}
+                      <span className="text-[11px] font-bold tabular-nums text-muted-foreground w-4 text-right">
+                        #{i + 1}
                       </span>
                       <Avatar className="h-5 w-5">
                         <AvatarFallback className="bg-foreground text-background text-[9px] font-semibold">
@@ -377,18 +298,15 @@ export default async function LandingPage() {
       </main>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t mt-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
-            {/* Brand */}
+      <footer className="border-t mt-8">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
             <div className="col-span-2 sm:col-span-1">
               <VikingWordmark height={16} />
               <p className="text-xs text-muted-foreground mt-2 leading-relaxed max-w-[200px]">
-                Norway&apos;s prediction market. Trade on outcomes, not opinions.
+                Norway&apos;s prediction market.
               </p>
             </div>
-
-            {/* Markets */}
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Markets</h4>
               <nav className="flex flex-col gap-1.5">
@@ -396,11 +314,8 @@ export default async function LandingPage() {
                 <Link href="/markets?category=POLITICS" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Politics</Link>
                 <Link href="/markets?category=SPORTS" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sports</Link>
                 <Link href="/markets?category=CRYPTO" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Crypto</Link>
-                <Link href="/markets?category=ECONOMICS" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Economics</Link>
               </nav>
             </div>
-
-            {/* Platform */}
             <div>
               <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Platform</h4>
               <nav className="flex flex-col gap-1.5">
@@ -409,31 +324,18 @@ export default async function LandingPage() {
                 <Link href="/register" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sign Up</Link>
               </nav>
             </div>
-
-            {/* Trust */}
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Trust</h4>
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Shield className="h-3 w-3 text-[var(--color-viking)]" />
-                  <span>LMSR AMM pricing</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <BarChart3 className="h-3 w-3 text-[var(--color-viking)]" />
-                  <span>Transparent resolution</span>
-                </div>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <Users className="h-3 w-3 text-[var(--color-viking)]" />
-                  <span>{totalTraders}+ traders</span>
-                </div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Info</h4>
+              <div className="flex flex-col gap-1.5 text-xs text-muted-foreground">
+                <span>LMSR AMM pricing</span>
+                <span>Transparent resolution</span>
+                <span>{totalTraders}+ traders</span>
               </div>
             </div>
           </div>
-
-          {/* Bottom bar */}
           <div className="border-t pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
-            <span>&copy; 2026 <span className="text-[var(--color-viking)] font-semibold">Viking</span> Market. All rights reserved.</span>
-            <span>Built in Norway \ud83c\uddf3\ud83c\uddf4</span>
+            <span>&copy; 2026 Viking Market</span>
+            <span>Built in Norway</span>
           </div>
         </div>
       </footer>

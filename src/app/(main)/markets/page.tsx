@@ -4,7 +4,6 @@ import { MarketSortTabs } from "@/components/markets/market-sort-tabs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
-import { Flame, Clock } from "lucide-react";
 import { LiveActivityTicker } from "@/components/markets/live-ticker";
 import type { Prisma, Market } from "@/generated/prisma/client";
 
@@ -226,10 +225,7 @@ export default async function MarketsPage({
         {/* Top Movers */}
         {topMovers.length > 0 && (
           <div className="rounded-lg border bg-card p-3">
-            <div className="flex items-center gap-1.5 mb-2">
-              <Flame className="h-3.5 w-3.5 text-muted-foreground" />
-              <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Top Movers</h3>
-            </div>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Top Movers</h3>
             <div className="divide-y">
               {topMovers.map((m) => (
                 <MarketRow key={m.id} market={m} />
@@ -241,10 +237,7 @@ export default async function MarketsPage({
         {/* Closing Soon */}
         {closingSoon.length > 0 && (
           <div className="rounded-lg border bg-card p-3">
-            <div className="flex items-center gap-1.5 mb-2">
-              <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-              <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Closing Soon</h3>
-            </div>
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">Closing Soon</h3>
             <div className="divide-y">
               {closingSoon.map((m) => (
                 <MarketRow key={m.id} market={m} />

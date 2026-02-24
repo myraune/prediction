@@ -65,21 +65,6 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
     }
   }, [direction, amountNum, poolYes, poolNo, side]);
 
-  const BUY_CHEERS = [
-    "To Valhalla!",
-    "The raven approves.",
-    "A worthy wager, warrior.",
-    "The Norns smile upon you.",
-    "Odin sees your bet.",
-  ];
-  const SELL_CHEERS = [
-    "Spoils secured.",
-    "The longship returns.",
-    "A wise retreat.",
-    "Gains claimed, sk\u00e5l!",
-    "The wolf takes profit.",
-  ];
-
   async function handleBuy() {
     if (amountNum <= 0 || amountNum > userBalance) return;
     setLoading(true);
@@ -87,10 +72,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
     if (result.error) {
       toast.error(result.error);
     } else {
-      const cheer = BUY_CHEERS[Math.floor(Math.random() * BUY_CHEERS.length)];
-      toast.success(`Bought ${result.shares?.toFixed(2)} ${side} shares`, {
-        description: cheer,
-      });
+      toast.success(`Bought ${result.shares?.toFixed(2)} ${side} shares`);
       setAmount("");
       router.refresh();
     }
@@ -105,10 +87,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
       toast.error(result.error);
     } else {
       const received = "pointsReceived" in result ? result.pointsReceived : 0;
-      const cheer = SELL_CHEERS[Math.floor(Math.random() * SELL_CHEERS.length)];
-      toast.success(`Sold ${amountNum.toFixed(2)} ${side} shares for ${received?.toFixed(2)} pts`, {
-        description: cheer,
-      });
+      toast.success(`Sold ${amountNum.toFixed(2)} ${side} shares for ${received?.toFixed(2)} pts`);
       setAmount("");
       router.refresh();
     }
