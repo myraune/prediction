@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MobileSidebar } from "./mobile-sidebar";
+import { ThemeToggle } from "./theme-toggle";
 import Link from "next/link";
 
 interface TopBarProps {
@@ -52,7 +53,8 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
           </div>
         </form>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <ThemeToggle />
           {session?.user ? (
             <>
               {balance !== undefined && (

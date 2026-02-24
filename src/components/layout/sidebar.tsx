@@ -18,6 +18,7 @@ import {
   Globe,
 } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
+import { ThemeToggleInline } from "@/components/layout/theme-toggle";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
 
@@ -141,6 +142,11 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
             );
           })}
         </nav>
+      </div>
+
+      {/* Theme toggle */}
+      <div className="px-3 py-3 border-t mt-auto shrink-0">
+        <ThemeToggleInline className="w-full" />
       </div>
     </aside>
   );

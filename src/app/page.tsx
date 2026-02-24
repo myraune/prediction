@@ -13,6 +13,7 @@ import { LiveActivityTicker } from "@/components/markets/live-ticker";
 import { HeroStats } from "@/components/landing/hero-stats";
 import { TrendingTicker } from "@/components/landing/trending-ticker";
 import { CountdownRow } from "@/components/landing/countdown-row";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import type { Market } from "@/generated/prisma/client";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -128,10 +129,11 @@ export default async function LandingPage() {
                 ))}
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Link href="/leaderboard" className="text-xs text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
               Leaderboard
             </Link>
+            <ThemeToggle />
             <Link href="/login">
               <Button variant="ghost" size="sm" className="text-xs h-7 px-3">
                 Log in

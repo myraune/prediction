@@ -18,6 +18,7 @@ import {
   LayoutGrid,
 } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
+import { ThemeToggleInline } from "@/components/layout/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -60,7 +61,7 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
           <Menu className="h-5 w-5" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-[260px] p-0">
+      <SheetContent side="left" className="w-[260px] p-0 flex flex-col">
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <div className="flex items-center px-5 h-14 border-b">
           <VikingWordmark height={22} />
@@ -120,6 +121,11 @@ export function MobileSidebar({ categoryCounts = {} }: MobileSidebarProps) {
               );
             })}
           </nav>
+        </div>
+
+        {/* Theme toggle */}
+        <div className="p-3 border-t mt-auto">
+          <ThemeToggleInline className="w-full" />
         </div>
       </SheetContent>
     </Sheet>
