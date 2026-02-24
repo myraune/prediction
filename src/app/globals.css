@@ -185,6 +185,32 @@
 }
 
 /* ─── Viking red accent bar ─── */
+/* ─── Trending ticker marquee ─── */
+@keyframes ticker-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-ticker {
+  animation: ticker-scroll 40s linear infinite;
+}
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Hero gradient text ─── */
+.viking-gradient-text {
+  background: linear-gradient(135deg, var(--viking) 0%, #ff6b6b 50%, var(--viking) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
 .viking-accent {
   position: relative;
 }

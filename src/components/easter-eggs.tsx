@@ -98,7 +98,7 @@ export function EasterEggs() {
     }
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, []);
+  }, [triggerLongship]);
 
   // Click rune sparkle — on rapid double-click anywhere
   useEffect(() => {
