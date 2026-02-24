@@ -130,7 +130,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
           {/* Current price header */}
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Trade</span>
-            <div className="flex items-center gap-2 text-sm tabular-nums">
+            <div className="flex items-center gap-2 text-sm font-price">
               <span className="font-bold text-[var(--color-yes)]">{yesCents}¢</span>
               <span className="text-muted-foreground/40">/</span>
               <span className="font-bold text-[var(--color-no)]">{noCents}¢</span>
@@ -193,7 +193,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
           {hasPosition && (
             <div className="flex items-center justify-between py-2 px-3 bg-accent/50 rounded text-xs">
               <span className="text-muted-foreground">Your {side} position</span>
-              <span className="font-medium tabular-nums">{currentPosition.shares.toFixed(2)} shares</span>
+              <span className="font-medium font-price">{currentPosition.shares.toFixed(2)} shares</span>
             </div>
           )}
 
@@ -235,16 +235,16 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                 <div className="bg-accent rounded p-3 space-y-1.5 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shares</span>
-                    <span className="font-medium tabular-nums">{buyPreview.shares.toFixed(2)}</span>
+                    <span className="font-medium font-price">{buyPreview.shares.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Avg price</span>
-                    <span className="font-medium tabular-nums">{Math.round(buyPreview.effectivePrice * 100)}¢</span>
+                    <span className="font-medium font-price">{Math.round(buyPreview.effectivePrice * 100)}¢</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Slippage</span>
                     <span className={cn(
-                      "font-medium tabular-nums",
+                      "font-medium font-price",
                       buyPreview.slippage > 0.05 ? "text-[var(--color-no)]" : "text-muted-foreground"
                     )}>
                       {(buyPreview.slippage * 100).toFixed(1)}%
@@ -252,13 +252,13 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                   </div>
                   <div className="flex justify-between border-t pt-1.5">
                     <span className="text-muted-foreground">Payout if {side}</span>
-                    <span className="font-medium tabular-nums">
+                    <span className="font-medium font-price">
                       {buyPreview.shares.toFixed(2)} pts
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Max profit</span>
-                    <span className="font-semibold text-[var(--color-yes)] tabular-nums">
+                    <span className="font-semibold text-[var(--color-yes)] font-price">
                       +{(buyPreview.shares - amountNum).toFixed(2)} pts
                     </span>
                   </div>
@@ -326,11 +326,11 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     <div className="bg-accent rounded p-3 space-y-1.5 text-sm">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Selling</span>
-                        <span className="font-medium tabular-nums">{amountNum.toFixed(2)} shares</span>
+                        <span className="font-medium font-price">{amountNum.toFixed(2)} shares</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Avg sell price</span>
-                        <span className="font-medium tabular-nums">{Math.round(sellPreview.effectivePrice * 100)}¢</span>
+                        <span className="font-medium font-price">{Math.round(sellPreview.effectivePrice * 100)}¢</span>
                       </div>
                       <div className="flex justify-between border-t pt-1.5">
                         <span className="text-muted-foreground">You receive</span>

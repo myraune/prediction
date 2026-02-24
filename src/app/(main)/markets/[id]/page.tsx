@@ -185,11 +185,11 @@ export default async function MarketDetailPage({
                       <Badge className={pos.side === "YES" ? "bg-[var(--color-yes)]/15 text-[var(--color-yes)]" : "bg-[var(--color-no)]/15 text-[var(--color-no)]"}>
                         {pos.side}
                       </Badge>
-                      <span className="tabular-nums">{pos.shares.toFixed(2)} shares</span>
+                      <span className="font-price">{pos.shares.toFixed(2)} shares</span>
                     </div>
                     <div className="text-right">
-                      <span className="tabular-nums">{Math.round(pos.avgPrice * 100)}¢ → {Math.round(cp * 100)}¢</span>
-                      <span className={cn("ml-2 font-medium tabular-nums", pnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]")}>
+                      <span className="font-price">{Math.round(pos.avgPrice * 100)}¢ → {Math.round(cp * 100)}¢</span>
+                      <span className={cn("ml-2 font-medium font-price", pnl >= 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]")}>
                         {pnl >= 0 ? "+" : ""}{pnl.toFixed(2)}
                       </span>
                     </div>
@@ -217,7 +217,7 @@ export default async function MarketDetailPage({
                       {trade.side}
                     </span>
                   </div>
-                  <div className="text-xs text-muted-foreground tabular-nums">
+                  <div className="text-xs text-muted-foreground font-price">
                     <span className="font-medium text-foreground">{trade.shares.toFixed(2)}</span>
                     <span className="mx-1">@</span>
                     <span className={trade.side === "YES" ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"}>
@@ -263,7 +263,7 @@ export default async function MarketDetailPage({
           ].map((row) => (
             <div key={row.label} className="flex justify-between text-sm">
               <span className="text-muted-foreground">{row.label}</span>
-              <span className={cn("font-medium tabular-nums", row.label === "Closes" && closing && "text-[var(--color-no)]")}>{row.value}</span>
+              <span className={cn("font-medium font-price", row.label === "Closes" && closing && "text-[var(--color-no)]")}>{row.value}</span>
             </div>
           ))}
         </div>

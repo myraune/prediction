@@ -49,7 +49,7 @@ export function HeroStats({ totalMarkets, totalVolume, totalTraders }: HeroStats
   return (
     <div ref={markets.ref} className="grid grid-cols-3 gap-4 sm:gap-8">
       <div className="text-center">
-        <div className="text-2xl sm:text-3xl font-bold tabular-nums text-[var(--color-viking)]">
+        <div className="text-2xl sm:text-3xl font-bold font-price text-[var(--color-viking)]">
           {markets.value}
         </div>
         <div className="text-[11px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-wider font-medium">
@@ -57,7 +57,7 @@ export function HeroStats({ totalMarkets, totalVolume, totalTraders }: HeroStats
         </div>
       </div>
       <div className="text-center">
-        <div className="text-2xl sm:text-3xl font-bold tabular-nums text-[var(--color-viking)]">
+        <div className="text-2xl sm:text-3xl font-bold font-price text-[var(--color-viking)]">
           ${volume.value}K
         </div>
         <div className="text-[11px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-wider font-medium">
@@ -65,7 +65,7 @@ export function HeroStats({ totalMarkets, totalVolume, totalTraders }: HeroStats
         </div>
       </div>
       <div className="text-center">
-        <div className="text-2xl sm:text-3xl font-bold tabular-nums text-[var(--color-viking)]">
+        <div className="text-2xl sm:text-3xl font-bold font-price text-[var(--color-viking)]">
           {traders.value}
         </div>
         <div className="text-[11px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-wider font-medium">

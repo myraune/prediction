@@ -50,12 +50,12 @@ export function FeaturedCard({ market }: { market: Market }) {
         {/* Yes / No + Volume */}
         <div className="flex items-center gap-2 mt-auto">
           <span
-            className="flex-1 py-2 text-sm font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer"
+            className="flex-1 py-2 text-sm font-semibold font-price rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer"
           >
             Yes {yesPercent}¢
           </span>
           <span
-            className="flex-1 py-2 text-sm font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20 text-center cursor-pointer"
+            className="flex-1 py-2 text-sm font-semibold font-price rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20 text-center cursor-pointer"
           >
             No {noPercent}¢
           </span>
@@ -102,12 +102,12 @@ export function CompactCard({ market }: { market: Market }) {
 
         <div className="flex items-center gap-2">
           <span
-            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer"
+            className="flex-1 py-1.5 text-xs font-semibold font-price rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer"
           >
             Yes {yesPercent}¢
           </span>
           <span
-            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20 text-center cursor-pointer"
+            className="flex-1 py-1.5 text-xs font-semibold font-price rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20 text-center cursor-pointer"
           >
             No {noPercent}¢
           </span>
@@ -145,7 +145,7 @@ export function SidebarRow({ market }: { market: Market }) {
         </span>
       </div>
       <div className="shrink-0 flex items-center gap-1">
-        <span className="text-sm font-bold tabular-nums">{yesPercent}¢</span>
+        <span className="text-sm font-bold font-price">{yesPercent}¢</span>
         <span className="text-[10px] text-muted-foreground">Yes</span>
       </div>
     </Link>

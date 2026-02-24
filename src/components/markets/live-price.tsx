@@ -23,7 +23,7 @@ export function LivePrice({ marketId, initialYes, initialNo, initialVolume }: Li
       <div className="flex items-baseline gap-1">
         <span
           className={cn(
-            "text-3xl font-bold tabular-nums transition-colors duration-300",
+            "text-3xl font-bold font-price transition-colors duration-300",
             flash === "up" && "text-[var(--color-yes)]",
             flash === "down" && "text-[var(--color-no)]",
             !flash && "text-[var(--color-yes)]"
@@ -37,7 +37,7 @@ export function LivePrice({ marketId, initialYes, initialNo, initialVolume }: Li
       <div className="flex items-baseline gap-1">
         <span
           className={cn(
-            "text-3xl font-bold tabular-nums transition-colors duration-300",
+            "text-3xl font-bold font-price transition-colors duration-300",
             flash === "up" && "text-[var(--color-no)]",
             flash === "down" && "text-[var(--color-yes)]",
             !flash && "text-[var(--color-no)]"

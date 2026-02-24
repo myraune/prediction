@@ -87,7 +87,7 @@ export function VikingBrand({
     <div className={cn("flex items-center gap-2", className)}>
       <VikingLogo size={size} />
       {showText && (
-        <span className="font-semibold tracking-tight lowercase">
+        <span className="font-semibold tracking-tight lowercase font-display">
           viking market
         </span>
       )}
