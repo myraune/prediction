@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { EasterEggs } from "@/components/easter-eggs";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <ThemeProvider>
           <SessionProvider>
             {children}
+            <EasterEggs />
             <Toaster />
           </SessionProvider>
         </ThemeProvider>

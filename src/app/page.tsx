@@ -65,7 +65,7 @@ export default async function LandingPage() {
               <VikingWordmark height={18} />
             </Link>
             <div className="hidden sm:flex items-center gap-1 overflow-x-auto scrollbar-none">
-              <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap">
+              <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-[var(--color-viking)] hover:bg-accent transition-colors whitespace-nowrap viking-accent">
                 Browse
               </Link>
               {Object.entries(categoryCounts)
@@ -75,7 +75,7 @@ export default async function LandingPage() {
                   <Link
                     key={cat}
                     href={`/markets?category=${cat}`}
-                    className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap"
+                    className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-[var(--color-viking)] hover:bg-accent transition-colors whitespace-nowrap viking-accent"
                   >
                     {CATEGORY_LABELS[cat] ?? cat}
                   </Link>
@@ -92,7 +92,7 @@ export default async function LandingPage() {
               </Button>
             </Link>
             <Link href="/register">
-              <Button size="sm" className="text-xs h-7 px-3">
+              <Button size="sm" className="text-xs h-7 px-3 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white">
                 Sign up
               </Button>
             </Link>
@@ -199,7 +199,7 @@ export default async function LandingPage() {
       {/* ─── Footer ─── */}
       <footer className="border-t mt-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4 flex items-center justify-between text-xs text-muted-foreground">
-          <span>&copy; 2026 Viking Market</span>
+          <span>&copy; 2026 <span className="text-[var(--color-viking)]">Viking</span> Market</span>
           <div className="flex items-center gap-4">
             <Link href="/markets" className="hover:text-foreground transition-colors">Markets</Link>
             <Link href="/leaderboard" className="hover:text-foreground transition-colors">Leaderboard</Link>

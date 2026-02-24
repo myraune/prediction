@@ -132,7 +132,7 @@ export default async function MarketsPage({
             className={cn(
               "px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap",
               !category && !region
-                ? "bg-foreground text-background"
+                ? "bg-[var(--color-viking)] text-white"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
             )}
           >
@@ -143,7 +143,7 @@ export default async function MarketsPage({
             className={cn(
               "px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap",
               region === "NO"
-                ? "bg-foreground text-background"
+                ? "bg-[var(--color-viking)] text-white"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
             )}
           >
@@ -154,7 +154,7 @@ export default async function MarketsPage({
             className={cn(
               "px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap",
               region === "INT"
-                ? "bg-foreground text-background"
+                ? "bg-[var(--color-viking)] text-white"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
             )}
           >

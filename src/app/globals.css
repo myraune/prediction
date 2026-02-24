@@ -50,11 +50,14 @@
   --color-no: #e74c3c;
   /* Brand color */
   --color-brand: var(--brand);
+  /* Viking red — the brand accent */
+  --color-viking: var(--viking);
 }
 
 :root {
   --radius: 0.5rem;
   --brand: #1a1a1a;
+  --viking: #c8102e;
   --background: #ffffff;
   --foreground: #0a0a0a;
   --card: #ffffff;
@@ -90,6 +93,7 @@
 
 .dark {
   --brand: #e8e8e8;
+  --viking: #e63946;
   --background: #0d1117;
   --foreground: #e6edf3;
   --card: #161b22;
@@ -139,3 +143,62 @@
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Interactive card tilt on hover ─── */
+.card-tilt {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-tilt:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--viking) 15%, transparent);
+}
+
+/* ─── Red glow pulse for brand elements ─── */
+@keyframes viking-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--viking) 40%, transparent); }
+  50% { box-shadow: 0 0 12px 2px color-mix(in srgb, var(--viking) 20%, transparent); }
+}
+.viking-glow:hover {
+  animation: viking-pulse 2s ease-in-out infinite;
+}
+
+/* ─── Longship sail animation ─── */
+@keyframes sail-across {
+  0% { transform: translateX(-120px) translateY(0); opacity: 0; }
+  5% { opacity: 1; }
+  50% { transform: translateX(50vw) translateY(-8px); }
+  95% { opacity: 1; }
+  100% { transform: translateX(calc(100vw + 120px)) translateY(0); opacity: 0; }
+}
+.longship-sail {
+  animation: sail-across 4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+}
+
+/* ─── Rune fade-in ─── */
+@keyframes rune-appear {
+  0% { opacity: 0; transform: scale(0.5) rotate(-10deg); }
+  50% { opacity: 1; transform: scale(1.1) rotate(5deg); }
+  100% { opacity: 0; transform: scale(1.3) rotate(0deg); }
+}
+.rune-flash {
+  animation: rune-appear 1.2s ease-out forwards;
+}
+
+/* ─── Viking red accent bar ─── */
+.viking-accent {
+  position: relative;
+}
+.viking-accent::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--viking);
+  transition: width 0.2s ease, left 0.2s ease;
+}
+.viking-accent:hover::after {
+  width: 100%;
+  left: 0;
+}

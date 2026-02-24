@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useLogoEasterEgg } from "@/components/easter-eggs";
 
 interface VikingLogoProps {
   className?: string;
@@ -48,6 +49,7 @@ export function VikingWordmark({
 }) {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const handleLogoClick = useLogoEasterEgg();
   useEffect(() => setMounted(true), []);
 
   const width = Math.round(height * (613 / 86));
@@ -59,7 +61,8 @@ export function VikingWordmark({
       alt="Viking Market"
       width={width}
       height={height}
-      className={className}
+      className={cn("cursor-pointer viking-accent", className)}
+      onClick={handleLogoClick}
       priority
       unoptimized
     />

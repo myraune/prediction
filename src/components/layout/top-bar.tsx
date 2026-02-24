@@ -107,7 +107,7 @@ export function TopBar({ balance, categoryCounts }: TopBarProps) {
               </DropdownMenu>
             </>
           ) : (
-            <Button variant="ghost" size="sm" asChild className="gap-1.5 text-sm">
+            <Button size="sm" asChild className="gap-1.5 text-sm bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white">
               <Link href="/login">
                 <LogIn className="h-4 w-4" />
                 Sign In

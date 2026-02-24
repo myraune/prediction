@@ -68,8 +68,8 @@ export function Sidebar({ categoryCounts = {} }: SidebarProps) {
               className={cn(
                 "flex items-center gap-2.5 px-3 py-2 rounded text-[13px] font-medium transition-colors",
                 isActive
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  ? "bg-[var(--color-viking)]/10 text-[var(--color-viking)] border-l-2 border-[var(--color-viking)]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent border-l-2 border-transparent"
               )}
             >
               <link.icon className="h-4 w-4" />
