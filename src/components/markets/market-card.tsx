@@ -6,10 +6,9 @@ import { formatCompactNumber } from "@/lib/format";
 import { getTimeRemaining, isClosingSoon } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
-import { MiniSparkline } from "./mini-sparkline";
 import type { Market } from "@/generated/prisma/client";
 
-// ─── Compact Card — Kalshi-style, no large images ──────────────────
+// ─── Compact Card — Kalshi-style, no images, no sparkline ──────────
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
@@ -49,25 +48,14 @@ export function MarketCard({ market }: { market: Market }) {
           {market.title}
         </h3>
 
-        {/* Sparkline */}
-        <div className="h-6">
-          <MiniSparkline marketId={market.id} currentPrice={yesPercent} />
-        </div>
-
         {/* Yes / No buttons + volume */}
         <div className="flex items-center gap-2">
-          <button
-            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20"
-            onClick={(e) => e.preventDefault()}
-          >
+          <span className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer">
             Yes {yesPercent}¢
-          </button>
-          <button
-            className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20"
-            onClick={(e) => e.preventDefault()}
-          >
+          </span>
+          <span className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20 text-center cursor-pointer">
             No {noPercent}¢
-          </button>
+          </span>
           <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 ml-0.5">
             ${formatCompactNumber(market.totalVolume)}
           </span>

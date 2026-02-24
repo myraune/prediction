@@ -31,9 +31,9 @@ export function FeaturedCard({ market }: { market: Market }) {
           {market.title}
         </h3>
 
-        {/* Sparkline chart — larger for featured */}
-        <div className="h-10 flex-1 min-h-[40px]">
-          <MiniSparkline marketId={market.id} currentPrice={yesPercent} />
+        {/* Sparkline chart */}
+        <div className="flex-1 min-h-[48px]">
+          <MiniSparkline marketId={market.id} currentPrice={yesPercent} height={48} />
         </div>
 
         {/* Yes / No + Volume */}
