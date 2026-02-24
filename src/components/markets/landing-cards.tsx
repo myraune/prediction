@@ -7,9 +7,10 @@ import { getTimeRemaining, isClosingSoon } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
 import { MiniSparkline } from "./mini-sparkline";
+import { MarketThumbnail } from "./market-thumbnail";
 import type { Market } from "@/generated/prisma/client";
 
-// ─── Featured Card — large with chart area ──────────────────
+// ─── Featured Card — large with thumbnail + chart area ──────────────
 export function FeaturedCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
@@ -27,9 +28,19 @@ export function FeaturedCard({ market }: { market: Market }) {
           )}
           <span className={cn(closing && "text-[var(--color-no)] font-medium")}>{timeLeft}</span>
         </div>
-        <h3 className="text-base font-semibold leading-snug line-clamp-2 group-hover:text-foreground/80 transition-colors">
-          {market.title}
-        </h3>
+
+        {/* Thumbnail + Title */}
+        <div className="flex items-start gap-3">
+          <MarketThumbnail
+            imageUrl={market.imageUrl}
+            category={market.category}
+            title={market.title}
+            size="lg"
+          />
+          <h3 className="text-base font-semibold leading-snug line-clamp-2 group-hover:text-foreground/80 transition-colors">
+            {market.title}
+          </h3>
+        </div>
 
         {/* Sparkline chart */}
         <div className="flex-1 min-h-[48px]">
@@ -57,7 +68,7 @@ export function FeaturedCard({ market }: { market: Market }) {
   );
 }
 
-// ─── Compact Card — standard card for grids ──────────────────
+// ─── Compact Card — with thumbnail ──────────────────
 export function CompactCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
@@ -75,9 +86,20 @@ export function CompactCard({ market }: { market: Market }) {
           )}
           <span className={cn(closing && "text-[var(--color-no)] font-medium")}>{timeLeft}</span>
         </div>
-        <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
-          {market.title}
-        </h3>
+
+        {/* Thumbnail + Title */}
+        <div className="flex items-start gap-2.5 flex-1">
+          <MarketThumbnail
+            imageUrl={market.imageUrl}
+            category={market.category}
+            title={market.title}
+            size="md"
+          />
+          <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
+            {market.title}
+          </h3>
+        </div>
+
         <div className="flex items-center gap-2">
           <span
             className="flex-1 py-1.5 text-xs font-semibold tabular-nums rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer"
@@ -98,7 +120,7 @@ export function CompactCard({ market }: { market: Market }) {
   );
 }
 
-// ─── Sidebar Row — compact list item ──────────────────
+// ─── Sidebar Row — compact list item with tiny thumbnail ──────────
 export function SidebarRow({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
@@ -106,8 +128,14 @@ export function SidebarRow({ market }: { market: Market }) {
   return (
     <Link
       href={`/markets/${market.id}`}
-      className="group flex items-center gap-3 py-2.5 hover:bg-accent/50 transition-colors rounded px-1"
+      className="group flex items-center gap-2.5 py-2.5 hover:bg-accent/50 transition-colors rounded px-1"
     >
+      <MarketThumbnail
+        imageUrl={market.imageUrl}
+        category={market.category}
+        title={market.title}
+        size="sm"
+      />
       <div className="flex-1 min-w-0">
         <p className="text-[13px] font-medium leading-tight line-clamp-1">
           {market.title}

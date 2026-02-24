@@ -6,9 +6,10 @@ import { formatCompactNumber } from "@/lib/format";
 import { getTimeRemaining, isClosingSoon } from "@/lib/time";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
+import { MarketThumbnail } from "./market-thumbnail";
 import type { Market } from "@/generated/prisma/client";
 
-// ─── Compact Card — Kalshi-style, no images, no sparkline ──────────
+// ─── Compact Card — Polymarket/Kalshi-style with thumbnail ──────────
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
@@ -43,10 +44,18 @@ export function MarketCard({ market }: { market: Market }) {
           </span>
         </div>
 
-        {/* Title */}
-        <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
-          {market.title}
-        </h3>
+        {/* Thumbnail + Title */}
+        <div className="flex items-start gap-2.5 flex-1">
+          <MarketThumbnail
+            imageUrl={market.imageUrl}
+            category={market.category}
+            title={market.title}
+            size="md"
+          />
+          <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
+            {market.title}
+          </h3>
+        </div>
 
         {/* Yes / No buttons + volume */}
         <div className="flex items-center gap-2">
@@ -73,8 +82,14 @@ export function MarketRow({ market }: { market: Market }) {
   return (
     <Link
       href={`/markets/${market.id}`}
-      className="group flex items-center gap-3 py-2.5 px-1 hover:bg-accent/50 transition-colors rounded"
+      className="group flex items-center gap-2.5 py-2.5 px-1 hover:bg-accent/50 transition-colors rounded"
     >
+      <MarketThumbnail
+        imageUrl={market.imageUrl}
+        category={market.category}
+        title={market.title}
+        size="sm"
+      />
       <div className="flex-1 min-w-0">
         <p className="text-[13px] font-medium leading-tight line-clamp-1 group-hover:text-foreground/80">
           {market.title}

@@ -56,7 +56,8 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Johannes Høsflot Klæbo to win 3+ gold medals at Milano Cortina?",
     description: "Resolves YES if Klæbo wins 3 or more individual/relay golds at the 2026 Winter Olympics.",
-    category: "SPORTS", prob: 0.28, volume: 145000, closesAt: daysFromNow(1), daysActive: 25, region: "NO",
+    category: "SPORTS", prob: 0.28, volume: 145000, closesAt: daysFromNow(1), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80", region: "NO",
   },
   {
     title: "Therese Johaug gold medal at Milano Cortina 2026?",
@@ -67,12 +68,14 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Norway to break all-time Winter Olympics gold record at Milano Cortina?",
     description: "Resolves YES if Norway wins more than 17 golds (their record from Beijing 2022).",
-    category: "SPORTS", prob: 0.32, volume: 98000, closesAt: daysFromNow(1), daysActive: 20, region: "NO",
+    category: "SPORTS", prob: 0.32, volume: 98000, closesAt: daysFromNow(1), daysActive: 20,
+    imageUrl: "https://images.unsplash.com/photo-1516475429286-465d815a0df7?w=800&q=80", region: "NO",
   },
   {
     title: "Aleksander Aamodt Kilde to compete at Milano Cortina 2026?",
     description: "Resolves YES if Kilde competes in any alpine skiing event at the 2026 Winter Olympics after his injury recovery.",
-    category: "SPORTS", prob: 0.55, volume: 89000, closesAt: daysFromNow(1), daysActive: 20, region: "NO",
+    category: "SPORTS", prob: 0.55, volume: 89000, closesAt: daysFromNow(1), daysActive: 20,
+    imageUrl: "https://images.unsplash.com/photo-1565992441121-4367c2967103?w=800&q=80", region: "NO",
   },
 
   // ── NORWEGIAN POLITICS — 2025 election already happened, focus on aftermath + 2026 ──
@@ -85,27 +88,32 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Norway to formally begin NATO Arctic defense pact negotiations in 2026?",
     description: "Resolves YES if Norway enters formal negotiations on an Arctic-specific NATO defense agreement during 2026.",
-    category: "POLITICS", prob: 0.42, volume: 67800, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
+    category: "POLITICS", prob: 0.42, volume: 67800, closesAt: daysFromNow(310), daysActive: 45,
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80", region: "NO",
   },
   {
     title: "Norway to increase defense spending above 2.5% of GDP in 2026 budget?",
     description: "Resolves YES if Norway's defense budget exceeds 2.5% of GDP in the 2026 national budget.",
-    category: "POLITICS", prob: 0.58, volume: 54200, closesAt: daysFromNow(280), daysActive: 50, region: "NO",
+    category: "POLITICS", prob: 0.58, volume: 54200, closesAt: daysFromNow(280), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1580752300992-559f8e0734e0?w=800&q=80", region: "NO",
   },
   {
     title: "Will Norway apply for EU membership before 2030?",
     description: "Resolves YES if the Norwegian government formally applies for EU membership before 2030. Current polls show increasing support.",
-    category: "POLITICS", prob: 0.07, volume: 78500, closesAt: daysFromNow(310), daysActive: 80, region: "NO",
+    category: "POLITICS", prob: 0.07, volume: 78500, closesAt: daysFromNow(310), daysActive: 80,
+    imageUrl: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian government crisis or no-confidence vote in 2026?",
     description: "Resolves YES if the Storting holds a no-confidence vote against the government, or if the government resigns, during 2026.",
-    category: "POLITICS", prob: 0.12, volume: 42100, closesAt: daysFromNow(310), daysActive: 35, region: "NO",
+    category: "POLITICS", prob: 0.12, volume: 42100, closesAt: daysFromNow(310), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800&q=80", region: "NO",
   },
   {
     title: "Rødt (Red Party) to leave opposition pact before summer 2026?",
     description: "Resolves YES if Rødt breaks from the informal left-wing opposition coordination before June 30, 2026.",
-    category: "POLITICS", prob: 0.18, volume: 28400, closesAt: daysFromNow(130), daysActive: 30, region: "NO",
+    category: "POLITICS", prob: 0.18, volume: 28400, closesAt: daysFromNow(130), daysActive: 30,
+    imageUrl: "https://images.unsplash.com/photo-1555848962-6e79363ec58f?w=800&q=80", region: "NO",
   },
 
   // ── NORWEGIAN SPORTS (non-Olympics) ──────────────────────
@@ -118,12 +126,14 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Martin Ødegaard to win PFA Player of the Year 2025/26?",
     description: "Resolves YES if Martin Ødegaard wins the PFA Players' Player of the Year award for 2025/26.",
-    category: "SPORTS", prob: 0.15, volume: 78400, closesAt: daysFromNow(120), daysActive: 40, region: "NO",
+    category: "SPORTS", prob: 0.15, volume: 78400, closesAt: daysFromNow(120), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80", region: "NO",
   },
   {
     title: "Bodø/Glimt to win Eliteserien 2026?",
     description: "Resolves YES if FK Bodø/Glimt wins the Norwegian Eliteserien football league in 2026.",
-    category: "SPORTS", prob: 0.30, volume: 45800, closesAt: daysFromNow(280), daysActive: 15, region: "NO",
+    category: "SPORTS", prob: 0.30, volume: 45800, closesAt: daysFromNow(280), daysActive: 15,
+    imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80", region: "NO",
   },
   {
     title: "Jakob Ingebrigtsen to break 1500m world record in 2026?",
@@ -134,7 +144,8 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Viktor Hovland to win a golf Major in 2026?",
     description: "Resolves YES if Viktor Hovland wins The Masters, PGA Championship, US Open, or The Open in 2026.",
-    category: "SPORTS", prob: 0.12, volume: 41200, closesAt: daysFromNow(200), daysActive: 40, region: "NO",
+    category: "SPORTS", prob: 0.12, volume: 41200, closesAt: daysFromNow(200), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?w=800&q=80", region: "NO",
   },
 
   // ── NORWEGIAN ECONOMY & FINANCE ───────────────────────
@@ -147,7 +158,8 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "NOK/EUR below 11.00 by summer 2026?",
     description: "Resolves YES if the Norwegian krone strengthens below 11.00 against the euro before July 1, 2026.",
-    category: "FINANCIALS", prob: 0.28, volume: 72400, closesAt: daysFromNow(130), daysActive: 55, region: "NO",
+    category: "FINANCIALS", prob: 0.28, volume: 72400, closesAt: daysFromNow(130), daysActive: 55,
+    imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80", region: "NO",
   },
   {
     title: "Oslo housing prices: Will spring 2026 see 3%+ quarterly growth?",
@@ -158,7 +170,8 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Norway's sovereign wealth fund above 20 trillion NOK in 2026?",
     description: "Resolves YES if the Government Pension Fund Global exceeds 20 trillion NOK in market value during 2026.",
-    category: "ECONOMICS", prob: 0.62, volume: 78200, closesAt: daysFromNow(310), daysActive: 65, region: "NO",
+    category: "ECONOMICS", prob: 0.62, volume: 78200, closesAt: daysFromNow(310), daysActive: 65,
+    imageUrl: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80", region: "NO",
   },
   {
     title: "Brent crude above $85/barrel in March 2026?",
@@ -169,39 +182,46 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Equinor Q1 2026 earnings above 10B NOK?",
     description: "Resolves YES if Equinor reports Q1 2026 adjusted earnings above 10 billion NOK.",
-    category: "COMPANIES", prob: 0.55, volume: 52100, closesAt: daysFromNow(60), daysActive: 30, region: "NO",
+    category: "COMPANIES", prob: 0.55, volume: 52100, closesAt: daysFromNow(60), daysActive: 30,
+    imageUrl: "https://images.unsplash.com/photo-1474314881477-04c4aac40a0e?w=800&q=80", region: "NO",
   },
   {
     title: "Oslo Børs (OBX) new all-time high in H1 2026?",
     description: "Resolves YES if the OBX index sets a new all-time high before July 1, 2026.",
-    category: "FINANCIALS", prob: 0.48, volume: 63400, closesAt: daysFromNow(130), daysActive: 50, region: "NO",
+    category: "FINANCIALS", prob: 0.48, volume: 63400, closesAt: daysFromNow(130), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian CPI inflation below 3.0% by March 2026?",
     description: "Resolves YES if Norwegian CPI (12-month growth) falls below 3.0% in the March 2026 reading.",
-    category: "ECONOMICS", prob: 0.45, volume: 44700, closesAt: daysFromNow(45), daysActive: 25, region: "NO",
+    category: "ECONOMICS", prob: 0.45, volume: 44700, closesAt: daysFromNow(45), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80", region: "NO",
   },
   {
     title: "South Norway electricity: average above 80 øre/kWh in March 2026?",
     description: "Resolves YES if the average spot price (NO2 area) exceeds 80 øre/kWh for March 2026.",
-    category: "ECONOMICS", prob: 0.55, volume: 82400, closesAt: daysFromNow(37), daysActive: 20, region: "NO",
+    category: "ECONOMICS", prob: 0.55, volume: 82400, closesAt: daysFromNow(37), daysActive: 20,
+    imageUrl: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian salmon price above 130 NOK/kg in Q1 2026?",
     description: "Resolves YES if the salmon spot price exceeds 130 NOK/kg at any point in Q1 2026.",
-    category: "FINANCIALS", prob: 0.38, volume: 38400, closesAt: daysFromNow(37), daysActive: 25, region: "NO",
+    category: "FINANCIALS", prob: 0.38, volume: 38400, closesAt: daysFromNow(37), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=800&q=80", region: "NO",
   },
 
   // ── NORWEGIAN TECH, COMPANIES & CLIMATE ──────────
   {
     title: "Kahoot! to be acquired or taken private in 2026?",
     description: "Resolves YES if Kahoot! is acquired or delisted from the Oslo Stock Exchange during 2026.",
-    category: "COMPANIES", prob: 0.18, volume: 31200, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
+    category: "COMPANIES", prob: 0.18, volume: 31200, closesAt: daysFromNow(310), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian tech startup to reach unicorn ($1B+) status in H1 2026?",
     description: "Resolves YES if a Norwegian tech company achieves a $1B+ valuation before July 2026.",
-    category: "TECH_SCIENCE", prob: 0.25, volume: 44100, closesAt: daysFromNow(130), daysActive: 50, region: "NO",
+    category: "TECH_SCIENCE", prob: 0.25, volume: 44100, closesAt: daysFromNow(130), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&q=80", region: "NO",
   },
   {
     title: "Norway to win Eurovision 2026 in Basel?",
@@ -212,47 +232,56 @@ const NO_MARKETS: MarketDef[] = [
   {
     title: "Electric car share above 96% of new sales in Norway in any month 2026?",
     description: "Resolves YES if EVs account for more than 96% of new car registrations in Norway during any month in 2026.",
-    category: "TECH_SCIENCE", prob: 0.72, volume: 41200, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
+    category: "TECH_SCIENCE", prob: 0.72, volume: 41200, closesAt: daysFromNow(310), daysActive: 45,
+    imageUrl: "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?w=800&q=80", region: "NO",
   },
   {
     title: "North Sea offshore wind: physical construction to begin in 2026?",
     description: "Resolves YES if physical construction begins on a Norwegian offshore wind project in the North Sea during 2026.",
-    category: "CLIMATE", prob: 0.42, volume: 44100, closesAt: daysFromNow(310), daysActive: 55, region: "NO",
+    category: "CLIMATE", prob: 0.42, volume: 44100, closesAt: daysFromNow(310), daysActive: 55,
+    imageUrl: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=800&q=80", region: "NO",
   },
   {
     title: "Norway's Langskip CCS plant to reach full capacity in 2026?",
     description: "Resolves YES if the Langskip/Northern Lights carbon capture facility reaches full operational capacity in 2026.",
-    category: "CLIMATE", prob: 0.48, volume: 35200, closesAt: daysFromNow(310), daysActive: 50, region: "NO",
+    category: "CLIMATE", prob: 0.48, volume: 35200, closesAt: daysFromNow(310), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80", region: "NO",
   },
   {
     title: "DNB to offer crypto trading in its mobile app in 2026?",
     description: "Resolves YES if DNB Bank offers cryptocurrency trading directly in its mobile app by end of 2026.",
-    category: "CRYPTO", prob: 0.18, volume: 36400, closesAt: daysFromNow(310), daysActive: 45, region: "NO",
+    category: "CRYPTO", prob: 0.18, volume: 36400, closesAt: daysFromNow(310), daysActive: 45,
+    imageUrl: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&q=80", region: "NO",
   },
   {
     title: "Norway 2026 emissions: at least 3% decrease vs 2025?",
     description: "Resolves YES if Norway's greenhouse gas emissions decrease by at least 3% in 2026 compared to 2025.",
-    category: "CLIMATE", prob: 0.28, volume: 38900, closesAt: daysFromNow(350), daysActive: 50, region: "NO",
+    category: "CLIMATE", prob: 0.28, volume: 38900, closesAt: daysFromNow(350), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80", region: "NO",
   },
   {
     title: "Mowi stock above 220 NOK by April 2026?",
     description: "Resolves YES if Mowi ASA closes above 220 NOK on the Oslo Stock Exchange before May 1, 2026.",
-    category: "COMPANIES", prob: 0.42, volume: 29800, closesAt: daysFromNow(70), daysActive: 35, region: "NO",
+    category: "COMPANIES", prob: 0.42, volume: 29800, closesAt: daysFromNow(70), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=800&q=80", region: "NO",
   },
   {
     title: "Nel ASA to announce major green hydrogen deal (>1B NOK) in 2026?",
     description: "Resolves YES if Nel ASA announces a contract or partnership exceeding 1 billion NOK in 2026.",
-    category: "COMPANIES", prob: 0.22, volume: 31800, closesAt: daysFromNow(310), daysActive: 40, region: "NO",
+    category: "COMPANIES", prob: 0.22, volume: 31800, closesAt: daysFromNow(310), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=800&q=80", region: "NO",
   },
   {
     title: "Norwegian film to win at Berlin or Cannes 2026?",
     description: "Resolves YES if a Norwegian film wins a major prize at Berlin International Film Festival or Cannes Film Festival 2026.",
-    category: "ENTERTAINMENT", prob: 0.10, volume: 28400, closesAt: daysFromNow(100), daysActive: 35, region: "NO",
+    category: "ENTERTAINMENT", prob: 0.10, volume: 28400, closesAt: daysFromNow(100), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=800&q=80", region: "NO",
   },
   {
     title: "NRK to launch AI-powered news service in 2026?",
     description: "Resolves YES if NRK officially launches an AI-based personalized news product during 2026.",
-    category: "ENTERTAINMENT", prob: 0.35, volume: 22800, closesAt: daysFromNow(310), daysActive: 25, region: "NO",
+    category: "ENTERTAINMENT", prob: 0.35, volume: 22800, closesAt: daysFromNow(310), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1504711434969-e33886168d9c?w=800&q=80", region: "NO",
   },
 ];
 
@@ -272,12 +301,14 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "Any country to win 20+ gold medals at Milano Cortina 2026?",
     description: "Resolves YES if any single country wins 20 or more gold medals at the 2026 Winter Olympics.",
-    category: "SPORTS", prob: 0.15, volume: 89000, closesAt: daysFromNow(1), daysActive: 20, region: "INT",
+    category: "SPORTS", prob: 0.15, volume: 89000, closesAt: daysFromNow(1), daysActive: 20,
+    imageUrl: "https://images.unsplash.com/photo-1569517282132-25d22f4573e6?w=800&q=80", region: "INT",
   },
   {
     title: "Mikaela Shiffrin to win gold at Milano Cortina 2026?",
     description: "Resolves YES if Mikaela Shiffrin wins at least one gold medal at the 2026 Winter Olympics.",
-    category: "SPORTS", prob: 0.45, volume: 112000, closesAt: daysFromNow(1), daysActive: 25, region: "INT",
+    category: "SPORTS", prob: 0.45, volume: 112000, closesAt: daysFromNow(1), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1565992441121-4367c2967103?w=800&q=80", region: "INT",
   },
 
   // ── INTL POLITICS ────────────────────────────────────
@@ -296,22 +327,26 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "US Congress to pass new AI regulation in 2026?",
     description: "Resolves YES if the US Congress passes comprehensive AI regulation (not just executive orders) during 2026.",
-    category: "POLITICS", prob: 0.22, volume: 56800, closesAt: daysFromNow(310), daysActive: 40, region: "INT",
+    category: "POLITICS", prob: 0.22, volume: 56800, closesAt: daysFromNow(310), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80", region: "INT",
   },
   {
     title: "Republicans to lose House majority in 2026 midterms?",
     description: "Resolves YES if the Democratic Party wins a majority in the U.S. House following the November 2026 midterm elections.",
-    category: "POLITICS", prob: 0.52, volume: 178000, closesAt: daysFromNow(280), daysActive: 60, region: "INT",
+    category: "POLITICS", prob: 0.52, volume: 178000, closesAt: daysFromNow(280), daysActive: 60,
+    imageUrl: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?w=800&q=80", region: "INT",
   },
   {
     title: "India-Pakistan: will military tensions escalate to strikes in 2026?",
     description: "Resolves YES if India or Pakistan conducts military strikes against the other's territory during 2026.",
-    category: "POLITICS", prob: 0.18, volume: 98000, closesAt: daysFromNow(310), daysActive: 25, region: "INT",
+    category: "POLITICS", prob: 0.18, volume: 98000, closesAt: daysFromNow(310), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=800&q=80", region: "INT",
   },
   {
     title: "EU to impose digital services tax above 5% in 2026?",
     description: "Resolves YES if the EU passes a digital services tax exceeding 5% on major tech companies during 2026.",
-    category: "POLITICS", prob: 0.30, volume: 34500, closesAt: daysFromNow(310), daysActive: 35, region: "INT",
+    category: "POLITICS", prob: 0.30, volume: 34500, closesAt: daysFromNow(310), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800&q=80", region: "INT",
   },
 
   // ── INTL SPORTS ──────────────────────────────────────
@@ -330,12 +365,14 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "Lewis Hamilton to win a race for Ferrari in 2026?",
     description: "Resolves YES if Lewis Hamilton wins at least one F1 Grand Prix driving for Ferrari in 2026.",
-    category: "SPORTS", prob: 0.55, volume: 89000, closesAt: daysFromNow(300), daysActive: 40, region: "INT",
+    category: "SPORTS", prob: 0.55, volume: 89000, closesAt: daysFromNow(300), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1541889328-3d9adc92b7c3?w=800&q=80", region: "INT",
   },
   {
     title: "Real Madrid to win Champions League 2025/26?",
     description: "Resolves YES if Real Madrid wins the 2025/26 UEFA Champions League final in May 2026.",
-    category: "SPORTS", prob: 0.22, volume: 67500, closesAt: daysFromNow(90), daysActive: 35, region: "INT",
+    category: "SPORTS", prob: 0.22, volume: 67500, closesAt: daysFromNow(90), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80", region: "INT",
   },
 
   // ── INTL CRYPTO ──────────────────────────────────────
@@ -348,27 +385,32 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "Bitcoin above $120K by April 2026?",
     description: "Resolves YES if BTC/USD trades above $120,000 at any point before May 1, 2026.",
-    category: "CRYPTO", prob: 0.55, volume: 267000, closesAt: daysFromNow(70), daysActive: 45, region: "INT",
+    category: "CRYPTO", prob: 0.55, volume: 267000, closesAt: daysFromNow(70), daysActive: 45,
+    imageUrl: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&q=80", region: "INT",
   },
   {
     title: "Ethereum above $5,000 by summer 2026?",
     description: "Resolves YES if ETH/USD trades above $5,000 at any point before July 1, 2026.",
-    category: "CRYPTO", prob: 0.38, volume: 134000, closesAt: daysFromNow(130), daysActive: 55, region: "INT",
+    category: "CRYPTO", prob: 0.38, volume: 134000, closesAt: daysFromNow(130), daysActive: 55,
+    imageUrl: "https://images.unsplash.com/photo-1622630998477-20aa696ecb05?w=800&q=80", region: "INT",
   },
   {
     title: "US stablecoin regulation bill to pass in 2026?",
     description: "Resolves YES if Congress passes a comprehensive stablecoin regulatory framework during 2026.",
-    category: "CRYPTO", prob: 0.58, volume: 67800, closesAt: daysFromNow(310), daysActive: 50, region: "INT",
+    category: "CRYPTO", prob: 0.58, volume: 67800, closesAt: daysFromNow(310), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1639762681057-408e52192e55?w=800&q=80", region: "INT",
   },
   {
     title: "Crypto total market cap above $5 trillion in 2026?",
     description: "Resolves YES if total cryptocurrency market cap exceeds $5 trillion at any point during 2026.",
-    category: "CRYPTO", prob: 0.42, volume: 89000, closesAt: daysFromNow(310), daysActive: 55, region: "INT",
+    category: "CRYPTO", prob: 0.42, volume: 89000, closesAt: daysFromNow(310), daysActive: 55,
+    imageUrl: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&q=80", region: "INT",
   },
   {
     title: "Solana to flip Ethereum in daily transaction volume in 2026?",
     description: "Resolves YES if Solana processes more daily transactions than Ethereum mainnet for 7 consecutive days during 2026.",
-    category: "CRYPTO", prob: 0.35, volume: 45600, closesAt: daysFromNow(310), daysActive: 30, region: "INT",
+    category: "CRYPTO", prob: 0.35, volume: 45600, closesAt: daysFromNow(310), daysActive: 30,
+    imageUrl: "https://images.unsplash.com/photo-1639762681057-408e52192e55?w=800&q=80", region: "INT",
   },
 
   // ── INTL TECH ────────────────────────────────────────
@@ -381,29 +423,34 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "Anthropic valuation above $100B in next funding round?",
     description: "Resolves YES if Anthropic's valuation exceeds $100 billion in any 2026 funding round or secondary sale.",
-    category: "TECH_SCIENCE", prob: 0.55, volume: 67800, closesAt: daysFromNow(310), daysActive: 40, region: "INT",
+    category: "TECH_SCIENCE", prob: 0.55, volume: 67800, closesAt: daysFromNow(310), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80", region: "INT",
   },
   {
     title: "Apple to ship Vision Pro 2 (or cheaper headset) in 2026?",
     description: "Resolves YES if Apple releases a second-generation or lower-cost Vision headset during 2026.",
-    category: "TECH_SCIENCE", prob: 0.42, volume: 58200, closesAt: daysFromNow(310), daysActive: 50, region: "INT",
+    category: "TECH_SCIENCE", prob: 0.42, volume: 58200, closesAt: daysFromNow(310), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&q=80", region: "INT",
   },
   {
     title: "Tesla Full Self-Driving Level 4 approval in any US state by 2026?",
     description: "Resolves YES if Tesla receives Level 4 autonomous driving approval in any US state during 2026.",
-    category: "TECH_SCIENCE", prob: 0.15, volume: 112000, closesAt: daysFromNow(310), daysActive: 65, region: "INT",
+    category: "TECH_SCIENCE", prob: 0.15, volume: 112000, closesAt: daysFromNow(310), daysActive: 65,
+    imageUrl: "https://images.unsplash.com/photo-1617704548623-340376564e68?w=800&q=80", region: "INT",
   },
   {
     title: "First AI model to score 90%+ on ARC-AGI benchmark in 2026?",
     description: "Resolves YES if any AI model achieves 90%+ accuracy on the ARC-AGI benchmark during 2026.",
-    category: "TECH_SCIENCE", prob: 0.48, volume: 56300, closesAt: daysFromNow(310), daysActive: 35, region: "INT",
+    category: "TECH_SCIENCE", prob: 0.48, volume: 56300, closesAt: daysFromNow(310), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80", region: "INT",
   },
 
   // ── INTL ECONOMICS & FINANCE ─────────────────────────
   {
     title: "Fed to cut rates in March 2026?",
     description: "Resolves YES if the Federal Reserve cuts the federal funds rate at the March 2026 FOMC meeting.",
-    category: "ECONOMICS", prob: 0.38, volume: 198000, closesAt: daysFromNow(25), featured: true, daysActive: 30, region: "INT",
+    category: "ECONOMICS", prob: 0.38, volume: 198000, closesAt: daysFromNow(25), featured: true, daysActive: 30,
+    imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80", region: "INT",
   },
   {
     title: "S&P 500 above 6,500 by end of March 2026?",
@@ -414,27 +461,32 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "US recession (2 consecutive GDP decline quarters) in 2026?",
     description: "Resolves YES if the US experiences two consecutive quarters of real GDP decline during 2026.",
-    category: "ECONOMICS", prob: 0.25, volume: 134000, closesAt: daysFromNow(330), daysActive: 60, region: "INT",
+    category: "ECONOMICS", prob: 0.25, volume: 134000, closesAt: daysFromNow(330), daysActive: 60,
+    imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80", region: "INT",
   },
   {
     title: "Gold above $3,200/oz in Q1 2026?",
     description: "Resolves YES if gold spot price closes above $3,200/oz at any point before April 1, 2026.",
-    category: "ECONOMICS", prob: 0.65, volume: 89000, closesAt: daysFromNow(37), daysActive: 25, region: "INT",
+    category: "ECONOMICS", prob: 0.65, volume: 89000, closesAt: daysFromNow(37), daysActive: 25,
+    imageUrl: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&q=80", region: "INT",
   },
   {
     title: "EUR/USD above 1.10 by April 2026?",
     description: "Resolves YES if EUR/USD rises above 1.10 at any point before May 1, 2026.",
-    category: "FINANCIALS", prob: 0.42, volume: 56300, closesAt: daysFromNow(70), daysActive: 35, region: "INT",
+    category: "FINANCIALS", prob: 0.42, volume: 56300, closesAt: daysFromNow(70), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80", region: "INT",
   },
   {
     title: "Japanese Yen to strengthen below 145/USD by mid-2026?",
     description: "Resolves YES if USD/JPY drops below 145 at any point before July 1, 2026.",
-    category: "FINANCIALS", prob: 0.35, volume: 42800, closesAt: daysFromNow(130), daysActive: 40, region: "INT",
+    category: "FINANCIALS", prob: 0.35, volume: 42800, closesAt: daysFromNow(130), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&q=80", region: "INT",
   },
   {
     title: "Dollar index (DXY) below 100 by June 2026?",
     description: "Resolves YES if the U.S. Dollar Index drops below 100 before July 1, 2026.",
-    category: "FINANCIALS", prob: 0.28, volume: 45600, closesAt: daysFromNow(130), daysActive: 35, region: "INT",
+    category: "FINANCIALS", prob: 0.28, volume: 45600, closesAt: daysFromNow(130), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&q=80", region: "INT",
   },
 
   // ── INTL COMPANIES & ENTERTAINMENT ───────────────────
@@ -447,17 +499,20 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "OpenAI IPO in 2026?",
     description: "Resolves YES if OpenAI completes an IPO on a major exchange during 2026.",
-    category: "COMPANIES", prob: 0.22, volume: 89000, closesAt: daysFromNow(310), daysActive: 55, region: "INT",
+    category: "COMPANIES", prob: 0.22, volume: 89000, closesAt: daysFromNow(310), daysActive: 55,
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80", region: "INT",
   },
   {
     title: "Tesla stock above $400 by April 2026?",
     description: "Resolves YES if TSLA closes above $400 before May 1, 2026.",
-    category: "COMPANIES", prob: 0.52, volume: 112000, closesAt: daysFromNow(70), daysActive: 40, region: "INT",
+    category: "COMPANIES", prob: 0.52, volume: 112000, closesAt: daysFromNow(70), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1617704548623-340376564e68?w=800&q=80", region: "INT",
   },
   {
     title: "TikTok still operational in the US on June 1, 2026?",
     description: "Resolves YES if TikTok is available to US users on June 1, 2026.",
-    category: "COMPANIES", prob: 0.72, volume: 134000, closesAt: daysFromNow(100), daysActive: 60, region: "INT",
+    category: "COMPANIES", prob: 0.72, volume: 134000, closesAt: daysFromNow(100), daysActive: 60,
+    imageUrl: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&q=80", region: "INT",
   },
   {
     title: "GTA 6: will it be released before October 2026?",
@@ -468,29 +523,34 @@ const INT_MARKETS: MarketDef[] = [
   {
     title: "Nintendo Switch 2 to sell 10M+ units in first 3 months?",
     description: "Resolves YES if the Switch 2 sells 10 million+ units within its first 3 months on sale in 2026.",
-    category: "ENTERTAINMENT", prob: 0.45, volume: 78400, closesAt: daysFromNow(200), daysActive: 35, region: "INT",
+    category: "ENTERTAINMENT", prob: 0.45, volume: 78400, closesAt: daysFromNow(200), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=800&q=80", region: "INT",
   },
   {
     title: "Netflix to surpass 350M subscribers in 2026?",
     description: "Resolves YES if Netflix reports 350M+ global subscribers in any 2026 quarterly report.",
-    category: "ENTERTAINMENT", prob: 0.52, volume: 45600, closesAt: daysFromNow(310), daysActive: 35, region: "INT",
+    category: "ENTERTAINMENT", prob: 0.52, volume: 45600, closesAt: daysFromNow(310), daysActive: 35,
+    imageUrl: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=800&q=80", region: "INT",
   },
 
   // ── INTL CLIMATE ──────────────────────────────────────
   {
     title: "2026 to be the hottest year on record globally?",
     description: "Resolves YES if NASA or NOAA declares 2026 the hottest year on record, surpassing 2024/2025.",
-    category: "CLIMATE", prob: 0.38, volume: 56300, closesAt: daysFromNow(330), daysActive: 50, region: "INT",
+    category: "CLIMATE", prob: 0.38, volume: 56300, closesAt: daysFromNow(330), daysActive: 50,
+    imageUrl: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80", region: "INT",
   },
   {
     title: "Global CO2 emissions to decline in 2026 vs 2025?",
     description: "Resolves YES if global CO2 emissions in 2026 are lower than 2025 per IEA or similar authority.",
-    category: "CLIMATE", prob: 0.12, volume: 34500, closesAt: daysFromNow(350), daysActive: 40, region: "INT",
+    category: "CLIMATE", prob: 0.12, volume: 34500, closesAt: daysFromNow(350), daysActive: 40,
+    imageUrl: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80", region: "INT",
   },
   {
     title: "Nuclear fusion: second lab to achieve net energy gain in 2026?",
     description: "Resolves YES if a second laboratory (after NIF) achieves nuclear fusion net energy gain during 2026.",
-    category: "TECH_SCIENCE", prob: 0.08, volume: 34500, closesAt: daysFromNow(310), daysActive: 55, region: "INT",
+    category: "TECH_SCIENCE", prob: 0.08, volume: 34500, closesAt: daysFromNow(310), daysActive: 55,
+    imageUrl: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80", region: "INT",
   },
 ];
 

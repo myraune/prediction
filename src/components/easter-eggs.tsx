@@ -83,6 +83,15 @@ export function EasterEggs() {
   const konamiIndex = useRef(0);
   const runeCounter = useRef(0);
 
+  const triggerLongship = useCallback(() => {
+    setShowShip(true);
+    toast("SKÅL! ⚔️", {
+      description: "The Vikings have arrived!",
+      duration: 4000,
+    });
+    setTimeout(() => setShowShip(false), 4500);
+  }, []);
+
   // Konami code listener
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
@@ -113,15 +122,6 @@ export function EasterEggs() {
     }
     window.addEventListener("dblclick", handleDblClick);
     return () => window.removeEventListener("dblclick", handleDblClick);
-  }, []);
-
-  const triggerLongship = useCallback(() => {
-    setShowShip(true);
-    toast("SK\u00c5L! \u2694\ufe0f", {
-      description: "The Vikings have arrived!",
-      duration: 4000,
-    });
-    setTimeout(() => setShowShip(false), 4500);
   }, []);
 
   return (
