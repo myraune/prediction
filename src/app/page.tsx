@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp, Clock, Flame } from "lucide-react";
 import { VikingWordmark } from "@/components/brand/viking-logo";
 import { FeaturedCard, CompactCard, SidebarRow } from "@/components/markets/landing-cards";
+import { LiveActivityTicker } from "@/components/markets/live-ticker";
 import type { Market } from "@/generated/prisma/client";
 
 export default async function LandingPage() {
@@ -188,6 +189,9 @@ export default async function LandingPage() {
                   ))}
               </div>
             </div>
+
+            {/* Live Activity Feed */}
+            <LiveActivityTicker />
           </aside>
         </div>
       </main>

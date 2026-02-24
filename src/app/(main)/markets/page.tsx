@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
 import { Flame, Clock } from "lucide-react";
+import { LiveActivityTicker } from "@/components/markets/live-ticker";
 import type { Prisma, Market } from "@/generated/prisma/client";
 
 export default async function MarketsPage({
@@ -251,6 +252,9 @@ export default async function MarketsPage({
             </div>
           </div>
         )}
+
+        {/* Live Activity Feed */}
+        <LiveActivityTicker />
       </aside>
     </div>
   );

@@ -11,6 +11,7 @@ import { TradePanel } from "@/components/trading/trade-panel";
 import { CommentsSection } from "@/components/markets/comments-section";
 import { RelatedMarkets } from "@/components/markets/related-markets";
 import { ProbabilityBar } from "@/components/markets/probability-bar";
+import { LivePrice } from "@/components/markets/live-price";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -131,26 +132,13 @@ export default async function MarketDetailPage({
           )}
         </div>
 
-        {/* Big price */}
-        <div className="flex items-baseline gap-4">
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-bold tabular-nums text-[var(--color-yes)]">{yesCents}¢</span>
-            <span className="text-sm text-muted-foreground">Yes</span>
-          </div>
-          <span className="text-muted-foreground">/</span>
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-bold tabular-nums text-[var(--color-no)]">{noCents}¢</span>
-            <span className="text-sm text-muted-foreground">No</span>
-          </div>
-          {priceChange24h !== null && priceChange24h !== 0 && (
-            <span className={cn(
-              "text-sm font-semibold tabular-nums",
-              priceChange24h > 0 ? "text-[var(--color-yes)]" : "text-[var(--color-no)]"
-            )}>
-              {priceChange24h > 0 ? "▲" : "▼"} {Math.abs(priceChange24h)}¢ 24h
-            </span>
-          )}
-        </div>
+        {/* Live price — polls every 5s */}
+        <LivePrice
+          marketId={market.id}
+          initialYes={yesCents}
+          initialNo={noCents}
+          initialVolume={market.totalVolume}
+        />
 
         <ProbabilityBar yesPercent={price.yes * 100} size="lg" />
 
