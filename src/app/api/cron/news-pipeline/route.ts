@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { CATEGORIES } from "@/lib/constants";
+import { fetchNorwegianNews, type NewsArticle } from "@/lib/norwegian-feeds";
 
 const CATEGORY_VALUES = CATEGORIES.map((c) => c.value);
 
 // Vercel cron jobs call this endpoint
-// Set up in vercel.json: { "crons": [{ "path": "/api/cron/news-pipeline", "schedule": "0 */6 * * *" }] }
+// Set up in vercel.json: { "crons": [{ "path": "/api/cron/news-pipeline", "schedule": "0 8 * * *" }] }
 
 export async function GET(request: Request) {
-  // Verify cron secret to prevent unauthorized access
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
@@ -19,57 +19,13 @@ export async function GET(request: Request) {
   const startTime = Date.now();
 
   try {
-    // Fetch news from available sources
-    const newsApiKey = process.env.NEWS_API_KEY;
-    const gnewsApiKey = process.env.GNEWS_API_KEY;
-
-    type Article = {
-      title: string;
-      description: string;
-      url: string;
-      source: { name: string };
-      publishedAt: string;
-      urlToImage?: string;
-      image?: string;
-    };
-
-    let articles: Article[] = [];
-    let source = "cron";
-
-    if (newsApiKey) {
-      try {
-        const res = await fetch(
-          `https://newsapi.org/v2/top-headlines?` +
-            new URLSearchParams({ language: "en", pageSize: "15", apiKey: newsApiKey }),
-        );
-        if (res.ok) {
-          const data = await res.json();
-          articles = data.articles ?? [];
-          source = "newsapi";
-        }
-      } catch { /* continue */ }
-    }
-
-    if (articles.length === 0 && gnewsApiKey) {
-      try {
-        const res = await fetch(
-          `https://gnews.io/api/v4/top-headlines?` +
-            new URLSearchParams({ lang: "en", max: "15", token: gnewsApiKey }),
-        );
-        if (res.ok) {
-          const data = await res.json();
-          articles = (data.articles ?? []).map((a: Article) => ({
-            ...a,
-            urlToImage: a.image,
-          }));
-          source = "gnews";
-        }
-      } catch { /* continue */ }
-    }
+    // Fetch from Norwegian RSS feeds
+    let articles: NewsArticle[] = await fetchNorwegianNews();
+    const source = "norwegian";
 
     // Filter valid articles
     articles = articles.filter(
-      (a) => a.title && a.title !== "[Removed]" && a.description
+      (a) => a.title && a.title.length >= 10 && a.description
     );
 
     if (articles.length === 0) {
@@ -78,7 +34,7 @@ export async function GET(request: Request) {
           source,
           articlesFound: 0,
           suggested: 0,
-          errors: "No articles found from any source",
+          errors: "No articles found from Norwegian feeds",
           duration: Date.now() - startTime,
         },
       });
@@ -95,14 +51,20 @@ export async function GET(request: Request) {
         .map((a, i) => `${i + 1}. [${a.source.name}] ${a.title}\n   ${a.description ?? ""}`)
         .join("\n");
 
-      const prompt = `You are a prediction market analyst. Based on these news headlines, suggest 3-5 prediction market questions.
+      const prompt = `You are a prediction market analyst specializing in Norwegian and Nordic affairs.
+
+The following headlines are from major Norwegian news outlets (NRK, VG, E24, Dagbladet, Aftenposten, DN). They are in Norwegian.
 
 NEWS HEADLINES:
 ${headlines}
 
+Suggest 3-6 prediction market questions in ENGLISH based on these Norwegian news stories.
+
 Respond with a JSON array. Each object: { "title": "Will X happen by Y?", "description": "Resolution criteria...", "category": one of ${CATEGORY_VALUES.join(", ")}, "closesAt": "ISO date", "reasoning": "Why interesting" }
 
-Rules: Clear YES/NO questions, genuine uncertainty, verifiable outcomes, reasonable timeframes. ONLY JSON array.`;
+Context: Norwegian politics (Storting, Ap/Høyre/FrP/SV/Sp), economy (oil fund, Norges Bank rates, NOK, oil/gas), sports (Eliteserien, skiing, biathlon, Magnus Carlsen), culture (NRK, Eurovision).
+
+Rules: Clear YES/NO questions in English, genuine uncertainty, verifiable outcomes, reasonable timeframes, Norway-focused. ONLY JSON array.`;
 
       try {
         if (anthropicKey) {
@@ -136,7 +98,7 @@ Rules: Clear YES/NO questions, genuine uncertainty, verifiable outcomes, reasona
               model: "gpt-4o-mini",
               max_tokens: 2048,
               messages: [
-                { role: "system", content: "You are a prediction market analyst. Respond only with valid JSON." },
+                { role: "system", content: "You are a prediction market analyst specializing in Norwegian affairs. Respond only with valid JSON." },
                 { role: "user", content: prompt },
               ],
             }),
@@ -156,7 +118,6 @@ Rules: Clear YES/NO questions, genuine uncertainty, verifiable outcomes, reasona
     // Store suggestions
     let storedCount = 0;
     for (const s of suggestions) {
-      // Validate category
       const category = (CATEGORY_VALUES as readonly string[]).includes(s.category) ? s.category : "ECONOMICS";
       const matchingArticle = articles.find((a) =>
         s.title.toLowerCase().includes(a.title.toLowerCase().slice(0, 15))

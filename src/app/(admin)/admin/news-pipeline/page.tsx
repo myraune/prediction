@@ -74,8 +74,8 @@ export default function NewsPipelinePage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [query, setQuery] = useState("world news");
-  const [source, setSource] = useState("newsapi");
+  const [query, setQuery] = useState("");
+  const [source, setSource] = useState("norwegian");
 
   const fetchData = useCallback(async () => {
     try {
@@ -177,7 +177,7 @@ export default function NewsPipelinePage() {
             News Pipeline
           </h1>
           <p className="text-muted-foreground mt-1">
-            Fetch news → AI generates market questions → You review & publish
+            Fetch Norwegian news → AI generates market questions → You review & publish
           </p>
         </div>
       </div>
@@ -240,27 +240,29 @@ export default function NewsPipelinePage() {
             Run Pipeline
           </CardTitle>
           <CardDescription>
-            Fetch trending news and generate prediction market suggestions using AI
+            Fetch Norwegian news from NRK, VG, E24, Dagbladet, Aftenposten, DN and generate market suggestions
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1">
-              <Label htmlFor="query" className="text-xs mb-1 block">Search query</Label>
+              <Label htmlFor="query" className="text-xs mb-1 block">Search query (optional for RSS)</Label>
               <Input
                 id="query"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="world news, tech, crypto..."
+                placeholder="Only used for NewsAPI/GNews fallback..."
+                disabled={source === "norwegian"}
               />
             </div>
-            <div className="w-full sm:w-40">
+            <div className="w-full sm:w-48">
               <Label htmlFor="source" className="text-xs mb-1 block">News source</Label>
               <Select value={source} onValueChange={setSource}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="norwegian">Norwegian RSS</SelectItem>
                   <SelectItem value="newsapi">NewsAPI.org</SelectItem>
                   <SelectItem value="gnews">GNews.io</SelectItem>
                 </SelectContent>
@@ -285,11 +287,9 @@ export default function NewsPipelinePage() {
           <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
             <AlertCircle className="h-3.5 w-3.5" />
             <span>
-              Set <code className="bg-muted px-1 rounded">NEWS_API_KEY</code> or{" "}
-              <code className="bg-muted px-1 rounded">GNEWS_API_KEY</code> in .env for live news.
+              Norwegian RSS fetches from NRK, VG, E24, Dagbladet, Aftenposten, DN (no API key needed).
               Add <code className="bg-muted px-1 rounded">ANTHROPIC_API_KEY</code> or{" "}
-              <code className="bg-muted px-1 rounded">OPENAI_API_KEY</code> for AI suggestions.
-              Without keys, demo data is used.
+              <code className="bg-muted px-1 rounded">OPENAI_API_KEY</code> for AI-generated market suggestions.
             </span>
           </div>
         </CardContent>

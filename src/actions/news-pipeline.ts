@@ -4,17 +4,9 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { CATEGORIES, INITIAL_POOL_SIZE } from "@/lib/constants";
+import { fetchNorwegianNews, type NewsArticle } from "@/lib/norwegian-feeds";
 
 // ─── Types ──────────────────────────────────────────────
-
-interface NewsArticle {
-  title: string;
-  description: string;
-  url: string;
-  source: { name: string };
-  publishedAt: string;
-  urlToImage?: string;
-}
 
 interface MarketSuggestion {
   title: string;
@@ -22,63 +14,6 @@ interface MarketSuggestion {
   category: string;
   closesAt: string;
   reasoning: string;
-}
-
-// ─── News Fetching ──────────────────────────────────────
-
-async function fetchFromNewsAPI(query: string): Promise<NewsArticle[]> {
-  const apiKey = process.env.NEWS_API_KEY;
-  if (!apiKey) return [];
-
-  try {
-    const res = await fetch(
-      `https://newsapi.org/v2/top-headlines?` +
-        new URLSearchParams({
-          q: query,
-          language: "en",
-          pageSize: "10",
-          apiKey,
-        }),
-      { next: { revalidate: 0 } }
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.articles ?? [];
-  } catch {
-    return [];
-  }
-}
-
-async function fetchFromGNews(query: string): Promise<NewsArticle[]> {
-  const apiKey = process.env.GNEWS_API_KEY;
-  if (!apiKey) return [];
-
-  try {
-    const res = await fetch(
-      `https://gnews.io/api/v4/top-headlines?` +
-        new URLSearchParams({
-          q: query,
-          lang: "en",
-          max: "10",
-          token: apiKey,
-        }),
-      { next: { revalidate: 0 } }
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.articles ?? []).map(
-      (a: { title: string; description: string; url: string; source: { name: string }; publishedAt: string; image?: string }) => ({
-        title: a.title,
-        description: a.description,
-        url: a.url,
-        source: a.source,
-        publishedAt: a.publishedAt,
-        urlToImage: a.image,
-      })
-    );
-  } catch {
-    return [];
-  }
 }
 
 // ─── AI Market Generation ───────────────────────────────
@@ -90,26 +25,37 @@ function buildPrompt(articles: NewsArticle[]): string {
     .map((a, i) => `${i + 1}. [${a.source.name}] ${a.title}\n   ${a.description ?? ""}`)
     .join("\n");
 
-  return `You are a prediction market analyst. Based on these news headlines, suggest prediction market questions that would be interesting for traders to bet on.
+  return `You are a prediction market analyst specializing in Norwegian and Nordic affairs.
+
+The following news headlines are from major Norwegian outlets (NRK, VG, E24, Dagbladet, Aftenposten, DN). They are in Norwegian.
 
 NEWS HEADLINES:
 ${headlines}
 
-For each viable market, respond with a JSON array of objects. Each object should have:
-- "title": A clear YES/NO question (e.g., "Will X happen by Y date?")
-- "description": 2-3 sentence resolution criteria explaining exactly when this resolves YES or NO
+Based on these headlines, suggest prediction market questions that traders would find interesting. The markets should be written in ENGLISH but relate to Norwegian events, politics, economy, sports, and culture.
+
+For each market, respond with a JSON array of objects:
+- "title": A clear YES/NO question in English (e.g., "Will Norway's central bank raise interest rates before July 2026?")
+- "description": 2-3 sentence resolution criteria in English explaining exactly when this resolves YES or NO
 - "category": One of: ${CATEGORY_VALUES.join(", ")}
 - "closesAt": ISO date string for when the market should close (use reasonable timeframes: days to months)
-- "reasoning": Why this is an interesting prediction market (1 sentence)
+- "reasoning": Why this is an interesting prediction market (1 sentence, in English)
 - "sourceIndex": The article number (1-indexed) this is based on
+
+Context for better suggestions:
+- Norwegian politics: Storting (parliament), current government coalition, key parties (Ap, Høyre, FrP, SV, Sp, MDG)
+- Norwegian economy: Oil fund (NBIM/Oljefondet), Norges Bank interest rates, NOK/krone exchange rate, oil/gas sector, salmon exports
+- Norwegian sports: Eliteserien (football), Tippeligaen, biathlon, cross-country skiing, handball, chess (Magnus Carlsen)
+- Norwegian culture: NRK programming, Eurovision, book prizes, film
 
 Rules:
 - Only suggest markets for events with genuine uncertainty
 - Avoid duplicate or very similar questions
 - Make titles concise but unambiguous
 - Set closing dates that make sense for the event timeline
-- Suggest 2-5 markets maximum
+- Suggest 3-6 markets maximum
 - Focus on events that will have a clear, verifiable outcome
+- Prefer Norway-specific angles over generic international stories
 
 Respond with ONLY the JSON array, no other text.`;
 }
@@ -122,7 +68,6 @@ async function generateSuggestionsWithAI(articles: NewsArticle[]): Promise<{ sug
   articles.forEach((a, i) => articleMap.set(i + 1, a));
 
   if (!anthropicKey && !openaiKey) {
-    // Fallback: generate basic suggestions from headlines without AI
     return { suggestions: generateFallbackSuggestions(articles), articleMap };
   }
 
@@ -132,7 +77,6 @@ async function generateSuggestionsWithAI(articles: NewsArticle[]): Promise<{ sug
     let responseText = "";
 
     if (anthropicKey) {
-      // Claude API
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: {
@@ -150,7 +94,6 @@ async function generateSuggestionsWithAI(articles: NewsArticle[]): Promise<{ sug
       const data = await res.json();
       responseText = data.content?.[0]?.text ?? "";
     } else if (openaiKey) {
-      // OpenAI API
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -161,7 +104,7 @@ async function generateSuggestionsWithAI(articles: NewsArticle[]): Promise<{ sug
           model: "gpt-4o-mini",
           max_tokens: 2048,
           messages: [
-            { role: "system", content: "You are a prediction market analyst. Respond only with valid JSON." },
+            { role: "system", content: "You are a prediction market analyst specializing in Norwegian affairs. Respond only with valid JSON." },
             { role: "user", content: prompt },
           ],
         }),
@@ -171,7 +114,6 @@ async function generateSuggestionsWithAI(articles: NewsArticle[]): Promise<{ sug
       responseText = data.choices?.[0]?.message?.content ?? "";
     }
 
-    // Parse AI response
     const jsonMatch = responseText.match(/\[[\s\S]*\]/);
     if (!jsonMatch) return { suggestions: generateFallbackSuggestions(articles), articleMap };
 
@@ -193,34 +135,34 @@ async function generateSuggestionsWithAI(articles: NewsArticle[]): Promise<{ sug
 }
 
 function generateFallbackSuggestions(articles: NewsArticle[]): MarketSuggestion[] {
-  // Simple rule-based fallback when no AI API keys are available
   const suggestions: MarketSuggestion[] = [];
   const now = new Date();
 
   for (const article of articles.slice(0, 5)) {
     if (!article.title || article.title.length < 15) continue;
 
-    // Guess category from keywords
     const titleLower = article.title.toLowerCase();
     let category = "ECONOMICS";
-    if (/trump|biden|election|congress|parliament|vote|president|political/.test(titleLower)) category = "POLITICS";
-    else if (/bitcoin|crypto|ethereum|solana|defi|nft/.test(titleLower)) category = "CRYPTO";
-    else if (/ai|tech|google|apple|microsoft|nvidia|openai|spacex|robot/.test(titleLower)) category = "TECH_SCIENCE";
-    else if (/sport|football|soccer|nba|tennis|champion|league|olympic/.test(titleLower)) category = "SPORTS";
-    else if (/climate|temperature|carbon|warming|green|emission/.test(titleLower)) category = "CLIMATE";
-    else if (/netflix|movie|music|celebrity|award|oscar|grammy/.test(titleLower)) category = "ENTERTAINMENT";
-    else if (/stock|s&p|dow|market|fed|rate|inflation|gdp/.test(titleLower)) category = "FINANCIALS";
-    else if (/tesla|amazon|meta|company|ceo|merger|acquisition/.test(titleLower)) category = "COMPANIES";
 
-    // Set closing date 30 days from now
+    // Norwegian + English keyword matching
+    if (/storting|regjering|valg|statsminister|parti|politikk|trump|biden|election|parliament|vote|president/.test(titleLower)) category = "POLITICS";
+    else if (/bitcoin|crypto|ethereum|krypto|solana|defi|nft/.test(titleLower)) category = "CRYPTO";
+    else if (/ai\b|tech|google|apple|microsoft|nvidia|openai|spacex|robot|teknologi|forskning/.test(titleLower)) category = "TECH_SCIENCE";
+    else if (/fotball|håndball|ski|eliteserien|champions|sport|vm\b|em\b|olympi|carlsen|sjakk|biathlon/.test(titleLower)) category = "SPORTS";
+    else if (/klima|utslipp|miljø|temperatur|climate|karbon|grønn/.test(titleLower)) category = "CLIMATE";
+    else if (/film|serie|netflix|musikk|konsert|eurovision|spellemannprisen|tv\b|underholdning/.test(titleLower)) category = "ENTERTAINMENT";
+    else if (/oljefond|oljeprisen|børs|krone|rente|inflasjon|norges bank|nbim|aksje|fond/.test(titleLower)) category = "FINANCIALS";
+    else if (/equinor|telenor|dnb|yara|hydro|selskap|fusjon|oppkjøp|konsern/.test(titleLower)) category = "COMPANIES";
+    else if (/kultur|bok|kunst|teater|museum|pris|utmerkelse/.test(titleLower)) category = "CULTURE";
+
     const closesAt = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
 
     suggestions.push({
       title: `Will "${article.title.slice(0, 80)}" come true by ${closesAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}?`,
-      description: `Based on the news headline: "${article.title}". This market resolves YES if the event described comes to pass by the closing date. Source: ${article.source.name}.`,
+      description: `Based on the Norwegian news headline: "${article.title}". This market resolves YES if the event described comes to pass by the closing date. Source: ${article.source.name}.`,
       category,
       closesAt: closesAt.toISOString(),
-      reasoning: `Generated from trending news headline by ${article.source.name}.`,
+      reasoning: `Generated from trending headline by ${article.source.name}.`,
     });
   }
 
@@ -240,8 +182,7 @@ export async function runNewsPipeline(options?: { query?: string; source?: strin
   if (user?.role !== "ADMIN") return { error: "Not authorized" };
 
   const startTime = Date.now();
-  const query = options?.query || "world news";
-  const source = options?.source || "newsapi";
+  const source = options?.source || "norwegian";
   let articlesFound = 0;
   let suggestedCount = 0;
   let errorMsg: string | undefined;
@@ -249,30 +190,28 @@ export async function runNewsPipeline(options?: { query?: string; source?: strin
   try {
     // Step 1: Fetch news
     let articles: NewsArticle[] = [];
-    if (source === "gnews") {
-      articles = await fetchFromGNews(query);
+
+    if (source === "norwegian") {
+      articles = await fetchNorwegianNews();
+    } else if (source === "gnews") {
+      articles = await fetchFromGNews(options?.query || "Norway");
     } else {
-      articles = await fetchFromNewsAPI(query);
+      articles = await fetchFromNewsAPI(options?.query || "Norway");
     }
 
-    // Filter out articles with [Removed] title (NewsAPI paywall)
     articles = articles.filter(
       (a) => a.title && a.title !== "[Removed]" && a.description
     );
     articlesFound = articles.length;
 
     if (articles.length === 0) {
-      errorMsg = "No articles found. Check API keys in environment variables.";
+      errorMsg = "No articles found from Norwegian feeds.";
 
-      // If no API keys at all, generate demo suggestions
-      const hasApiKeys = !!(process.env.NEWS_API_KEY || process.env.GNEWS_API_KEY);
-      if (!hasApiKeys) {
-        // Generate demo data from curated headlines
-        const demoArticles = getDemoArticles();
-        articles = demoArticles;
-        articlesFound = demoArticles.length;
-        errorMsg = "Using demo data (no NEWS_API_KEY or GNEWS_API_KEY configured)";
-      }
+      // Fallback to demo data
+      const demoArticles = getDemoArticles();
+      articles = demoArticles;
+      articlesFound = demoArticles.length;
+      errorMsg = "Using demo data (Norwegian feeds returned no articles)";
     }
 
     if (articles.length === 0) {
@@ -288,7 +227,6 @@ export async function runNewsPipeline(options?: { query?: string; source?: strin
 
     // Step 3: Store suggestions for admin review
     for (const suggestion of suggestions) {
-      // Find the article that inspired this suggestion
       const matchingArticle = articles.find(
         (a) => suggestion.reasoning?.includes(a.source.name) || suggestion.title.toLowerCase().includes(a.title.toLowerCase().slice(0, 20))
       );
@@ -360,7 +298,6 @@ export async function reviewSuggestion(id: string, action: "approve" | "reject")
     return { success: true };
   }
 
-  // Approve: create the actual market
   const market = await prisma.market.create({
     data: {
       title: suggestion.title,
@@ -411,7 +348,6 @@ export async function editAndPublishSuggestion(
   const suggestion = await prisma.suggestedMarket.findUnique({ where: { id } });
   if (!suggestion) return { error: "Suggestion not found" };
 
-  // Create market with admin edits
   const market = await prisma.market.create({
     data: {
       title: edits.title,
@@ -474,73 +410,110 @@ export async function getPipelineStats() {
   return { pending, approved, rejected, published, recentRuns };
 }
 
-// ─── Demo Data ──────────────────────────────────────────
+// ─── Legacy API Fetchers (kept as fallback) ─────────────
+
+async function fetchFromNewsAPI(query: string): Promise<NewsArticle[]> {
+  const apiKey = process.env.NEWS_API_KEY;
+  if (!apiKey) return [];
+  try {
+    const res = await fetch(
+      `https://newsapi.org/v2/top-headlines?` +
+        new URLSearchParams({ q: query, language: "en", pageSize: "10", apiKey }),
+      { next: { revalidate: 0 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.articles ?? [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchFromGNews(query: string): Promise<NewsArticle[]> {
+  const apiKey = process.env.GNEWS_API_KEY;
+  if (!apiKey) return [];
+  try {
+    const res = await fetch(
+      `https://gnews.io/api/v4/top-headlines?` +
+        new URLSearchParams({ q: query, lang: "en", max: "10", token: apiKey }),
+      { next: { revalidate: 0 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.articles ?? []).map(
+      (a: { title: string; description: string; url: string; source: { name: string }; publishedAt: string; image?: string }) => ({
+        title: a.title,
+        description: a.description,
+        url: a.url,
+        source: a.source,
+        publishedAt: a.publishedAt,
+        urlToImage: a.image,
+      })
+    );
+  } catch {
+    return [];
+  }
+}
+
+// ─── Demo Data (Norwegian headlines) ────────────────────
 
 function getDemoArticles(): NewsArticle[] {
   return [
     {
-      title: "Federal Reserve signals potential rate cut in September amid cooling inflation",
-      description: "Fed Chair indicates growing confidence that inflation is moving sustainably toward 2% target, opening the door for the first rate cut since 2020.",
-      url: "https://example.com/fed-rate",
-      source: { name: "Financial Times" },
+      title: "Norges Bank holder renten uendret på 4,5 prosent",
+      description: "Sentralbanken velger å holde styringsrenten uendret, men signaliserer mulig kutt senere i år dersom inflasjonen fortsetter å falle.",
+      url: "https://e24.no/norges-bank-rente",
+      source: { name: "E24" },
       publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800",
     },
     {
-      title: "SpaceX Starship completes sixth test flight with successful booster catch",
-      description: "SpaceX's massive Starship rocket completed its sixth integrated test flight, with the Super Heavy booster successfully caught by the launch tower's mechanical arms.",
-      url: "https://example.com/spacex",
-      source: { name: "Space News" },
-      publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1541185933-55f6a4d20ac4?w=800",
-    },
-    {
-      title: "Bitcoin surges past $100,000 as institutional adoption accelerates",
-      description: "Bitcoin crossed the $100,000 mark for the first time as major banks launch crypto trading desks and ETF inflows reach record levels.",
-      url: "https://example.com/btc",
-      source: { name: "CoinDesk" },
-      publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800",
-    },
-    {
-      title: "EU passes landmark AI regulation with strict enforcement timeline",
-      description: "The European Union formally adopted the AI Act, setting a 2-year compliance deadline for general-purpose AI systems and establishing new oversight bodies.",
-      url: "https://example.com/eu-ai",
-      source: { name: "Reuters" },
-      publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
-    },
-    {
-      title: "Global temperatures reach new record high for 12th consecutive month",
-      description: "World Meteorological Organization confirms that global mean temperatures exceeded 1.5°C above pre-industrial levels for a full year, raising alarm about climate targets.",
-      url: "https://example.com/climate",
-      source: { name: "BBC News" },
-      publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800",
-    },
-    {
-      title: "OpenAI announces GPT-5 release date and new reasoning capabilities",
-      description: "OpenAI CEO revealed plans to launch GPT-5 with significantly improved reasoning, multimodal understanding, and real-time web access in the coming months.",
-      url: "https://example.com/gpt5",
-      source: { name: "The Verge" },
-      publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=800",
-    },
-    {
-      title: "Norwegian oil fund posts record returns amid global market rally",
-      description: "Norway's sovereign wealth fund, the world's largest, reported its highest quarterly returns in over a decade driven by tech stocks and fixed income gains.",
-      url: "https://example.com/nbim",
+      title: "Oljefondet passerer 20 000 milliarder kroner",
+      description: "Statens pensjonsfond utland satte ny rekord etter sterke aksjemarkeder og svakere krone.",
+      url: "https://nrk.no/oljefondet-rekord",
       source: { name: "NRK" },
       publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
     },
     {
-      title: "Champions League draw sets up blockbuster quarter-final matchups",
-      description: "The UEFA Champions League draw produced thrilling quarter-final ties, with Real Madrid facing Manchester City and Barcelona drawn against Bayern Munich.",
-      url: "https://example.com/ucl",
-      source: { name: "ESPN" },
+      title: "Bodø/Glimt videre i Champions League etter dramatisk kamp",
+      description: "Bodø/Glimt slo det tyske laget 3-2 sammenlagt og går videre til åttedelsfinalen i Champions League.",
+      url: "https://vg.no/glimt-cl",
+      source: { name: "VG" },
       publishedAt: new Date().toISOString(),
-      urlToImage: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800",
+    },
+    {
+      title: "Regjeringen foreslår nye klimatiltak for oljeindustrien",
+      description: "Statsminister Jonas Gahr Støre presenterte en plan for å kutte utslipp fra olje- og gasssektoren med 40 prosent innen 2030.",
+      url: "https://nrk.no/klima-olje",
+      source: { name: "NRK" },
+      publishedAt: new Date().toISOString(),
+    },
+    {
+      title: "Equinor melder om rekordhøy fornybar-produksjon",
+      description: "Equinor rapporterer at fornybar energi nå utgjør 15 prosent av selskapets totale energiproduksjon, opp fra 9 prosent i fjor.",
+      url: "https://dn.no/equinor-fornybar",
+      source: { name: "Dagens Næringsliv" },
+      publishedAt: new Date().toISOString(),
+    },
+    {
+      title: "Høyre tar ledelsen på ny meningsmåling",
+      description: "Erna Solbergs parti ligger nå 5 prosentpoeng foran Arbeiderpartiet i den siste meningsmålingen fra Kantar.",
+      url: "https://dagbladet.no/hoyre-maling",
+      source: { name: "Dagbladet" },
+      publishedAt: new Date().toISOString(),
+    },
+    {
+      title: "Magnus Carlsen trekker seg fra VM-kamp igjen",
+      description: "Verdens beste sjakkspiller bekreftet at han ikke vil forsvare VM-tittelen, og peker i stedet på nye turneringsformater.",
+      url: "https://vg.no/carlsen-vm",
+      source: { name: "VG" },
+      publishedAt: new Date().toISOString(),
+    },
+    {
+      title: "Strømprisene i Sør-Norge tredoblet på én uke",
+      description: "Tørt og kaldt vær kombinert med lite vind har sendt strømprisene til over 3 kroner per kilowattime i sørlige deler av landet.",
+      url: "https://e24.no/strompris",
+      source: { name: "E24" },
+      publishedAt: new Date().toISOString(),
     },
   ];
 }
