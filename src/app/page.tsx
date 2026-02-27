@@ -31,11 +31,18 @@ export default async function LandingPage() {
   let topTraders: { name: string; totalValue: number }[] = [];
 
   try {
-    const [featuredResult, marketCount, catCounts, volumeAgg, traderCount, topUsers] = await Promise.all([
+    const [featuredPicks, topByVolume, marketCount, catCounts, volumeAgg, traderCount, topUsers] = await Promise.all([
+      // Featured markets (flagged by admin) — newest first
+      prisma.market.findMany({
+        where: { status: "OPEN", featured: true },
+        orderBy: { createdAt: "desc" },
+        take: 6,
+      }),
+      // Top markets by volume (fallback & trending)
       prisma.market.findMany({
         where: { status: "OPEN" },
         orderBy: { totalVolume: "desc" },
-        take: 14,
+        take: 20,
       }),
       prisma.market.count({ where: { status: "OPEN" } }),
       prisma.market.groupBy({
@@ -64,8 +71,13 @@ export default async function LandingPage() {
     totalTraders = traderCount;
     categoryCounts = Object.fromEntries(catCounts.map((c) => [c.category, c._count]));
 
-    featured = featuredResult.slice(0, 2);
-    trending = featuredResult.slice(2, 14);
+    // Featured: top 2 from admin-flagged featured markets
+    featured = featuredPicks.slice(0, 2);
+    // Trending: remaining featured + top volume markets (deduplicated)
+    const featuredIds = new Set(featured.map((m) => m.id));
+    const remainingFeatured = featuredPicks.slice(2).filter((m) => !featuredIds.has(m.id));
+    const topNonFeatured = topByVolume.filter((m) => !featuredIds.has(m.id) && !remainingFeatured.some((f) => f.id === m.id));
+    trending = [...remainingFeatured, ...topNonFeatured].slice(0, 12);
 
     // Top traders with portfolio values
     topTraders = topUsers.map((user) => {
@@ -78,9 +90,9 @@ export default async function LandingPage() {
       return { name: user.name, totalValue: user.balance + positionValue };
     }).sort((a, b) => b.totalValue - a.totalValue);
 
-    const featuredIds = featuredResult.map((m) => m.id);
+    const allShownIds = [...featured, ...trending].map((m) => m.id);
     const closing = await prisma.market.findMany({
-      where: { status: "OPEN", closesAt: { gt: new Date() }, id: { notIn: featuredIds } },
+      where: { status: "OPEN", closesAt: { gt: new Date() }, id: { notIn: allShownIds } },
       orderBy: { closesAt: "asc" },
       take: 5,
     });
