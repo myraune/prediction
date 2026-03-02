@@ -189,6 +189,18 @@ model PipelineRun {
   createdAt     DateTime @default(now())
 }
 
+// ─── WAITLIST ────────────────────────────────────────────
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  source    String   @default("waitlist") // "waitlist", "landing", "social"
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 // ─── COMMENTS ───────────────────────────────────────────
 
 model Comment {

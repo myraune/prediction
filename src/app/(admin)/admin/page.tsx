@@ -2,24 +2,27 @@ import { prisma } from "@/lib/prisma";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Users, BarChart3, CheckCircle, TrendingUp, Newspaper } from "lucide-react";
+import { Users, BarChart3, CheckCircle, TrendingUp, Newspaper, Mail } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   let userCount = 0;
   let openMarkets = 0;
   let resolvedMarkets = 0;
   let totalVolumeSum = 0;
+  let waitlistCount = 0;
   try {
-    const [uc, om, rm, tv] = await Promise.all([
+    const [uc, om, rm, tv, wc] = await Promise.all([
       prisma.user.count(),
       prisma.market.count({ where: { status: "OPEN" } }),
       prisma.market.count({ where: { status: "RESOLVED" } }),
       prisma.market.aggregate({ _sum: { totalVolume: true } }),
+      prisma.waitlistEntry.count(),
     ]);
     userCount = uc;
     openMarkets = om;
     resolvedMarkets = rm;
     totalVolumeSum = tv._sum.totalVolume ?? 0;
+    waitlistCount = wc;
   } catch {
     // Database not available
   }
@@ -29,6 +32,7 @@ export default async function AdminDashboardPage() {
     { label: "Open Markets", value: openMarkets, icon: TrendingUp, color: "text-[var(--color-brand)]" },
     { label: "Resolved Markets", value: resolvedMarkets, icon: CheckCircle, color: "text-purple-500" },
     { label: "Total Volume", value: `${totalVolumeSum.toLocaleString("nb-NO")} pts`, icon: BarChart3, color: "text-amber-500" },
+    { label: "Waitlist", value: waitlistCount, icon: Mail, color: "text-emerald-500" },
   ];
 
   return (
@@ -43,7 +47,7 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map((stat) => (
           <Card key={stat.label}>
             <CardContent className="pt-6">
@@ -65,6 +69,12 @@ export default async function AdminDashboardPage() {
         </Link>
         <Link href="/admin/users">
           <Button variant="outline">Manage Users</Button>
+        </Link>
+        <Link href="/admin/waitlist">
+          <Button variant="outline" className="gap-2">
+            <Mail className="h-4 w-4" />
+            Waitlist
+          </Button>
         </Link>
         <Link href="/admin/news-pipeline">
           <Button variant="outline" className="gap-2">

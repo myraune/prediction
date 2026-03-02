@@ -149,9 +149,9 @@ export default async function LandingPage() {
                 Log in
               </Button>
             </Link>
-            <Link href="/register">
+            <Link href="/waitlist">
               <Button size="sm" className="text-xs h-7 px-3 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white">
-                Sign up
+                Join Waitlist
               </Button>
             </Link>
           </div>
@@ -173,9 +173,9 @@ export default async function LandingPage() {
               markets &mdash; predict outcomes and win.
             </p>
             <div className="flex items-center gap-4 mt-5">
-              <Link href="/register">
+              <Link href="/waitlist">
                 <Button size="sm" className="h-8 px-4 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white text-xs font-medium">
-                  Start Trading
+                  Join Waitlist
                 </Button>
               </Link>
               <span className="text-xs text-muted-foreground tabular-nums">
@@ -333,7 +333,7 @@ export default async function LandingPage() {
               <nav className="flex flex-col gap-1.5">
                 <Link href="/leaderboard" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Leaderboard</Link>
                 <Link href="/portfolio" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Portfolio</Link>
-                <Link href="/register" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Sign Up</Link>
+                <Link href="/waitlist" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Join Waitlist</Link>
               </nav>
             </div>
             <div>

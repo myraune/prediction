@@ -50,3 +50,10 @@ export const resolveMarketSchema = z.object({
 });
 
 export type ResolveMarketData = z.infer<typeof resolveMarketSchema>;
+
+export const waitlistSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  name: z.string().max(100).optional(),
+});
+
+export type WaitlistFormData = z.infer<typeof waitlistSchema>;
