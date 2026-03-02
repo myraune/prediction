@@ -27,17 +27,15 @@ const iconPixelMap = {
 export function VikingLogo({ className, size = "md" }: VikingLogoProps) {
   const px = iconPixelMap[size];
   return (
-    <span className={cn(sizeMap[size], "inline-flex items-center justify-center rounded-sm bg-foreground", className)}>
-      <Image
-        src="/icon-1.svg"
-        alt="Viking Market"
-        width={px}
-        height={px}
-        className={cn(sizeMap[size], "rounded-sm")}
-        priority
-        unoptimized
-      />
-    </span>
+    <Image
+      src="/icon-3.svg"
+      alt="Viking Market"
+      width={px}
+      height={px}
+      className={cn(sizeMap[size], "rounded-sm", className)}
+      priority
+      unoptimized
+    />
   );
 }
 
