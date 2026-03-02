@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { prisma } from "@/lib/prisma";
@@ -14,6 +15,39 @@ import { ProbabilityBar } from "@/components/markets/probability-bar";
 import { LivePrice } from "@/components/markets/live-price";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const market = await prisma.market.findUnique({
+    where: { id },
+    select: { title: true, description: true, category: true },
+  });
+
+  if (!market) return { title: "Market Not Found" };
+
+  const description = market.description.length > 160
+    ? market.description.slice(0, 157) + "..."
+    : market.description;
+
+  return {
+    title: market.title,
+    description,
+    openGraph: {
+      title: market.title,
+      description,
+      type: "article",
+    },
+    twitter: {
+      card: "summary",
+      title: market.title,
+      description,
+    },
+  };
+}
 
 export default async function MarketDetailPage({
   params,

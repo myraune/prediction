@@ -24,10 +24,30 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Viking Market",
-  description: "Prediction markets. Trade on future events with YES/NO shares priced 1¢–99¢.",
+  metadataBase: new URL("https://viking-market.com"),
+  title: {
+    default: "Viking Market — Norway's Prediction Market",
+    template: "%s | Viking Market",
+  },
+  description:
+    "Trade on real-world events. From Norwegian politics to global markets — buy and sell shares on outcomes you believe in.",
   icons: {
     icon: "/favicon.svg",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Viking Market",
+    title: "Viking Market — Norway's Prediction Market",
+    description:
+      "Trade on real-world events. From Norwegian politics to global markets — buy and sell shares on outcomes you believe in.",
+    url: "https://viking-market.com",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Viking Market — Norway's Prediction Market",
+    description:
+      "Trade on real-world events. From Norwegian politics to global markets — buy and sell shares on outcomes you believe in.",
   },
 };
 

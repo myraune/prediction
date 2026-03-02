@@ -108,7 +108,7 @@ export default async function LandingPage() {
       id: m.id,
       title: m.title,
       yesPrice: Math.round(p.yes * 100),
-      change: Math.round((Math.random() - 0.4) * 8), // simulated 24h change
+      change: 0,
     };
   });
 
@@ -157,6 +157,30 @@ export default async function LandingPage() {
           </div>
         </div>
       </nav>
+
+      {/* ─── Mobile Category Bar ─── */}
+      <div className="sm:hidden border-b overflow-x-auto scrollbar-none">
+        <div className="flex items-center gap-1 px-4 py-1.5">
+          <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
+            Browse
+          </Link>
+          {Object.entries(categoryCounts)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 6)
+            .map(([cat]) => (
+              <Link
+                key={cat}
+                href={`/markets?category=${cat}`}
+                className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0"
+              >
+                {CATEGORY_LABELS[cat] ?? cat}
+              </Link>
+            ))}
+          <Link href="/leaderboard" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
+            Leaderboard
+          </Link>
+        </div>
+      </div>
 
       {/* ─── Trending Ticker ─── */}
       <TrendingTicker markets={tickerMarkets} />
