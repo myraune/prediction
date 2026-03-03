@@ -3,6 +3,14 @@
 import { prisma } from "@/lib/prisma";
 import { waitlistSchema } from "@/lib/validations";
 
+export async function getWaitlistCount(): Promise<number> {
+  try {
+    return await prisma.waitlistEntry.count();
+  } catch {
+    return 0;
+  }
+}
+
 export async function joinWaitlist(data: { email: string; name?: string; source?: string }) {
   const parsed = waitlistSchema.safeParse(data);
   if (!parsed.success) {

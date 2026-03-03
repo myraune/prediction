@@ -15,6 +15,7 @@ import { ProbabilityBar } from "@/components/markets/probability-bar";
 import { LivePrice } from "@/components/markets/live-price";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { MarketJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
 
 export async function generateMetadata({
   params,
@@ -134,7 +135,26 @@ export default async function MarketDetailPage({
     FINANCIALS: "Financials", TECH_SCIENCE: "Tech & Science", ENTERTAINMENT: "Entertainment",
   };
 
+  const categoryLabel = categoryLabels[market.category] ?? market.category;
+
   return (
+    <>
+      <MarketJsonLd
+        title={market.title}
+        description={market.description}
+        url={`https://viking-market.com/markets/${market.id}`}
+        category={categoryLabel}
+        dateCreated={market.createdAt.toISOString()}
+        dateModified={market.updatedAt.toISOString()}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "https://viking-market.com" },
+          { name: "Markets", url: "https://viking-market.com/markets" },
+          { name: categoryLabel, url: `https://viking-market.com/markets?category=${market.category}` },
+          { name: market.title, url: `https://viking-market.com/markets/${market.id}` },
+        ]}
+      />
     <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
       {/* Main */}
       <div className="space-y-6 min-w-0">
@@ -301,7 +321,24 @@ export default async function MarketDetailPage({
             </div>
           ))}
         </div>
+
+        {/* Waitlist CTA for non-users */}
+        {!session?.user && market.status === "OPEN" && (
+          <a
+            href="/waitlist"
+            className="block rounded-xl border border-[var(--color-viking)]/30 bg-[var(--color-viking)]/5 p-4 text-center hover:bg-[var(--color-viking)]/10 transition-colors"
+          >
+            <p className="text-sm font-semibold">Want to trade this market?</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Join the waitlist for early access to Viking Market.
+            </p>
+            <span className="inline-block mt-2 text-xs font-medium text-[var(--color-viking)]">
+              Join Waitlist &rarr;
+            </span>
+          </a>
+        )}
       </div>
     </div>
+    </>
   );
 }

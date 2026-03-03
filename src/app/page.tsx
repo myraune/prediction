@@ -12,6 +12,7 @@ import { LiveActivityTicker } from "@/components/markets/live-ticker";
 import { TrendingTicker } from "@/components/landing/trending-ticker";
 import { CountdownRow } from "@/components/landing/countdown-row";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { Search, ArrowUpDown, Trophy } from "lucide-react";
 import type { Market } from "@/generated/prisma/client";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -29,9 +30,10 @@ export default async function LandingPage() {
   let totalTraders = 0;
   let categoryCounts: Record<string, number> = {};
   let topTraders: { name: string; totalValue: number }[] = [];
+  let waitlistCount = 0;
 
   try {
-    const [featuredPicks, topByVolume, marketCount, catCounts, volumeAgg, traderCount, topUsers] = await Promise.all([
+    const [featuredPicks, topByVolume, marketCount, catCounts, volumeAgg, traderCount, topUsers, wlCount] = await Promise.all([
       // Featured markets (flagged by admin) — newest first
       prisma.market.findMany({
         where: { status: "OPEN", featured: true },
@@ -65,8 +67,10 @@ export default async function LandingPage() {
         orderBy: { balance: "desc" },
         take: 5,
       }),
+      prisma.waitlistEntry.count(),
     ]);
     totalMarkets = marketCount;
+    waitlistCount = wlCount;
     totalVolume = volumeAgg._sum.totalVolume ?? 0;
     totalTraders = traderCount;
     categoryCounts = Object.fromEntries(catCounts.map((c) => [c.category, c._count]));
@@ -203,7 +207,7 @@ export default async function LandingPage() {
                 </Button>
               </Link>
               <span className="text-xs text-muted-foreground tabular-nums">
-                {totalMarkets} markets &middot; ${formatCompactNumber(totalVolume)} vol &middot; {totalTraders} traders
+                {totalMarkets} markets &middot; {totalTraders} traders{waitlistCount > 0 && <> &middot; {waitlistCount} on waitlist</>}
               </span>
             </div>
           </div>
@@ -333,8 +337,61 @@ export default async function LandingPage() {
         </div>
       </main>
 
+      {/* ─── How It Works ─── */}
+      <section className="border-t">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+          <div className="text-center mb-8">
+            <h2 className="text-lg font-bold tracking-tight">How it works</h2>
+            <p className="text-sm text-muted-foreground mt-1">Three steps to start predicting.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            {[
+              { icon: Search, title: "Browse Markets", desc: "Explore prediction markets on Norwegian and global events — politics, sports, economics, and more." },
+              { icon: ArrowUpDown, title: "Buy YES or NO", desc: "Think something will happen? Buy YES. Think it won't? Buy NO. Prices reflect the crowd's probability." },
+              { icon: Trophy, title: "Earn When Right", desc: "Winning shares pay out $1. The better your prediction, the bigger your return." },
+            ].map((step) => (
+              <div key={step.title} className="text-center space-y-3">
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--color-viking)]/10">
+                  <step.icon className="h-5 w-5 text-[var(--color-viking)]" />
+                </div>
+                <h3 className="font-semibold text-sm">{step.title}</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link href="/how-it-works" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+              Learn more &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Bottom CTA ─── */}
+      <section className="border-t">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+          <div className="rounded-xl border border-[var(--color-viking)]/30 bg-[var(--color-viking)]/5 p-8 text-center space-y-4">
+            <h2 className="text-xl font-bold tracking-tight">Ready to predict the future?</h2>
+            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+              Join the waitlist for early access to Viking Market — Norway&apos;s prediction market.
+              {waitlistCount > 0 && <> <strong className="text-foreground">{waitlistCount}</strong> people are already waiting.</>}
+            </p>
+            <div className="flex items-center justify-center gap-3">
+              <Link href="/waitlist">
+                <Button className="bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white">
+                  Join Waitlist
+                </Button>
+              </Link>
+              <Link href="/how-it-works">
+                <Button variant="outline">How It Works</Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── Footer ─── */}
-      <footer className="border-t mt-8">
+      <footer className="border-t">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
             <div className="col-span-2 sm:col-span-1">
@@ -361,12 +418,11 @@ export default async function LandingPage() {
               </nav>
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Info</h4>
-              <div className="flex flex-col gap-1.5 text-xs text-muted-foreground">
-                <span>LMSR AMM pricing</span>
-                <span>Transparent resolution</span>
-                <span>{totalTraders}+ traders</span>
-              </div>
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Learn</h4>
+              <nav className="flex flex-col gap-1.5">
+                <Link href="/how-it-works" className="text-xs text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
+                <Link href="/about" className="text-xs text-muted-foreground hover:text-foreground transition-colors">About</Link>
+              </nav>
             </div>
           </div>
           <div className="border-t pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
