@@ -36,14 +36,21 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  alternates: {
+    languages: {
+      "nb-NO": "https://viking-market.com",
+      "x-default": "https://viking-market.com",
+    },
+  },
   openGraph: {
     type: "website",
     siteName: "Viking Market",
-    title: "Viking Market — Norway's Prediction Market",
+    title: "Viking Market — Norges prediksjonsmarked",
     description:
-      "Trade on real-world events. From Norwegian politics to global markets — buy and sell shares on outcomes you believe in.",
+      "Handle på virkelige hendelser. Fra norsk politikk til globale markeder — kjøp og selg aksjer på utfall du tror på.",
     url: "https://viking-market.com",
-    locale: "en_US",
+    locale: "nb_NO",
+    alternateLocale: "en_US",
   },
   twitter: {
     card: "summary_large_image",

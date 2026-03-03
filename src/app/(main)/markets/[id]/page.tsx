@@ -25,7 +25,7 @@ export async function generateMetadata({
   const { id } = await params;
   const market = await prisma.market.findUnique({
     where: { id },
-    select: { title: true, description: true, category: true },
+    select: { title: true, description: true, category: true, metaTitleNo: true, metaDescNo: true },
   });
 
   if (!market) return { title: "Market Not Found" };
@@ -34,18 +34,29 @@ export async function generateMetadata({
     ? market.description.slice(0, 157) + "..."
     : market.description;
 
+  // Use Norwegian meta for OG/Google if available, browser tab stays English
+  const ogTitle = market.metaTitleNo || market.title;
+  const ogDesc = market.metaDescNo || description;
+
   return {
     title: market.title,
-    description,
+    description: ogDesc,
+    alternates: {
+      languages: {
+        "nb-NO": `https://viking-market.com/markets/${id}`,
+        "x-default": `https://viking-market.com/markets/${id}`,
+      },
+    },
     openGraph: {
-      title: market.title,
-      description,
+      title: ogTitle,
+      description: ogDesc,
       type: "article",
+      locale: "nb_NO",
     },
     twitter: {
       card: "summary",
-      title: market.title,
-      description,
+      title: ogTitle,
+      description: ogDesc,
     },
   };
 }

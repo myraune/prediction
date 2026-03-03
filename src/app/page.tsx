@@ -422,6 +422,7 @@ export default async function LandingPage() {
               <nav className="flex flex-col gap-1.5">
                 <Link href="/how-it-works" className="text-xs text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
                 <Link href="/about" className="text-xs text-muted-foreground hover:text-foreground transition-colors">About</Link>
+                <Link href="/blog" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
               </nav>
             </div>
           </div>
