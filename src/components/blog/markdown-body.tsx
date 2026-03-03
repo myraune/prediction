@@ -5,7 +5,7 @@
  * Handles: headings, bold, italic, links, lists, paragraphs, blockquotes, code.
  * No external dependency needed.
  */
-function markdownToHtml(md: string): string {
+export function markdownToHtml(md: string): string {
   let html = md
     // Code blocks (``` ... ```)
     .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre class="bg-muted p-4 rounded-lg overflow-x-auto text-sm my-4"><code>$2</code></pre>')

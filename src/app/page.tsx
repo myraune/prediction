@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { getPrice } from "@/lib/amm";
 import { formatCompactNumber } from "@/lib/format";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { VikingWordmark } from "@/components/brand/viking-logo";
 import { FeaturedCard, CompactCard } from "@/components/markets/landing-cards";
@@ -31,9 +32,10 @@ export default async function LandingPage() {
   let categoryCounts: Record<string, number> = {};
   let topTraders: { name: string; totalValue: number }[] = [];
   let waitlistCount = 0;
+  let latestPosts: { slug: string; title: string; excerpt: string; category: string; publishedAt: Date | null }[] = [];
 
   try {
-    const [featuredPicks, topByVolume, marketCount, catCounts, volumeAgg, traderCount, topUsers, wlCount] = await Promise.all([
+    const [featuredPicks, topByVolume, marketCount, catCounts, volumeAgg, traderCount, topUsers, wlCount, recentPosts] = await Promise.all([
       // Featured markets (flagged by admin) — newest first
       prisma.market.findMany({
         where: { status: "OPEN", featured: true },
@@ -68,9 +70,16 @@ export default async function LandingPage() {
         take: 5,
       }),
       prisma.waitlistEntry.count(),
+      prisma.blogPost.findMany({
+        where: { published: true },
+        orderBy: { publishedAt: "desc" },
+        select: { slug: true, title: true, excerpt: true, category: true, publishedAt: true },
+        take: 3,
+      }),
     ]);
     totalMarkets = marketCount;
     waitlistCount = wlCount;
+    latestPosts = recentPosts;
     totalVolume = volumeAgg._sum.totalVolume ?? 0;
     totalTraders = traderCount;
     categoryCounts = Object.fromEntries(catCounts.map((c) => [c.category, c._count]));
@@ -366,6 +375,52 @@ export default async function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* ─── Latest from Blog ─── */}
+      {latestPosts.length > 0 && (
+        <section className="border-t">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-lg font-bold tracking-tight">Latest from the blog</h2>
+                <p className="text-sm text-muted-foreground mt-1">Analysis and insights behind our markets.</p>
+              </div>
+              <Link href="/blog" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+                View all &rarr;
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group rounded-xl border bg-card p-5 hover:border-[var(--color-viking)]/30 transition-colors"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <Badge variant="outline" className="text-[10px]">
+                      {post.category === "ANALYSIS" ? "Analysis" : post.category === "NEWS" ? "News" : "Guide"}
+                    </Badge>
+                    {post.publishedAt && (
+                      <span className="text-[10px] text-muted-foreground">
+                        {post.publishedAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-semibold text-sm leading-snug group-hover:text-[var(--color-viking)] transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <span className="text-[10px] text-[var(--color-viking)] font-medium mt-3 inline-block">
+                    Read more &rarr;
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ─── Bottom CTA ─── */}
       <section className="border-t">

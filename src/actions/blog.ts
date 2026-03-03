@@ -107,6 +107,136 @@ export async function updateBlogPost(
   }
 }
 
+/**
+ * Generate a blog draft from a market — AI-powered if API key available, template otherwise.
+ * Creates an unpublished draft linked to the market.
+ */
+export async function generateBlogDraft(marketId: string) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "Unauthorized" };
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true },
+  });
+  if (user?.role !== "ADMIN") return { error: "Unauthorized" };
+
+  const market = await prisma.market.findUnique({ where: { id: marketId } });
+  if (!market) return { error: "Market not found" };
+
+  // Check for existing draft
+  const existingDraft = await prisma.blogPost.findFirst({
+    where: { linkedMarketId: marketId },
+  });
+  if (existingDraft) {
+    return { error: "A blog post already exists for this market", existingId: existingDraft.id };
+  }
+
+  const slug = slugify(market.title);
+  let title = market.title;
+  let excerpt = market.description.slice(0, 160);
+  let content = "";
+  let metaTitleNo = "";
+  let metaDescNo = "";
+
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+
+  if (anthropicKey) {
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": anthropicKey,
+          "anthropic-version": "2023-06-01",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 2048,
+          messages: [{
+            role: "user",
+            content: `You are a blog writer for Viking Market, a Norwegian prediction market. Write a blog post about this market:
+
+Title: ${market.title}
+Description: ${market.description}
+Category: ${market.category}
+Closes: ${market.closesAt.toISOString()}
+
+Requirements:
+1. Write an engaging English blog post (300-500 words) in markdown format
+2. Include background context, key arguments for YES and NO, and what to watch for
+3. Reference the prediction market at the end
+4. Keep the tone analytical but accessible
+
+Also generate:
+- A Norwegian SEO title (under 60 chars, include "Viking Market" at the end after a dash)
+- A Norwegian SEO meta description (under 155 chars)
+- A short English excerpt (under 160 chars)
+
+Respond as JSON:
+{
+  "title": "English blog title (can be different from market title)",
+  "excerpt": "Short English excerpt...",
+  "content": "## Markdown content here...",
+  "metaTitleNo": "Norsk SEO-tittel — Viking Market",
+  "metaDescNo": "Norsk meta-beskrivelse for Google-resultater..."
+}
+
+Respond with ONLY the JSON, no other text.`,
+          }],
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const text = data.content?.[0]?.text ?? "";
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          title = parsed.title || title;
+          excerpt = parsed.excerpt || excerpt;
+          content = parsed.content || "";
+          metaTitleNo = parsed.metaTitleNo || "";
+          metaDescNo = parsed.metaDescNo || "";
+        }
+      }
+    } catch {
+      // Fall through to template
+    }
+  }
+
+  // Template fallback if AI didn't produce content
+  if (!content) {
+    content = `## ${market.title}\n\n${market.description}\n\n### Background\n\n*Add context about this topic here...*\n\n### Arguments for YES\n\n- Point 1\n- Point 2\n\n### Arguments for NO\n\n- Point 1\n- Point 2\n\n### What to Watch\n\n*Key dates or events that could move this market...*\n\n---\n\nTrade on this market at Viking Market. Buy YES or NO shares and put your prediction to the test.`;
+  }
+
+  try {
+    // Ensure slug is unique
+    let finalSlug = slug;
+    const existing = await prisma.blogPost.findUnique({ where: { slug: finalSlug } });
+    if (existing) {
+      finalSlug = `${slug}-${Date.now().toString(36)}`;
+    }
+
+    const post = await prisma.blogPost.create({
+      data: {
+        slug: finalSlug,
+        title,
+        excerpt,
+        content,
+        metaTitleNo: metaTitleNo || null,
+        metaDescNo: metaDescNo || null,
+        category: "ANALYSIS",
+        linkedMarketId: marketId,
+        published: false,
+      },
+    });
+    return { success: true, id: post.id, slug: post.slug };
+  } catch {
+    return { error: "Failed to create blog draft" };
+  }
+}
+
 export async function deleteBlogPost(id: string) {
   const session = await auth();
   if (!session?.user?.id) return { error: "Unauthorized" };

@@ -15,11 +15,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { createBlogPost } from "@/actions/blog";
+import { markdownToHtml } from "@/components/blog/markdown-body";
 import { toast } from "sonner";
 
 export default function NewBlogPostPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [preview, setPreview] = useState(false);
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [excerpt, setExcerpt] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -64,6 +69,8 @@ export default function NewBlogPostPage() {
                 id="title"
                 name="title"
                 placeholder="Will Høiby be convicted in 2026?"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </div>
@@ -90,19 +97,53 @@ export default function NewBlogPostPage() {
                 id="excerpt"
                 name="excerpt"
                 placeholder="Short summary for blog listing cards..."
+                value={excerpt}
+                onChange={(e) => setExcerpt(e.target.value)}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="content">Content (Markdown)</Label>
-              <Textarea
-                id="content"
-                name="content"
-                placeholder="Write your analysis in markdown..."
-                required
-                rows={16}
-                className="font-mono text-sm"
-              />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="content">Content (Markdown)</Label>
+                <button
+                  type="button"
+                  onClick={() => setPreview(!preview)}
+                  className="text-xs text-[var(--color-viking)] hover:underline font-medium"
+                >
+                  {preview ? "Edit" : "Preview"}
+                </button>
+              </div>
+              {preview ? (
+                <div className="rounded-lg border bg-background p-4 min-h-[300px]">
+                  {content ? (
+                    <div
+                      className="prose-sm text-sm text-foreground"
+                      dangerouslySetInnerHTML={{
+                        __html: markdownToHtml(content),
+                      }}
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground italic">
+                      Start writing to see preview...
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <Textarea
+                  id="content"
+                  name="content"
+                  placeholder="Write your analysis in markdown..."
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
+                  rows={16}
+                  className="font-mono text-sm"
+                />
+              )}
+              {/* Hidden input to carry value when in preview mode */}
+              {preview && (
+                <input type="hidden" name="content" value={content} />
+              )}
             </div>
           </CardContent>
         </Card>
@@ -111,7 +152,7 @@ export default function NewBlogPostPage() {
         <Card>
           <CardContent className="pt-6 space-y-4">
             <h2 className="text-sm font-semibold text-[var(--color-viking)] uppercase tracking-wide">
-              🇳🇴 Norwegian SEO (invisible on page — shown in Google results)
+              Norwegian SEO (invisible on page — shown in Google results)
             </h2>
             <p className="text-xs text-muted-foreground">
               These appear in Google search snippets for Norwegian queries. The
@@ -179,6 +220,26 @@ export default function NewBlogPostPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Preview card */}
+        {(title || excerpt) && (
+          <Card>
+            <CardContent className="pt-6 space-y-3">
+              <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                Card Preview (how it looks on the blog listing)
+              </h2>
+              <div className="rounded-xl border bg-card p-5">
+                <h3 className="font-semibold text-sm">{title || "Untitled"}</h3>
+                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                  {excerpt || "No excerpt yet..."}
+                </p>
+                <span className="text-[10px] text-[var(--color-viking)] font-medium mt-2 inline-block">
+                  Read more &rarr;
+                </span>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? "Creating..." : "Create Post"}

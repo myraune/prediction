@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { updateBlogPost, deleteBlogPost } from "@/actions/blog";
+import { markdownToHtml } from "@/components/blog/markdown-body";
 import { toast } from "sonner";
 
 interface PostData {
@@ -36,11 +37,20 @@ export default function EditBlogPostPage() {
   const [post, setPost] = useState<PostData | null>(null);
   const [loading, setLoading] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [preview, setPreview] = useState(false);
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [excerpt, setExcerpt] = useState("");
 
   useEffect(() => {
     fetch(`/api/admin/blog/${params.id}`)
       .then((r) => r.json())
-      .then(setPost)
+      .then((data: PostData) => {
+        setPost(data);
+        setContent(data.content);
+        setTitle(data.title);
+        setExcerpt(data.excerpt);
+      })
       .catch(() => toast.error("Failed to load post"));
   }, [params.id]);
 
@@ -90,14 +100,24 @@ export default function EditBlogPostPage() {
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Edit Post</h1>
-        <Button
-          variant="destructive"
-          size="sm"
-          onClick={onDelete}
-          disabled={deleting}
-        >
-          {deleting ? "Deleting..." : "Delete"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <a
+            href={`/blog/${post.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[var(--color-viking)] hover:underline"
+          >
+            View live &rarr;
+          </a>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={onDelete}
+            disabled={deleting}
+          >
+            {deleting ? "Deleting..." : "Delete"}
+          </Button>
+        </div>
       </div>
 
       <form onSubmit={onSubmit} className="space-y-6">
@@ -111,7 +131,8 @@ export default function EditBlogPostPage() {
               <Input
                 id="title"
                 name="title"
-                defaultValue={post.title}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
                 required
               />
             </div>
@@ -129,20 +150,51 @@ export default function EditBlogPostPage() {
               <Input
                 id="excerpt"
                 name="excerpt"
-                defaultValue={post.excerpt}
+                value={excerpt}
+                onChange={(e) => setExcerpt(e.target.value)}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="content">Content (Markdown)</Label>
-              <Textarea
-                id="content"
-                name="content"
-                defaultValue={post.content}
-                required
-                rows={16}
-                className="font-mono text-sm"
-              />
+              <div className="flex items-center justify-between">
+                <Label htmlFor="content">Content (Markdown)</Label>
+                <button
+                  type="button"
+                  onClick={() => setPreview(!preview)}
+                  className="text-xs text-[var(--color-viking)] hover:underline font-medium"
+                >
+                  {preview ? "Edit" : "Preview"}
+                </button>
+              </div>
+              {preview ? (
+                <div className="rounded-lg border bg-background p-4 min-h-[300px]">
+                  {content ? (
+                    <div
+                      className="prose-sm text-sm text-foreground"
+                      dangerouslySetInnerHTML={{
+                        __html: markdownToHtml(content),
+                      }}
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground italic">
+                      No content yet...
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <Textarea
+                  id="content"
+                  name="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  required
+                  rows={16}
+                  className="font-mono text-sm"
+                />
+              )}
+              {preview && (
+                <input type="hidden" name="content" value={content} />
+              )}
             </div>
           </CardContent>
         </Card>
@@ -150,7 +202,7 @@ export default function EditBlogPostPage() {
         <Card>
           <CardContent className="pt-6 space-y-4">
             <h2 className="text-sm font-semibold text-[var(--color-viking)] uppercase tracking-wide">
-              🇳🇴 Norwegian SEO (invisible on page)
+              Norwegian SEO (invisible on page)
             </h2>
             <div className="space-y-2">
               <Label htmlFor="metaTitleNo">Norwegian Meta Title</Label>

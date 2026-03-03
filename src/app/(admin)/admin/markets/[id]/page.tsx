@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { resolveMarket } from "@/actions/markets";
+import { generateBlogDraft } from "@/actions/blog";
 import { toast } from "sonner";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, FileText } from "lucide-react";
 
 interface MarketData {
   id: string;
@@ -31,6 +32,7 @@ export default function AdminMarketDetailPage() {
   const [market, setMarket] = useState<MarketData | null>(null);
   const [loading, setLoading] = useState(false);
   const [note, setNote] = useState("");
+  const [generatingBlog, setGeneratingBlog] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/market/${marketId}`)
@@ -52,6 +54,23 @@ export default function AdminMarketDetailPage() {
       toast.success(`Market resolved as ${resolution}`);
       router.push("/admin/markets");
     }
+  }
+
+  async function handleGenerateBlogDraft() {
+    setGeneratingBlog(true);
+    const result = await generateBlogDraft(marketId);
+    if (result.error) {
+      if ("existingId" in result && result.existingId) {
+        toast.info("A blog post already exists for this market");
+        router.push(`/admin/blog/${result.existingId}`);
+      } else {
+        toast.error(result.error);
+      }
+    } else if (result.success && "id" in result) {
+      toast.success("Blog draft created!");
+      router.push(`/admin/blog/${result.id}`);
+    }
+    setGeneratingBlog(false);
   }
 
   if (!market) return <div className="text-center py-8">Loading...</div>;
@@ -87,6 +106,31 @@ export default function AdminMarketDetailPage() {
               )}
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Blog Draft */}
+      <Card>
+        <CardContent className="pt-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-medium text-sm flex items-center gap-2">
+                <FileText className="h-4 w-4" />
+                Blog Content
+              </h3>
+              <p className="text-xs text-muted-foreground mt-1">
+                Generate an AI blog draft with Norwegian SEO for this market.
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleGenerateBlogDraft}
+              disabled={generatingBlog}
+            >
+              {generatingBlog ? "Generating..." : "Generate Blog Draft"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
