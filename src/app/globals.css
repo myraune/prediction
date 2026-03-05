@@ -173,3 +173,24 @@
   animation-play-state: paused;
 }
 
+/* ─── Live chart pulse ─── */
+@keyframes live-pulse {
+  0%, 100% { r: 6; opacity: 0.2; }
+  50% { r: 12; opacity: 0.05; }
+}
+.animate-live-pulse {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+/* ─── Price flash ─── */
+@keyframes price-flash-up {
+  0% { color: var(--color-yes); }
+  100% { color: inherit; }
+}
+@keyframes price-flash-down {
+  0% { color: var(--color-no); }
+  100% { color: inherit; }
+}
+.animate-flash-up { animation: price-flash-up 0.8s ease-out; }
+.animate-flash-down { animation: price-flash-down 0.8s ease-out; }
+

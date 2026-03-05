@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Users, BarChart3, CheckCircle, TrendingUp, Newspaper, Mail, FileText } from "lucide-react";
+import { Users, BarChart3, CheckCircle, TrendingUp, Newspaper, Mail, FileText, Bot, Percent } from "lucide-react";
 
 export default async function AdminDashboardPage() {
   let userCount = 0;
@@ -11,14 +11,16 @@ export default async function AdminDashboardPage() {
   let totalVolumeSum = 0;
   let waitlistCount = 0;
   let blogCount = 0;
+  let totalFees = 0;
   try {
-    const [uc, om, rm, tv, wc, bc] = await Promise.all([
+    const [uc, om, rm, tv, wc, bc, fees] = await Promise.all([
       prisma.user.count(),
       prisma.market.count({ where: { status: "OPEN" } }),
       prisma.market.count({ where: { status: "RESOLVED" } }),
       prisma.market.aggregate({ _sum: { totalVolume: true } }),
       prisma.waitlistEntry.count(),
       prisma.blogPost.count({ where: { published: true } }),
+      prisma.trade.aggregate({ _sum: { fee: true } }),
     ]);
     userCount = uc;
     openMarkets = om;
@@ -26,6 +28,7 @@ export default async function AdminDashboardPage() {
     totalVolumeSum = tv._sum.totalVolume ?? 0;
     waitlistCount = wc;
     blogCount = bc;
+    totalFees = fees._sum.fee ?? 0;
   } catch {
     // Database not available
   }
@@ -33,8 +36,9 @@ export default async function AdminDashboardPage() {
   const stats = [
     { label: "Total Users", value: userCount, icon: Users, color: "text-blue-500" },
     { label: "Open Markets", value: openMarkets, icon: TrendingUp, color: "text-[var(--color-brand)]" },
-    { label: "Resolved Markets", value: resolvedMarkets, icon: CheckCircle, color: "text-purple-500" },
-    { label: "Total Volume", value: `${totalVolumeSum.toLocaleString("nb-NO")} pts`, icon: BarChart3, color: "text-amber-500" },
+    { label: "Resolved", value: resolvedMarkets, icon: CheckCircle, color: "text-purple-500" },
+    { label: "Volume", value: `${totalVolumeSum.toLocaleString("nb-NO")} pts`, icon: BarChart3, color: "text-amber-500" },
+    { label: "Fees", value: `${Math.round(totalFees).toLocaleString("nb-NO")} pts`, icon: Percent, color: "text-rose-500" },
     { label: "Waitlist", value: waitlistCount, icon: Mail, color: "text-emerald-500" },
     { label: "Blog Posts", value: blogCount, icon: FileText, color: "text-orange-500" },
   ];
@@ -51,7 +55,7 @@ export default async function AdminDashboardPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
         {stats.map((stat) => (
           <Card key={stat.label}>
             <CardContent className="pt-6">
@@ -90,6 +94,12 @@ export default async function AdminDashboardPage() {
           <Button variant="outline" className="gap-2">
             <FileText className="h-4 w-4" />
             Blog
+          </Button>
+        </Link>
+        <Link href="/admin/bots">
+          <Button variant="outline" className="gap-2">
+            <Bot className="h-4 w-4" />
+            Bot Trading
           </Button>
         </Link>
       </div>

@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
 import { buyShares as calcBuy, sellShares as calcSell } from "@/lib/amm";
 import { revalidatePath } from "next/cache";
 import { tradeSchema } from "@/lib/validations";
+import { TRADING_FEE_RATE } from "@/lib/constants";
 import { recordPriceSnapshot } from "./snapshots";
+import { reactiveBot } from "./bot-trading";
+import { matchOrders } from "./orders";
 
 export async function buySharesAction(data: { marketId: string; side: "YES" | "NO"; amount: number }) {
   const session = await auth();
@@ -26,10 +29,14 @@ export async function buySharesAction(data: { marketId: string; side: "YES" | "N
       if (new Date() > market.closesAt) throw new Error("Market has closed");
       if (user.balance < amount) throw new Error("Insufficient balance");
 
+      // Calculate fee: 2% of trade amount
+      const fee = Math.round(amount * TRADING_FEE_RATE * 100) / 100;
+      const netAmount = amount - fee;
+
       const tradeResult = calcBuy(
         { poolYes: market.poolYes, poolNo: market.poolNo },
         side,
-        amount
+        netAmount // Only net amount goes to AMM
       );
 
       await tx.market.update({
@@ -41,12 +48,13 @@ export async function buySharesAction(data: { marketId: string; side: "YES" | "N
         },
       });
 
-      await tx.user.update({
+      const updatedUser = await tx.user.update({
         where: { id: userId },
         data: { balance: { decrement: amount } },
+        select: { balance: true },
       });
 
-      await tx.trade.create({
+      const trade = await tx.trade.create({
         data: {
           userId,
           marketId,
@@ -55,28 +63,33 @@ export async function buySharesAction(data: { marketId: string; side: "YES" | "N
           amount,
           shares: tradeResult.shares,
           price: tradeResult.effectivePrice,
+          fee,
+        },
+      });
+
+      // Ledger entry
+      await tx.ledger.create({
+        data: {
+          userId,
+          type: "BUY",
+          amount: -amount,
+          balanceAfter: updatedUser.balance,
+          description: `Bought ${side} on "${market.title.slice(0, 60)}" (fee: ${fee} pts)`,
+          marketId,
+          tradeId: trade.id,
         },
       });
 
       const existingPosition = await tx.position.findUnique({
-        where: {
-          userId_marketId_side: {
-            userId,
-            marketId,
-            side,
-          },
-        },
+        where: { userId_marketId_side: { userId, marketId, side } },
       });
 
       if (existingPosition) {
         const totalShares = existingPosition.shares + tradeResult.shares;
-        const totalCost = existingPosition.shares * existingPosition.avgPrice + amount;
+        const totalCost = existingPosition.shares * existingPosition.avgPrice + netAmount;
         await tx.position.update({
           where: { id: existingPosition.id },
-          data: {
-            shares: totalShares,
-            avgPrice: totalCost / totalShares,
-          },
+          data: { shares: totalShares, avgPrice: totalCost / totalShares },
         });
       } else {
         await tx.position.create({
@@ -90,15 +103,17 @@ export async function buySharesAction(data: { marketId: string; side: "YES" | "N
         });
       }
 
-      return tradeResult;
+      return { ...tradeResult, fee };
     });
 
-    // Record price snapshot (non-blocking)
+    // Non-blocking post-trade tasks
     recordPriceSnapshot(marketId).catch(() => {});
+    reactiveBot(marketId).catch(() => {});
+    matchOrders(marketId).catch(() => {});
 
     revalidatePath(`/markets/${marketId}`);
     revalidatePath("/portfolio");
-    return { success: true, shares: result.shares, price: result.effectivePrice };
+    return { success: true, shares: result.shares, price: result.effectivePrice, fee: result.fee };
   } catch (err) {
     return { error: err instanceof Error ? err.message : "Trade failed" };
   }
@@ -118,13 +133,7 @@ export async function sellSharesAction(data: { marketId: string; side: "YES" | "
       if (market.status !== "OPEN") throw new Error("Market is not open");
 
       const position = await tx.position.findUnique({
-        where: {
-          userId_marketId_side: {
-            userId,
-            marketId,
-            side,
-          },
-        },
+        where: { userId_marketId_side: { userId, marketId, side } },
       });
 
       if (!position || position.shares < shares) throw new Error("Insufficient shares");
@@ -143,24 +152,43 @@ export async function sellSharesAction(data: { marketId: string; side: "YES" | "
         },
       });
 
-      const pointsReceived = side === "YES"
+      const grossReceived = side === "YES"
         ? market.poolNo - tradeResult.newPoolNo
         : market.poolYes - tradeResult.newPoolYes;
 
-      await tx.user.update({
+      // Calculate fee: 2% of gross proceeds
+      const fee = Math.round(grossReceived * TRADING_FEE_RATE * 100) / 100;
+      const netReceived = grossReceived - fee;
+
+      const updatedUser = await tx.user.update({
         where: { id: userId },
-        data: { balance: { increment: pointsReceived } },
+        data: { balance: { increment: netReceived } },
+        select: { balance: true },
       });
 
-      await tx.trade.create({
+      const trade = await tx.trade.create({
         data: {
           userId,
           marketId,
           side,
           direction: "SELL",
-          amount: pointsReceived,
+          amount: grossReceived,
           shares,
           price: tradeResult.effectivePrice,
+          fee,
+        },
+      });
+
+      // Ledger entry
+      await tx.ledger.create({
+        data: {
+          userId,
+          type: "SELL",
+          amount: netReceived,
+          balanceAfter: updatedUser.balance,
+          description: `Sold ${side} on "${market.title.slice(0, 60)}" (fee: ${fee} pts)`,
+          marketId,
+          tradeId: trade.id,
         },
       });
 
@@ -168,15 +196,17 @@ export async function sellSharesAction(data: { marketId: string; side: "YES" | "
         where: { id: position.id },
         data: {
           shares: position.shares - shares,
-          realized: position.realized + (pointsReceived - shares * position.avgPrice),
+          realized: position.realized + (netReceived - shares * position.avgPrice),
         },
       });
 
-      return { pointsReceived, effectivePrice: tradeResult.effectivePrice };
+      return { pointsReceived: netReceived, effectivePrice: tradeResult.effectivePrice, fee };
     });
 
-    // Record price snapshot (non-blocking)
+    // Non-blocking post-trade tasks
     recordPriceSnapshot(marketId).catch(() => {});
+    reactiveBot(marketId).catch(() => {});
+    matchOrders(marketId).catch(() => {});
 
     revalidatePath(`/markets/${marketId}`);
     revalidatePath("/portfolio");

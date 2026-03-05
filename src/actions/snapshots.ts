@@ -31,6 +31,12 @@ export async function getPriceHistory(marketId: string, timeRange: string = "ALL
   let since: Date | undefined;
 
   switch (timeRange) {
+    case "1H":
+      since = new Date(now.getTime() - 60 * 60 * 1000);
+      break;
+    case "6H":
+      since = new Date(now.getTime() - 6 * 60 * 60 * 1000);
+      break;
     case "1D":
       since = new Date(now.getTime() - 24 * 60 * 60 * 1000);
       break;

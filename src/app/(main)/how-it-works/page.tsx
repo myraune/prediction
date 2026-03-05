@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Search, ArrowUpDown, Trophy } from "lucide-react";
+import { Search, ArrowUpDown, Trophy, BookOpen, Lightbulb, Shield } from "lucide-react";
+import { TradingSimulator } from "@/components/tutorial/trading-simulator";
 
 export const metadata: Metadata = {
   title: "How It Works",
@@ -35,6 +36,27 @@ const steps = [
   },
 ];
 
+const concepts = [
+  {
+    icon: Lightbulb,
+    title: "Prices = Probabilities",
+    description:
+      "If YES shares trade at 70¢, the crowd estimates a 70% chance the event will happen. When you disagree with the crowd, that's your trading edge.",
+  },
+  {
+    icon: Shield,
+    title: "Play Money (For Now)",
+    description:
+      "Everyone starts with 1,000 points. We're building toward a licensed real-money platform — join the waitlist to be first in line when we launch.",
+  },
+  {
+    icon: BookOpen,
+    title: "Sell Anytime",
+    description:
+      "You don't have to wait for the market to resolve. Sell your shares at any time at the current market price to take profits or cut losses.",
+  },
+];
+
 const faqs = [
   {
     q: "What is a prediction market?",
@@ -42,7 +64,7 @@ const faqs = [
   },
   {
     q: "How are prices set?",
-    a: "Viking Market uses a Logarithmic Market Scoring Rule (LMSR) — an automated market maker. This means there's always liquidity and you can trade instantly. Prices adjust automatically as people buy and sell.",
+    a: "Viking Market uses an automated market maker (AMM). This means there's always liquidity and you can trade instantly. Prices adjust automatically as people buy and sell.",
   },
   {
     q: "Is this real money?",
@@ -59,6 +81,10 @@ const faqs = [
   {
     q: "Who creates the markets?",
     a: "Markets are created by the Viking Market team based on newsworthy events and community interest. We focus on Norwegian and Nordic topics, plus globally relevant events.",
+  },
+  {
+    q: "Is there an API?",
+    a: "Yes! Viking Market has a public REST API for programmatic trading. Visit /api-docs for full documentation, including how to generate your API key.",
   },
 ];
 
@@ -87,6 +113,31 @@ export default function HowItWorksPage() {
             </p>
           </div>
         ))}
+      </div>
+
+      {/* Interactive Simulator */}
+      <div className="space-y-3">
+        <h2 className="text-xl font-semibold">Try It Yourself</h2>
+        <p className="text-sm text-muted-foreground">
+          Walk through a sample trade step-by-step. No account needed.
+        </p>
+        <TradingSimulator />
+      </div>
+
+      {/* Key Concepts */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Key Concepts</h2>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {concepts.map((concept) => (
+            <div key={concept.title} className="rounded-xl border bg-card p-4 space-y-2">
+              <concept.icon className="h-5 w-5 text-[var(--color-viking)]" />
+              <h3 className="font-medium text-sm">{concept.title}</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {concept.description}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Example */}

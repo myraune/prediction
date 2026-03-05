@@ -28,6 +28,8 @@ export default function CreateMarketPage() {
       closesAt: formData.get("closesAt") as string,
       featured: formData.get("featured") === "on",
       imageUrl: (formData.get("imageUrl") as string) || undefined,
+      resolutionSources: (formData.get("resolutionSources") as string) || undefined,
+      disputePeriodHours: parseInt(formData.get("disputePeriodHours") as string) || 24,
     });
 
     if (result.error) {
@@ -100,6 +102,35 @@ export default function CreateMarketPage() {
             <div className="space-y-2">
               <Label htmlFor="closesAt">Closes At</Label>
               <Input id="closesAt" name="closesAt" type="datetime-local" required />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="resolutionSources">Resolution Sources (optional)</Label>
+              <Textarea
+                id="resolutionSources"
+                name="resolutionSources"
+                placeholder="e.g. Official FIFA results, NFF standings, SSB statistics..."
+                rows={2}
+              />
+              <p className="text-xs text-muted-foreground">
+                Describe how this market will be resolved — data sources, official criteria, etc.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="disputePeriodHours">Dispute Period (hours)</Label>
+              <Input
+                id="disputePeriodHours"
+                name="disputePeriodHours"
+                type="number"
+                min={1}
+                max={168}
+                defaultValue={24}
+                className="w-32"
+              />
+              <p className="text-xs text-muted-foreground">
+                How long users can dispute a proposed resolution. Default: 24h.
+              </p>
             </div>
 
             <div className="flex items-center gap-2">

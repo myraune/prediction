@@ -3,6 +3,14 @@
     {
       "path": "/api/cron/news-pipeline",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/bot-trading",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/cron/finalize-resolutions",
+      "schedule": "0 * * * *"
     }
   ]
 }

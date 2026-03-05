@@ -10,24 +10,30 @@ datasource db {
 // ─── USERS ───────────────────────────────────────────────
 
 model User {
-  id             String   @id @default(cuid())
-  email          String   @unique
-  name           String
-  hashedPassword String?
-  image          String?
-  role           String   @default("USER")
-  balance        Float    @default(1000)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  email              String   @unique
+  name               String
+  hashedPassword     String?
+  image              String?
+  role               String   @default("USER")
+  balance            Float    @default(1000)
+  apiKey             String?  @unique
+  emailNotifications Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   accounts  Account[]
   sessions  Session[]
   trades    Trade[]
   positions Position[]
   comments  Comment[]
+  ledger    Ledger[]
+  orders    Order[]
+  disputes  Dispute[]
 
   @@index([email])
   @@index([role])
+  @@index([apiKey])
 }
 
 model Account {
@@ -92,6 +98,12 @@ model Market {
   poolNo      Float @default(100)
   totalVolume Float @default(0)
 
+  // Resolution metadata
+  resolutionSources   String?   // How this market will be resolved (data sources, criteria)
+  disputePeriodHours  Int       @default(24)
+  disputeCount        Int       @default(0)
+  pendingResolutionAt DateTime? // When admin initiated resolution
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -99,6 +111,9 @@ model Market {
   positions      Position[]
   priceSnapshots PriceSnapshot[]
   comments       Comment[]
+  ledger         Ledger[]
+  orders         Order[]
+  disputes       Dispute[]
 
   @@index([category])
   @@index([status])
@@ -118,10 +133,13 @@ model Trade {
   amount    Float
   shares    Float
   price     Float
+  fee       Float    @default(0)
   createdAt DateTime @default(now())
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  market Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market      Market   @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  ledger      Ledger[]
+  filledOrder Order?
 
   @@index([userId])
   @@index([marketId])
@@ -223,6 +241,69 @@ model BlogPost {
   @@index([slug])
   @@index([published, publishedAt])
   @@index([category])
+}
+
+// ─── TRANSACTION LEDGER ─────────────────────────────────
+
+model Ledger {
+  id           String   @id @default(cuid())
+  userId       String
+  type         String   // DEPOSIT, BUY, SELL, WIN, LOSS
+  amount       Float    // positive = credit, negative = debit
+  balanceAfter Float
+  description  String?
+  marketId     String?
+  tradeId      String?
+  createdAt    DateTime @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market Market? @relation(fields: [marketId], references: [id], onDelete: SetNull)
+  trade  Trade?  @relation(fields: [tradeId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([marketId])
+  @@index([type])
+}
+
+// ─── LIMIT ORDERS ───────────────────────────────────────
+
+model Order {
+  id          String    @id @default(cuid())
+  userId      String
+  marketId    String
+  side        String    // YES or NO
+  targetPrice Float     // price at which to execute (0.01 to 0.99)
+  amount      Float     // points to spend when triggered
+  status      String    @default("PENDING") // PENDING, FILLED, CANCELLED, EXPIRED
+  filledAt    DateTime?
+  tradeId     String?   @unique // link to Trade created when filled
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  market Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  trade  Trade? @relation(fields: [tradeId], references: [id])
+
+  @@index([marketId, status])
+  @@index([userId])
+  @@index([status])
+}
+
+// ─── DISPUTES ───────────────────────────────────────────
+
+model Dispute {
+  id        String   @id @default(cuid())
+  marketId  String
+  userId    String
+  reason    String
+  status    String   @default("OPEN") // OPEN, DISMISSED, UPHELD
+  createdAt DateTime @default(now())
+
+  market Market @relation(fields: [marketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([marketId, userId])
+  @@index([marketId, status])
 }
 
 // ─── COMMENTS ───────────────────────────────────────────

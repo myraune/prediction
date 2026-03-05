@@ -28,6 +28,8 @@ export const marketSchema = z.object({
   closesAt: z.coerce.date({ error: "Closing date is required" }),
   featured: z.boolean().default(false),
   imageUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  resolutionSources: z.string().max(1000, "Max 1000 characters").optional().or(z.literal("")),
+  disputePeriodHours: z.number().int().min(1).max(168).default(24),
 });
 
 export type MarketFormData = z.infer<typeof marketSchema>;
@@ -50,6 +52,22 @@ export const resolveMarketSchema = z.object({
 });
 
 export type ResolveMarketData = z.infer<typeof resolveMarketSchema>;
+
+export const limitOrderSchema = z.object({
+  marketId: z.string().min(1, "Market is required"),
+  side: z.enum(["YES", "NO"]),
+  targetPrice: z.number().min(0.01, "Min price is 1¢").max(0.99, "Max price is 99¢"),
+  amount: z.number().positive("Amount must be positive").max(500, "Maximum trade is 500 points"),
+});
+
+export type LimitOrderFormData = z.infer<typeof limitOrderSchema>;
+
+export const disputeSchema = z.object({
+  marketId: z.string().min(1),
+  reason: z.string().min(10, "Reason must be at least 10 characters").max(500),
+});
+
+export type DisputeFormData = z.infer<typeof disputeSchema>;
 
 export const waitlistSchema = z.object({
   email: z.string().email("Please enter a valid email address"),

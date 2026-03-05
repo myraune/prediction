@@ -2,6 +2,8 @@ export const STARTING_BALANCE = 1000;
 export const INITIAL_POOL_SIZE = 100;
 export const MIN_TRADE_AMOUNT = 1;
 export const MAX_TRADE_AMOUNT = 500;
+export const TRADING_FEE_RATE = 0.02; // 2% platform fee on all trades
+export const MAX_PENDING_ORDERS = 10; // per user per market
 
 export const CATEGORIES = [
   { value: "POLITICS", label: "Politics", icon: "landmark", color: "bg-blue-500" },

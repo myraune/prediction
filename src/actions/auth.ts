@@ -25,12 +25,23 @@ export async function registerUser(formData: {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name,
       email,
       hashedPassword,
       balance: STARTING_BALANCE,
+    },
+  });
+
+  // Create initial DEPOSIT ledger entry
+  await prisma.ledger.create({
+    data: {
+      userId: user.id,
+      type: "DEPOSIT",
+      amount: STARTING_BALANCE,
+      balanceAfter: STARTING_BALANCE,
+      description: "Welcome bonus — initial trading balance",
     },
   });
 
