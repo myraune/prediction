@@ -126,7 +126,7 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
   const quickSellPercents = [25, 50, 75, 100];
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden">
+    <div className="rounded-xl border border-border/50 bg-card overflow-hidden">
       {isDisabled ? (
         <div className="text-center py-10 px-4 text-muted-foreground">
           <p className="font-medium">Market is {marketStatus.toLowerCase()}</p>

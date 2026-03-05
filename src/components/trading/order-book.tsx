@@ -25,7 +25,7 @@ export async function OrderBook({ marketId }: OrderBookProps) {
   const noOrders = orders.filter((o) => o.side === "NO").sort((a, b) => b.targetPrice - a.targetPrice);
 
   return (
-    <div className="rounded-xl border p-3 bg-card">
+    <div className="rounded-xl border border-border/50 p-3 bg-card">
       <h3 className="text-sm font-medium mb-3">Order Book</h3>
       <div className="grid grid-cols-2 gap-4">
         {/* YES orders */}

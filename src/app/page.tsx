@@ -7,7 +7,7 @@ import { formatCompactNumber } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { VikingWordmark } from "@/components/brand/viking-logo";
+import { VikingLogo, VikingWordmark } from "@/components/brand/viking-logo";
 import { FeaturedCard, CompactCard } from "@/components/markets/landing-cards";
 import { LiveActivityTicker } from "@/components/markets/live-ticker";
 import { TrendingTicker } from "@/components/landing/trending-ticker";
@@ -36,13 +36,11 @@ export default async function LandingPage() {
 
   try {
     const [featuredPicks, topByVolume, marketCount, catCounts, volumeAgg, traderCount, topUsers, wlCount, recentPosts] = await Promise.all([
-      // Featured markets (flagged by admin) — newest first
       prisma.market.findMany({
         where: { status: "OPEN", featured: true },
         orderBy: { createdAt: "desc" },
         take: 6,
       }),
-      // Top markets by volume (fallback & trending)
       prisma.market.findMany({
         where: { status: "OPEN" },
         orderBy: { totalVolume: "desc" },
@@ -84,15 +82,12 @@ export default async function LandingPage() {
     totalTraders = traderCount;
     categoryCounts = Object.fromEntries(catCounts.map((c) => [c.category, c._count]));
 
-    // Featured: top 2 from admin-flagged featured markets
     featured = featuredPicks.slice(0, 2);
-    // Trending: remaining featured + top volume markets (deduplicated)
     const featuredIds = new Set(featured.map((m) => m.id));
     const remainingFeatured = featuredPicks.slice(2).filter((m) => !featuredIds.has(m.id));
     const topNonFeatured = topByVolume.filter((m) => !featuredIds.has(m.id) && !remainingFeatured.some((f) => f.id === m.id));
     trending = [...remainingFeatured, ...topNonFeatured].slice(0, 12);
 
-    // Top traders with portfolio values
     topTraders = topUsers.map((user) => {
       let positionValue = 0;
       for (const pos of user.positions) {
@@ -114,7 +109,6 @@ export default async function LandingPage() {
     // Database not available
   }
 
-  // Ticker data — top 10 markets with price
   const tickerMarkets = [...featured, ...trending].slice(0, 10).map((m) => {
     const p = getPrice({ poolYes: m.poolYes, poolNo: m.poolNo });
     return {
@@ -128,14 +122,15 @@ export default async function LandingPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* ─── Nav ─── */}
-      <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 flex items-center justify-between h-12">
-          <div className="flex items-center gap-6">
-            <Link href="/" className="shrink-0">
-              <VikingWordmark height={18} />
+      <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center justify-between h-14 border-b border-border/50">
+          <div className="flex items-center gap-5">
+            <Link href="/" className="shrink-0 flex items-center">
+              <VikingLogo size="md" className="sm:hidden" />
+              <VikingWordmark height={20} className="hidden sm:block" />
             </Link>
             <div className="hidden sm:flex items-center gap-1 overflow-x-auto scrollbar-none">
-              <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap">
+              <Link href="/markets" className="px-3 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap">
                 Browse
               </Link>
               {Object.entries(categoryCounts)
@@ -145,7 +140,7 @@ export default async function LandingPage() {
                   <Link
                     key={cat}
                     href={`/markets?category=${cat}`}
-                    className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap"
+                    className="px-3 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap"
                   >
                     {CATEGORY_LABELS[cat] ?? cat}
                   </Link>
@@ -163,7 +158,7 @@ export default async function LandingPage() {
               </Button>
             </Link>
             <Link href="/waitlist">
-              <Button size="sm" className="text-xs h-7 px-3 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white">
+              <Button size="sm" className="text-xs h-7 px-3 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white rounded-full">
                 Join Waitlist
               </Button>
             </Link>
@@ -172,9 +167,9 @@ export default async function LandingPage() {
       </nav>
 
       {/* ─── Mobile Category Bar ─── */}
-      <div className="sm:hidden border-b overflow-x-auto scrollbar-none">
+      <div className="sm:hidden border-b border-border/50 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-1 px-4 py-1.5">
-          <Link href="/markets" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
+          <Link href="/markets" className="px-3 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
             Browse
           </Link>
           {Object.entries(categoryCounts)
@@ -184,12 +179,12 @@ export default async function LandingPage() {
               <Link
                 key={cat}
                 href={`/markets?category=${cat}`}
-                className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0"
+                className="px-3 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0"
               >
                 {CATEGORY_LABELS[cat] ?? cat}
               </Link>
             ))}
-          <Link href="/leaderboard" className="px-2.5 py-1 text-xs font-medium rounded text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
+          <Link href="/leaderboard" className="px-3 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
             Leaderboard
           </Link>
         </div>
@@ -199,8 +194,8 @@ export default async function LandingPage() {
       <TrendingTicker markets={tickerMarkets} />
 
       {/* ─── Hero ─── */}
-      <section className="border-b">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 sm:py-10">
+      <section className="border-b border-border/50">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-8 sm:py-10">
           <div className="max-w-2xl">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-[1.1]">
               Trade the future.
@@ -211,7 +206,7 @@ export default async function LandingPage() {
             </p>
             <div className="flex items-center gap-4 mt-5">
               <Link href="/waitlist">
-                <Button size="sm" className="h-8 px-4 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white text-xs font-medium">
+                <Button size="sm" className="h-8 px-4 bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white text-xs font-medium rounded-full">
                   Join Waitlist
                 </Button>
               </Link>
@@ -224,7 +219,7 @@ export default async function LandingPage() {
       </section>
 
       {/* ─── Markets + Sidebar ─── */}
-      <main className="mx-auto max-w-7xl px-4 sm:px-6">
+      <main className="mx-auto max-w-[1400px] px-4 sm:px-6">
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_280px] gap-6 pt-6">
           {/* ─── Main Column ─── */}
           <div className="min-w-0">
@@ -265,11 +260,11 @@ export default async function LandingPage() {
           <aside className="hidden xl:block space-y-4">
             {/* Closing Soon */}
             {closingSoon.length > 0 && (
-              <div className="rounded-lg border bg-card p-3">
+              <div className="rounded-xl border border-border/50 bg-card p-3">
                 <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                   Closing Soon
                 </h3>
-                <div className="divide-y">
+                <div className="divide-y divide-border/50">
                   {closingSoon.map((m) => (
                     <CountdownRow
                       key={m.id}
@@ -289,7 +284,7 @@ export default async function LandingPage() {
 
             {/* Top Traders */}
             {topTraders.length > 0 && (
-              <div className="rounded-lg border bg-card p-3">
+              <div className="rounded-xl border border-border/50 bg-card p-3">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     Top Traders
@@ -320,7 +315,7 @@ export default async function LandingPage() {
             )}
 
             {/* Categories */}
-            <div className="rounded-lg border bg-card p-3">
+            <div className="rounded-xl border border-border/50 bg-card p-3">
               <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
                 Categories
               </h3>
@@ -331,7 +326,7 @@ export default async function LandingPage() {
                     <Link
                       key={cat}
                       href={`/markets?category=${cat}`}
-                      className="flex items-center justify-between px-2 py-1.5 rounded text-[13px] text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                      className="flex items-center justify-between px-2 py-1.5 rounded-lg text-[13px] text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
                     >
                       <span>{CATEGORY_LABELS[cat] ?? cat}</span>
                       <span className="text-[11px] tabular-nums opacity-60">{count}</span>
@@ -347,8 +342,8 @@ export default async function LandingPage() {
       </main>
 
       {/* ─── How It Works ─── */}
-      <section className="border-t">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+      <section className="border-t border-border/50">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-10">
           <div className="text-center mb-8">
             <h2 className="text-lg font-bold tracking-tight">How it works</h2>
             <p className="text-sm text-muted-foreground mt-1">Three steps to start predicting.</p>
@@ -360,7 +355,7 @@ export default async function LandingPage() {
               { icon: Trophy, title: "Earn When Right", desc: "Winning shares pay out $1. The better your prediction, the bigger your return." },
             ].map((step) => (
               <div key={step.title} className="text-center space-y-3">
-                <div className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-[var(--color-viking)]/10">
+                <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[var(--color-viking)]/10">
                   <step.icon className="h-5 w-5 text-[var(--color-viking)]" />
                 </div>
                 <h3 className="font-semibold text-sm">{step.title}</h3>
@@ -378,8 +373,8 @@ export default async function LandingPage() {
 
       {/* ─── Latest from Blog ─── */}
       {latestPosts.length > 0 && (
-        <section className="border-t">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+        <section className="border-t border-border/50">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-10">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-bold tracking-tight">Latest from the blog</h2>
@@ -394,7 +389,7 @@ export default async function LandingPage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group rounded-xl border bg-card p-5 hover:border-[var(--color-viking)]/30 transition-colors"
+                  className="group rounded-xl border border-border/50 bg-card p-5 hover:border-[var(--color-viking)]/30 transition-colors"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <Badge variant="outline" className="text-[10px]">
@@ -423,8 +418,8 @@ export default async function LandingPage() {
       )}
 
       {/* ─── Bottom CTA ─── */}
-      <section className="border-t">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-10">
+      <section className="border-t border-border/50">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-10">
           <div className="rounded-xl border border-[var(--color-viking)]/30 bg-[var(--color-viking)]/5 p-8 text-center space-y-4">
             <h2 className="text-xl font-bold tracking-tight">Ready to predict the future?</h2>
             <p className="text-sm text-muted-foreground max-w-md mx-auto">
@@ -433,12 +428,12 @@ export default async function LandingPage() {
             </p>
             <div className="flex items-center justify-center gap-3">
               <Link href="/waitlist">
-                <Button className="bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white">
+                <Button className="bg-[var(--color-viking)] hover:bg-[var(--color-viking)]/90 text-white rounded-full">
                   Join Waitlist
                 </Button>
               </Link>
               <Link href="/how-it-works">
-                <Button variant="outline">How It Works</Button>
+                <Button variant="outline" className="rounded-full">How It Works</Button>
               </Link>
             </div>
           </div>
@@ -446,8 +441,8 @@ export default async function LandingPage() {
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6">
+      <footer className="border-t border-border/50">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
             <div className="col-span-2 sm:col-span-1">
               <VikingWordmark height={16} />
@@ -481,7 +476,7 @@ export default async function LandingPage() {
               </nav>
             </div>
           </div>
-          <div className="border-t pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
+          <div className="border-t border-border/50 pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-muted-foreground">
             <span>&copy; 2026 Viking Market</span>
             <span>Built in Norway</span>
           </div>

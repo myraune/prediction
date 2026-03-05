@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Bookmark } from "lucide-react";
 import { getPrice } from "@/lib/amm";
 import { formatCompactNumber } from "@/lib/format";
 import { getTimeRemaining, isClosingSoon } from "@/lib/time";
@@ -9,7 +10,7 @@ import { CATEGORIES } from "@/lib/constants";
 import { MarketThumbnail } from "./market-thumbnail";
 import type { Market } from "@/generated/prisma/client";
 
-// ─── Compact Card — Polymarket/Kalshi-style with thumbnail ──────────
+// ─── Market Card — Predicta-style with larger thumbnails ──────────
 export function MarketCard({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);
@@ -20,37 +21,41 @@ export function MarketCard({ market }: { market: Market }) {
 
   return (
     <Link href={`/markets/${market.id}`} className="group block">
-      <div className="rounded-lg border bg-card hover:border-foreground/10 transition-colors duration-150 p-3.5 h-full flex flex-col gap-2.5">
-        {/* Category + Time */}
+      <div className="rounded-xl border border-border/50 bg-card hover:border-border transition-colors duration-150 p-4 h-full flex flex-col gap-3">
+        {/* Category + Time + Bookmark */}
         <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-          {catLabel && (
-            <span className="font-medium uppercase tracking-wide">{catLabel}</span>
-          )}
-          <span className={cn(closing && "text-[var(--color-no)] font-medium")}>
-            {market.status === "RESOLVED" ? (
-              <span
-                className={cn(
-                  "font-semibold",
-                  market.resolution === "YES"
-                    ? "text-[var(--color-yes)]"
-                    : "text-[var(--color-no)]"
-                )}
-              >
-                Resolved {market.resolution}
-              </span>
-            ) : (
-              timeLeft
+          <div className="flex items-center gap-2">
+            {catLabel && (
+              <span className="font-medium uppercase tracking-wide">{catLabel}</span>
             )}
-          </span>
+            <span className={cn(closing && "text-[var(--color-no)] font-medium")}>
+              {market.status === "RESOLVED" ? (
+                <span
+                  className={cn(
+                    "font-semibold",
+                    market.resolution === "YES"
+                      ? "text-[var(--color-yes)]"
+                      : "text-[var(--color-no)]"
+                  )}
+                >
+                  Resolved {market.resolution}
+                </span>
+              ) : (
+                timeLeft
+              )}
+            </span>
+          </div>
+          <Bookmark className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
         </div>
 
         {/* Thumbnail + Title */}
-        <div className="flex items-start gap-2.5 flex-1">
+        <div className="flex items-start gap-3 flex-1">
           <MarketThumbnail
             imageUrl={market.imageUrl}
             category={market.category}
             title={market.title}
-            size="md"
+            size="xl"
+            className="rounded-xl"
           />
           <h3 className="text-sm font-medium leading-snug line-clamp-2 flex-1 group-hover:text-foreground/80 transition-colors">
             {market.title}
@@ -58,11 +63,11 @@ export function MarketCard({ market }: { market: Market }) {
         </div>
 
         {/* Yes / No buttons + volume */}
-        <div className="flex items-center gap-2">
-          <span className="flex-1 py-1.5 text-xs font-semibold font-price rounded-md bg-[var(--color-yes)]/10 text-[var(--color-yes)] hover:bg-[var(--color-yes)]/20 transition-colors border border-[var(--color-yes)]/20 text-center cursor-pointer">
+        <div className="flex items-center gap-2 mt-auto">
+          <span className="flex-1 py-1.5 text-xs font-semibold font-price rounded-lg bg-[var(--color-viking)]/10 text-[var(--color-viking)] hover:bg-[var(--color-viking)]/20 transition-colors text-center cursor-pointer">
             Yes {yesPercent}¢
           </span>
-          <span className="flex-1 py-1.5 text-xs font-semibold font-price rounded-md bg-[var(--color-no)]/10 text-[var(--color-no)] hover:bg-[var(--color-no)]/20 transition-colors border border-[var(--color-no)]/20 text-center cursor-pointer">
+          <span className="flex-1 py-1.5 text-xs font-semibold font-price rounded-lg bg-muted/60 text-muted-foreground hover:bg-muted transition-colors text-center cursor-pointer">
             No {noPercent}¢
           </span>
           <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 ml-0.5">
@@ -74,7 +79,7 @@ export function MarketCard({ market }: { market: Market }) {
   );
 }
 
-// ─── Compact Row — for sidebar lists (Trending, Movers, New) ──────
+// ─── Compact Row — for lists (Landing page Trending, etc.) ──────
 export function MarketRow({ market }: { market: Market }) {
   const price = getPrice({ poolYes: market.poolYes, poolNo: market.poolNo });
   const yesPercent = Math.round(price.yes * 100);

@@ -49,7 +49,7 @@ interface MarketThumbnailProps {
   imageUrl?: string | null;
   category: string;
   title: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   className?: string;
 }
 
@@ -57,15 +57,17 @@ const SIZE_MAP = {
   sm: "h-6 w-6",
   md: "h-9 w-9",
   lg: "h-11 w-11",
+  xl: "h-12 w-12",
 };
 
 const ICON_SIZE_MAP = {
   sm: "h-3 w-3",
   md: "h-4 w-4",
   lg: "h-5 w-5",
+  xl: "h-5 w-5",
 };
 
-const PX_MAP = { sm: 24, md: 36, lg: 44 };
+const PX_MAP = { sm: 24, md: 36, lg: 44, xl: 48 };
 
 export function MarketThumbnail({
   imageUrl,

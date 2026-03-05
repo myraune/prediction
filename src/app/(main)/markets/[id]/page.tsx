@@ -187,7 +187,7 @@ export default async function MarketDetailPage({
         <Link href={`/markets?category=${market.category}`} className="hover:text-foreground transition-colors">{categoryLabel}</Link>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
         {/* ─── Main Column ─── */}
         <div className="space-y-4 min-w-0">
           {/* Title — clean, Kalshi-style */}
@@ -267,7 +267,7 @@ export default async function MarketDetailPage({
 
           {/* Resolution note */}
           {market.resolutionNote && (
-            <div className="rounded-xl border p-4 bg-card">
+            <div className="rounded-xl border border-border/50 p-4 bg-card">
               <h3 className="text-sm font-medium mb-2">Resolution Note</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{market.resolutionNote}</p>
             </div>
@@ -280,7 +280,7 @@ export default async function MarketDetailPage({
 
           {/* User positions */}
           {userPositions.length > 0 && (
-            <div className="rounded-xl border p-4 bg-card">
+            <div className="rounded-xl border border-border/50 p-4 bg-card">
               <h3 className="text-sm font-medium mb-3">Your Positions</h3>
               <div className="space-y-2">
                 {userPositions.map((pos) => {
@@ -312,7 +312,7 @@ export default async function MarketDetailPage({
 
           {/* Recent trades */}
           {market.trades.length > 0 && (
-            <div className="rounded-xl border p-4 bg-card">
+            <div className="rounded-xl border border-border/50 p-4 bg-card">
               <h3 className="text-sm font-medium mb-3">Recent Activity</h3>
               <div className="divide-y divide-border/50">
                 {market.trades.map((trade) => (
@@ -347,7 +347,7 @@ export default async function MarketDetailPage({
         </div>
 
         {/* ─── Sidebar ─── */}
-        <div className="lg:sticky lg:top-[72px] lg:h-fit space-y-3">
+        <div className="lg:sticky lg:top-[60px] lg:h-fit space-y-3">
           <TradePanel
             marketId={market.id}
             poolYes={market.poolYes}

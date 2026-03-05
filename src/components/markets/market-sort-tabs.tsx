@@ -39,7 +39,7 @@ export function MarketSortTabs() {
             key={opt.value}
             href={buildHref(opt.value)}
             className={cn(
-              "px-3 py-1.5 text-sm font-medium rounded transition-colors whitespace-nowrap",
+              "px-3 py-1 text-xs font-medium rounded-full transition-colors whitespace-nowrap",
               isActive
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"

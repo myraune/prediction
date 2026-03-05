@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Sidebar } from "@/components/layout/sidebar";
 import { TopBar } from "@/components/layout/top-bar";
+import { MobileBottomNav } from "@/components/layout/mobile-bottom-nav";
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -32,14 +32,12 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar categoryCounts={categoryCounts} />
-      <div className="flex-1 flex flex-col min-w-0">
-        <TopBar balance={balance} categoryCounts={categoryCounts} />
-        <main className="flex-1 px-4 sm:px-6 py-4 max-w-7xl w-full mx-auto">
-          {children}
-        </main>
-      </div>
+    <div className="min-h-screen bg-background">
+      <TopBar balance={balance} categoryCounts={categoryCounts} />
+      <main className="px-4 sm:px-6 py-4 max-w-[1400px] w-full mx-auto pb-20 lg:pb-4">
+        {children}
+      </main>
+      <MobileBottomNav />
     </div>
   );
 }
