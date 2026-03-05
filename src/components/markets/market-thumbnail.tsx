@@ -1,20 +1,34 @@
 "use client";
 
 import Image from "next/image";
+import {
+  Landmark,
+  Trophy,
+  Bitcoin,
+  ThermometerSun,
+  TrendingUp,
+  Palette,
+  Building2,
+  BarChart3,
+  Cpu,
+  Tv,
+  BarChart,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Category → emoji fallback mapping
-const CATEGORY_EMOJI: Record<string, string> = {
-  POLITICS: "\ud83c\udfe6",
-  SPORTS: "\u26bd",
-  CRYPTO: "\u20bf",
-  CLIMATE: "\ud83c\udf0d",
-  ECONOMICS: "\ud83d\udcc8",
-  CULTURE: "\ud83c\udfa8",
-  COMPANIES: "\ud83c\udfe2",
-  FINANCIALS: "\ud83d\udcb0",
-  TECH_SCIENCE: "\ud83e\uddec",
-  ENTERTAINMENT: "\ud83c\udfac",
+// Category → icon mapping
+const CATEGORY_ICON: Record<string, LucideIcon> = {
+  POLITICS: Landmark,
+  SPORTS: Trophy,
+  CRYPTO: Bitcoin,
+  CLIMATE: ThermometerSun,
+  ECONOMICS: TrendingUp,
+  CULTURE: Palette,
+  COMPANIES: Building2,
+  FINANCIALS: BarChart3,
+  TECH_SCIENCE: Cpu,
+  ENTERTAINMENT: Tv,
 };
 
 // Category → background color for fallback circles
@@ -40,9 +54,15 @@ interface MarketThumbnailProps {
 }
 
 const SIZE_MAP = {
-  sm: "h-6 w-6 text-[10px]",
-  md: "h-9 w-9 text-sm",
-  lg: "h-11 w-11 text-base",
+  sm: "h-6 w-6",
+  md: "h-9 w-9",
+  lg: "h-11 w-11",
+};
+
+const ICON_SIZE_MAP = {
+  sm: "h-3 w-3",
+  md: "h-4 w-4",
+  lg: "h-5 w-5",
 };
 
 const PX_MAP = { sm: 24, md: 36, lg: 44 };
@@ -79,9 +99,10 @@ export function MarketThumbnail({
     );
   }
 
-  // Fallback: category emoji in colored circle
-  const emoji = CATEGORY_EMOJI[category] ?? "\ud83d\udcca";
+  // Fallback: category icon in colored circle
+  const Icon = CATEGORY_ICON[category] ?? BarChart;
   const colorClass = CATEGORY_BG[category] ?? "bg-muted text-muted-foreground";
+  const iconSize = ICON_SIZE_MAP[size];
 
   return (
     <div
@@ -92,7 +113,7 @@ export function MarketThumbnail({
         className
       )}
     >
-      <span className="select-none">{emoji}</span>
+      <Icon className={iconSize} />
     </div>
   );
 }
