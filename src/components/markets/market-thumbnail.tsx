@@ -93,7 +93,7 @@ export function MarketThumbnail({
           height={px}
           className="object-cover h-full w-full"
           sizes={`${px}px`}
-          unoptimized={!imageUrl.includes("unsplash")}
+          unoptimized={!imageUrl.includes("unsplash") && !imageUrl.includes("wikimedia")}
         />
       </div>
     );
