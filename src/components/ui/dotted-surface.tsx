@@ -2,40 +2,35 @@
 
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
 type DottedSurfaceProps = Omit<React.ComponentProps<'div'>, 'ref'>;
 
 export function DottedSurface({ className, children, ...props }: DottedSurfaceProps) {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<{
-    scene: THREE.Scene;
-    camera: THREE.PerspectiveCamera;
-    renderer: THREE.WebGLRenderer;
-    particles: THREE.Points[];
-    animationId: number;
-    count: number;
-  } | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!mounted || !containerRef.current) return;
 
-    // Respect reduced motion preference
+    const container = containerRef.current;
+    const isDark = resolvedTheme === 'dark';
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const SEPARATION = 150;
     const AMOUNTX = 40;
     const AMOUNTY = 60;
 
-    // Scene setup
+    // Scene — NO fog (fog adds white haze that breaks dark mode)
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0xffffff, 2000, 10000);
 
     const camera = new THREE.PerspectiveCamera(
       60,
-      window.innerWidth / window.innerHeight,
+      container.clientWidth / container.clientHeight,
       1,
       10000,
     );
@@ -46,43 +41,40 @@ export function DottedSurface({ className, children, ...props }: DottedSurfacePr
       antialias: true,
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(scene.fog.color, 0);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setClearColor(0x000000, 0); // Fully transparent background
 
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
-    // Create particles
+    // Particles
     const positions: number[] = [];
     const colors: number[] = [];
-
     const geometry = new THREE.BufferGeometry();
 
     for (let ix = 0; ix < AMOUNTX; ix++) {
       for (let iy = 0; iy < AMOUNTY; iy++) {
         const x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-        const y = 0;
         const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
-        positions.push(x, y, z);
+        positions.push(x, 0, z);
 
-        if (theme === 'dark') {
-          colors.push(200, 200, 200);
+        if (isDark) {
+          // Light dots on dark bg
+          colors.push(1, 1, 1);
         } else {
+          // Dark dots on light bg
           colors.push(0, 0, 0);
         }
       }
     }
 
-    geometry.setAttribute(
-      'position',
-      new THREE.Float32BufferAttribute(positions, 3),
-    );
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
       size: 8,
       vertexColors: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: isDark ? 0.6 : 0.8,
       sizeAttenuation: true,
     });
 
@@ -90,7 +82,7 @@ export function DottedSurface({ className, children, ...props }: DottedSurfacePr
     scene.add(points);
 
     let count = 0;
-    let animationId: number = 0;
+    let animationId = 0;
 
     const animate = () => {
       animationId = requestAnimationFrame(animate);
@@ -109,57 +101,46 @@ export function DottedSurface({ className, children, ...props }: DottedSurfacePr
         }
       }
       positionAttribute.needsUpdate = true;
-
       renderer.render(scene, camera);
       count += prefersReducedMotion ? 0.02 : 0.1;
     };
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(container.clientWidth, container.clientHeight);
     };
 
     window.addEventListener('resize', handleResize);
     animate();
 
-    sceneRef.current = {
-      scene,
-      camera,
-      renderer,
-      particles: [points],
-      animationId,
-      count,
-    };
-
     return () => {
       window.removeEventListener('resize', handleResize);
-      if (sceneRef.current) {
-        cancelAnimationFrame(sceneRef.current.animationId);
-        sceneRef.current.scene.traverse((object) => {
-          if (object instanceof THREE.Points) {
-            object.geometry.dispose();
-            if (Array.isArray(object.material)) {
-              object.material.forEach((mat) => mat.dispose());
-            } else {
-              object.material.dispose();
-            }
+      cancelAnimationFrame(animationId);
+      scene.traverse((object) => {
+        if (object instanceof THREE.Points) {
+          object.geometry.dispose();
+          if (Array.isArray(object.material)) {
+            object.material.forEach((mat) => mat.dispose());
+          } else {
+            object.material.dispose();
           }
-        });
-        sceneRef.current.renderer.dispose();
-        if (containerRef.current && sceneRef.current.renderer.domElement) {
-          containerRef.current.removeChild(
-            sceneRef.current.renderer.domElement,
-          );
         }
+      });
+      renderer.dispose();
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement);
       }
     };
-  }, [theme]);
+  }, [mounted, resolvedTheme]);
+
+  // Don't render on server (avoids hydration mismatch)
+  if (!mounted) return null;
 
   return (
     <div
       ref={containerRef}
-      className={cn('pointer-events-none fixed inset-0 -z-10', className)}
+      className={cn('pointer-events-none absolute inset-0', className)}
       aria-hidden="true"
       {...props}
     >
