@@ -14,6 +14,7 @@ import { TrendingTicker } from "@/components/landing/trending-ticker";
 import { CountdownRow } from "@/components/landing/countdown-row";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Search, ArrowUpDown, Trophy } from "lucide-react";
+import { DottedSurface } from "@/components/ui/dotted-surface";
 import type { Market } from "@/generated/prisma/client";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -120,7 +121,10 @@ export default async function LandingPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* ─── Animated dotted surface background ─── */}
+      <DottedSurface className="opacity-30" />
+
       {/* ─── Nav ─── */}
       <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center justify-between h-14 border-b border-border/50">
