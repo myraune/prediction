@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { AgentChatWidget } from "@/components/chat/agent-chat-widget";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/json-ld";
 import Script from "next/script";
 import "./globals.css";
@@ -82,6 +83,7 @@ export default function RootLayout({
           <SessionProvider>
             {children}
             <Toaster />
+            <AgentChatWidget />
           </SessionProvider>
         </ThemeProvider>
       </body>

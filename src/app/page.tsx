@@ -14,7 +14,6 @@ import { TrendingTicker } from "@/components/landing/trending-ticker";
 import { CountdownRow } from "@/components/landing/countdown-row";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Search, ArrowUpDown, Trophy } from "lucide-react";
-import { DottedSurface } from "@/components/ui/dotted-surface";
 import type { Market } from "@/generated/prisma/client";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -121,12 +120,9 @@ export default async function LandingPage() {
   });
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* ─── Animated dotted surface background ─── */}
-      <DottedSurface className="!fixed inset-0 z-0 opacity-40" />
-
+    <div className="min-h-screen bg-background">
       {/* ─── Nav ─── */}
-      <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg relative">
+      <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center justify-between h-14 border-b border-border/50">
           <div className="flex items-center gap-5">
             <Link href="/" className="shrink-0 flex items-center">
@@ -171,7 +167,7 @@ export default async function LandingPage() {
       </nav>
 
       {/* ─── Mobile Category Bar ─── */}
-      <div className="sm:hidden border-b border-border/50 overflow-x-auto scrollbar-none relative z-10">
+      <div className="sm:hidden border-b border-border/50 overflow-x-auto scrollbar-none">
         <div className="flex items-center gap-1 px-4 py-1.5">
           <Link href="/markets" className="px-3 py-1 text-xs font-medium rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors whitespace-nowrap shrink-0">
             Browse
@@ -195,12 +191,10 @@ export default async function LandingPage() {
       </div>
 
       {/* ─── Trending Ticker ─── */}
-      <div className="relative z-10">
-        <TrendingTicker markets={tickerMarkets} />
-      </div>
+      <TrendingTicker markets={tickerMarkets} />
 
       {/* ─── Hero ─── */}
-      <section className="border-b border-border/50 relative z-10">
+      <section className="border-b border-border/50">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-8 sm:py-10">
           <div className="max-w-2xl">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-[1.1]">
@@ -225,7 +219,7 @@ export default async function LandingPage() {
       </section>
 
       {/* ─── Markets + Sidebar ─── */}
-      <main className="mx-auto max-w-[1400px] px-4 sm:px-6 relative z-10">
+      <main className="mx-auto max-w-[1400px] px-4 sm:px-6">
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_280px] gap-6 pt-6">
           {/* ─── Main Column ─── */}
           <div className="min-w-0">
@@ -348,7 +342,7 @@ export default async function LandingPage() {
       </main>
 
       {/* ─── How It Works ─── */}
-      <section className="border-t border-border/50 relative z-10 bg-background">
+      <section className="border-t border-border/50 bg-background">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-10">
           <div className="text-center mb-8">
             <h2 className="text-lg font-bold tracking-tight">How it works</h2>
@@ -379,7 +373,7 @@ export default async function LandingPage() {
 
       {/* ─── Latest from Blog ─── */}
       {latestPosts.length > 0 && (
-        <section className="border-t border-border/50 relative z-10 bg-background">
+        <section className="border-t border-border/50 bg-background">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-10">
             <div className="flex items-center justify-between mb-6">
               <div>
@@ -424,7 +418,7 @@ export default async function LandingPage() {
       )}
 
       {/* ─── Bottom CTA ─── */}
-      <section className="border-t border-border/50 relative z-10 bg-background">
+      <section className="border-t border-border/50 bg-background">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-10">
           <div className="rounded-xl border border-[var(--color-viking)]/30 bg-[var(--color-viking)]/5 p-8 text-center space-y-4">
             <h2 className="text-xl font-bold tracking-tight">Ready to predict the future?</h2>
@@ -447,7 +441,7 @@ export default async function LandingPage() {
       </section>
 
       {/* ─── Footer ─── */}
-      <footer className="border-t border-border/50 relative z-10 bg-background">
+      <footer className="border-t border-border/50 bg-background">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-6">
             <div className="col-span-2 sm:col-span-1">
