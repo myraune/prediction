@@ -16,8 +16,8 @@ export function MobileBottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 lg:hidden border-t border-border/50 bg-background/80 backdrop-blur-lg pb-[env(safe-area-inset-bottom)]">
-      <div className="flex items-center justify-around h-14">
+    <nav aria-label="Mobile navigation" className="fixed bottom-0 left-0 right-0 z-40 lg:hidden border-t border-border/50 bg-background/80 backdrop-blur-lg pb-[env(safe-area-inset-bottom)]">
+      <div className="flex items-center justify-around h-16">
         {tabs.map((tab) => {
           const isActive =
             pathname === tab.href || pathname.startsWith(tab.href + "/");
@@ -25,17 +25,19 @@ export function MobileBottomNav() {
             <Link
               key={tab.href}
               href={tab.href}
+              aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg transition-colors min-w-[60px]",
+                "flex flex-col items-center justify-center gap-0.5 px-4 py-2 rounded-lg transition-colors min-w-[64px] min-h-[44px]",
                 isActive
                   ? "text-[var(--color-viking)]"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground active:text-foreground"
               )}
             >
               <tab.icon
+                aria-hidden="true"
                 className={cn("h-5 w-5", isActive && "stroke-[2.5]")}
               />
-              <span className="text-[10px] font-medium">{tab.label}</span>
+              <span className="text-[11px] font-medium">{tab.label}</span>
             </Link>
           );
         })}

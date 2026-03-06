@@ -135,17 +135,19 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
       ) : (
         <>
           {/* ─── YES / NO — Kalshi prominent buttons ─── */}
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2" role="radiogroup" aria-label="Select outcome">
             <button
+              role="radio"
+              aria-checked={side === "YES"}
               onClick={() => { setSide("YES"); setDirection("BUY"); setAmount(""); }}
               className={cn(
-                "py-4 text-center transition-all relative",
+                "py-4 text-center transition-all relative min-h-[64px]",
                 side === "YES"
                   ? "bg-[var(--color-yes)]/8"
                   : "bg-card hover:bg-muted/40"
               )}
             >
-              <div className="text-[10px] uppercase tracking-widest font-medium text-muted-foreground mb-0.5">Yes</div>
+              <div className="text-[11px] uppercase tracking-widest font-medium text-muted-foreground mb-0.5">Yes</div>
               <div className={cn(
                 "text-2xl font-bold font-price",
                 side === "YES" ? "text-[var(--color-yes)]" : "text-foreground"
@@ -157,15 +159,17 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
               )}
             </button>
             <button
+              role="radio"
+              aria-checked={side === "NO"}
               onClick={() => { setSide("NO"); setDirection("BUY"); setAmount(""); }}
               className={cn(
-                "py-4 text-center transition-all relative",
+                "py-4 text-center transition-all relative min-h-[64px]",
                 side === "NO"
                   ? "bg-[var(--color-no)]/8"
                   : "bg-card hover:bg-muted/40"
               )}
             >
-              <div className="text-[10px] uppercase tracking-widest font-medium text-muted-foreground mb-0.5">No</div>
+              <div className="text-[11px] uppercase tracking-widest font-medium text-muted-foreground mb-0.5">No</div>
               <div className={cn(
                 "text-2xl font-bold font-price",
                 side === "NO" ? "text-[var(--color-no)]" : "text-foreground"
@@ -180,11 +184,13 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
 
           <div className="p-4 space-y-3">
             {/* Order type: Market / Limit */}
-            <div className="flex rounded-lg bg-muted/50 p-0.5">
+            <div className="flex rounded-lg bg-muted/50 p-0.5" role="tablist" aria-label="Order type">
               <button
+                role="tab"
+                aria-selected={orderType === "MARKET"}
                 onClick={() => { setOrderType("MARKET"); setAmount(""); setLimitPrice(""); }}
                 className={cn(
-                  "flex-1 py-1.5 text-xs font-medium rounded-md transition-all",
+                  "flex-1 py-2 text-xs font-medium rounded-md transition-all min-h-[36px]",
                   orderType === "MARKET"
                     ? "bg-background shadow-sm text-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -193,9 +199,11 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                 Market
               </button>
               <button
+                role="tab"
+                aria-selected={orderType === "LIMIT"}
                 onClick={() => { setOrderType("LIMIT"); setDirection("BUY"); setAmount(""); }}
                 className={cn(
-                  "flex-1 py-1.5 text-xs font-medium rounded-md transition-all",
+                  "flex-1 py-2 text-xs font-medium rounded-md transition-all min-h-[36px]",
                   orderType === "LIMIT"
                     ? "bg-background shadow-sm text-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -210,27 +218,31 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Price (¢)</label>
+                    <label htmlFor="limit-price" className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Price (¢)</label>
                     <Input
+                      id="limit-price"
                       type="number"
+                      inputMode="numeric"
                       placeholder={String(side === "YES" ? yesCents : noCents)}
                       value={limitPrice}
                       onChange={(e) => setLimitPrice(e.target.value)}
                       min={1}
                       max={99}
-                      className="text-base font-semibold mt-1 h-9"
+                      className="text-base font-semibold mt-1 h-10"
                     />
                   </div>
                   <div>
-                    <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount</label>
+                    <label htmlFor="limit-amount" className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount</label>
                     <Input
+                      id="limit-amount"
                       type="number"
+                      inputMode="numeric"
                       placeholder="0"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
                       min={1}
                       max={500}
-                      className="text-base font-semibold mt-1 h-9"
+                      className="text-base font-semibold mt-1 h-10"
                     />
                   </div>
                 </div>
@@ -274,11 +286,13 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
               /* ── MARKET ORDER ── */
               <>
                 {/* Buy / Sell toggle */}
-                <div className="flex rounded-lg bg-muted/50 p-0.5">
+                <div className="flex rounded-lg bg-muted/50 p-0.5" role="tablist" aria-label="Trade direction">
                   <button
+                    role="tab"
+                    aria-selected={direction === "BUY"}
                     onClick={() => { setDirection("BUY"); setAmount(""); }}
                     className={cn(
-                      "flex-1 py-1.5 text-xs font-semibold rounded-md transition-all",
+                      "flex-1 py-2 text-xs font-semibold rounded-md transition-all min-h-[36px]",
                       direction === "BUY"
                         ? "bg-background shadow-sm text-foreground"
                         : "text-muted-foreground hover:text-foreground"
@@ -287,9 +301,11 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     Buy
                   </button>
                   <button
+                    role="tab"
+                    aria-selected={direction === "SELL"}
                     onClick={() => { setDirection("SELL"); setAmount(""); }}
                     className={cn(
-                      "flex-1 py-1.5 text-xs font-semibold rounded-md transition-all",
+                      "flex-1 py-2 text-xs font-semibold rounded-md transition-all min-h-[36px]",
                       direction === "SELL"
                         ? "bg-background shadow-sm text-foreground"
                         : "text-muted-foreground hover:text-foreground"
@@ -310,9 +326,11 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                 {direction === "BUY" ? (
                   <div className="space-y-3">
                     <div>
-                      <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount (points)</label>
+                      <label htmlFor="buy-amount" className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount (points)</label>
                       <Input
+                        id="buy-amount"
                         type="number"
+                        inputMode="numeric"
                         placeholder="0"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
@@ -330,7 +348,8 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                       {quickBuyAmounts.map((qa) => (
                         <button
                           key={qa}
-                          className="flex-1 py-1.5 text-xs font-medium rounded-md border hover:bg-muted/60 transition-colors disabled:opacity-30"
+                          aria-label={`Set amount to ${qa} points`}
+                          className="flex-1 py-2 text-xs font-medium rounded-md border hover:bg-muted/60 transition-colors disabled:opacity-30 min-h-[36px]"
                           onClick={() => setAmount(String(Math.min(qa, userBalance)))}
                           disabled={qa > userBalance}
                         >
@@ -394,9 +413,11 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                     ) : (
                       <>
                         <div>
-                          <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Shares to sell</label>
+                          <label htmlFor="sell-shares" className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Shares to sell</label>
                           <Input
+                            id="sell-shares"
                             type="number"
+                            inputMode="decimal"
                             placeholder="0"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
@@ -416,7 +437,8 @@ export function TradePanel({ marketId, poolYes, poolNo, userBalance, marketStatu
                             return (
                               <button
                                 key={pct}
-                                className="flex-1 py-1.5 text-xs font-medium rounded-md border hover:bg-muted/60 transition-colors"
+                                aria-label={`Sell ${pct}% of shares`}
+                                className="flex-1 py-2 text-xs font-medium rounded-md border hover:bg-muted/60 transition-colors min-h-[36px]"
                                 onClick={() => setAmount(shareAmount.toFixed(2))}
                               >
                                 {pct}%

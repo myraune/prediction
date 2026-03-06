@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { MarketCard } from "@/components/markets/market-card";
 import { MarketSortTabs } from "@/components/markets/market-sort-tabs";
+import { SearchX } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/constants";
@@ -122,6 +123,7 @@ export default async function MarketsPage({
       {/* ─── Market Grid — 4 columns on desktop ─── */}
       {markets.length === 0 ? (
         <div className="text-center py-20 text-muted-foreground">
+          <SearchX aria-hidden="true" className="h-10 w-10 mx-auto mb-3 opacity-40" />
           <p className="font-medium">No markets found</p>
           <p className="text-sm mt-1">Try a different filter or search</p>
         </div>

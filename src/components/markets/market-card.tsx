@@ -45,7 +45,7 @@ export function MarketCard({ market }: { market: Market }) {
               )}
             </span>
           </div>
-          <Bookmark className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
+          <Bookmark aria-hidden="true" className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
         </div>
 
         {/* Thumbnail + Title */}
@@ -62,20 +62,47 @@ export function MarketCard({ market }: { market: Market }) {
           </h3>
         </div>
 
-        {/* Yes / No buttons + volume */}
+        {/* Yes / No price badges + volume */}
         <div className="flex items-center gap-2 mt-auto">
-          <span className="flex-1 py-1.5 text-xs font-semibold font-price rounded-lg bg-[var(--color-viking)]/10 text-[var(--color-viking)] hover:bg-[var(--color-viking)]/20 transition-colors text-center cursor-pointer">
+          <span className="flex-1 py-2 text-xs font-semibold font-price rounded-lg bg-[var(--color-viking)]/10 text-[var(--color-viking)] group-hover:bg-[var(--color-viking)]/20 transition-colors text-center">
             Yes {yesPercent}¢
           </span>
-          <span className="flex-1 py-1.5 text-xs font-semibold font-price rounded-lg bg-muted/60 text-muted-foreground hover:bg-muted transition-colors text-center cursor-pointer">
+          <span className="flex-1 py-2 text-xs font-semibold font-price rounded-lg bg-muted/60 text-muted-foreground group-hover:bg-muted transition-colors text-center">
             No {noPercent}¢
           </span>
-          <span className="text-[10px] text-muted-foreground tabular-nums shrink-0 ml-0.5">
+          <span className="text-[11px] text-muted-foreground tabular-nums shrink-0 ml-0.5">
             ${formatCompactNumber(market.totalVolume)}
           </span>
         </div>
       </div>
     </Link>
+  );
+}
+
+// ─── Skeleton — loading placeholder ──────────────────────────────
+export function MarketCardSkeleton() {
+  return (
+    <div className="rounded-xl border border-border/50 bg-card p-4 h-full flex flex-col gap-3 animate-pulse">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="h-3 w-16 skeleton rounded" />
+          <div className="h-3 w-10 skeleton rounded" />
+        </div>
+        <div className="h-3.5 w-3.5 skeleton rounded" />
+      </div>
+      <div className="flex items-start gap-3 flex-1">
+        <div className="h-12 w-12 skeleton rounded-xl shrink-0" />
+        <div className="flex-1 space-y-1.5">
+          <div className="h-4 w-full skeleton rounded" />
+          <div className="h-4 w-3/4 skeleton rounded" />
+        </div>
+      </div>
+      <div className="flex items-center gap-2 mt-auto">
+        <div className="flex-1 h-8 skeleton rounded-lg" />
+        <div className="flex-1 h-8 skeleton rounded-lg" />
+        <div className="h-3 w-10 skeleton rounded" />
+      </div>
+    </div>
   );
 }
 

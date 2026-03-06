@@ -30,7 +30,7 @@ export function FeaturedCard({ market }: { market: Market }) {
             )}
             <span className={cn(closing && "text-[var(--color-no)] font-medium")}>{timeLeft}</span>
           </div>
-          <Bookmark className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
+          <Bookmark aria-hidden="true" className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
         </div>
 
         {/* Thumbnail + Title */}
@@ -88,7 +88,7 @@ export function CompactCard({ market }: { market: Market }) {
             )}
             <span className={cn(closing && "text-[var(--color-no)] font-medium")}>{timeLeft}</span>
           </div>
-          <Bookmark className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
+          <Bookmark aria-hidden="true" className="h-3.5 w-3.5 text-muted-foreground/40 group-hover:text-muted-foreground transition-colors" />
         </div>
 
         {/* Thumbnail + Title */}

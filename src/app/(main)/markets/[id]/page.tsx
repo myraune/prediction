@@ -181,9 +181,9 @@ export default async function MarketDetailPage({
       />
 
       {/* Breadcrumb — minimal */}
-      <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-muted-foreground mb-3">
         <Link href="/markets" className="hover:text-foreground transition-colors">Markets</Link>
-        <span className="text-muted-foreground/40">/</span>
+        <span aria-hidden="true" className="text-muted-foreground/40">/</span>
         <Link href={`/markets?category=${market.category}`} className="hover:text-foreground transition-colors">{categoryLabel}</Link>
       </nav>
 

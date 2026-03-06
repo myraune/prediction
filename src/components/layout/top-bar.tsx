@@ -88,26 +88,27 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
       {/* ─── Row 1: Logo · Search · Nav · Balance · Avatar ─── */}
       <div className="flex h-14 items-center gap-3 px-4 sm:px-6 border-b border-border/50">
         {/* Logo — icon on mobile, wordmark on desktop */}
-        <Link href="/" className="shrink-0 flex items-center">
+        <Link href="/" aria-label="Viking Market home" className="shrink-0 flex items-center">
           <VikingLogo size="md" className="sm:hidden" />
           <VikingWordmark height={20} className="hidden sm:block" />
         </Link>
 
         {/* Search — always visible */}
-        <form onSubmit={handleSearch} className="flex-1 max-w-md">
+        <form onSubmit={handleSearch} className="flex-1 max-w-md" role="search" aria-label="Search markets">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Search aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search markets..."
+              placeholder="Search markets…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="pl-10 h-9 bg-accent/50 border-border/50 focus-visible:ring-1 text-sm rounded-full"
+              aria-label="Search markets"
             />
           </div>
         </form>
 
         {/* Desktop Nav Links — hidden on mobile (bottom nav handles it) */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-1">
           {mainNav.map((link) => {
             const isActive =
               pathname === link.href || pathname.startsWith(link.href + "/");
@@ -115,6 +116,7 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
                   isActive
@@ -149,7 +151,8 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-full h-8 w-8"
+                    aria-label="Account menu"
+                    className="rounded-full h-9 w-9"
                   >
                     <Avatar className="h-7 w-7">
                       <AvatarFallback className="bg-foreground text-background text-xs font-semibold">
@@ -215,11 +218,12 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
 
       {/* ─── Row 2: Category pills — markets page only ─── */}
       {showCategoryRow && (
-        <div className="flex items-center gap-1.5 px-4 sm:px-6 h-10 overflow-x-auto scrollbar-none border-b border-border/50">
+        <nav aria-label="Market categories" className="flex items-center gap-1.5 px-4 sm:px-6 h-11 overflow-x-auto scrollbar-none border-b border-border/50">
           <Link
             href={buildCategoryHref({ category: undefined, region: undefined })}
+            aria-current={!activeCategory && !activeRegion ? "page" : undefined}
             className={cn(
-              "px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
+              "px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
               !activeCategory && !activeRegion
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -229,8 +233,9 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
           </Link>
           <Link
             href={buildCategoryHref({ region: "NO", category: undefined })}
+            aria-current={activeRegion === "NO" ? "page" : undefined}
             className={cn(
-              "px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
+              "px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
               activeRegion === "NO"
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -240,8 +245,9 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
           </Link>
           <Link
             href={buildCategoryHref({ region: "INT", category: undefined })}
+            aria-current={activeRegion === "INT" ? "page" : undefined}
             className={cn(
-              "px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
+              "px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
               activeRegion === "INT"
                 ? "bg-foreground text-background"
                 : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -250,7 +256,7 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
             International
           </Link>
 
-          <div className="w-px h-4 bg-border/50 mx-0.5 shrink-0" />
+          <div aria-hidden="true" className="w-px h-4 bg-border/50 mx-0.5 shrink-0" />
 
           {CATEGORIES.map((cat) => {
             const count = categoryCounts[cat.value] ?? 0;
@@ -262,8 +268,9 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
                   category: cat.value,
                   region: undefined,
                 })}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "px-3 py-1 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
+                  "px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shrink-0",
                   isActive
                     ? "bg-foreground text-background"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -283,7 +290,7 @@ export function TopBar({ balance, categoryCounts = {} }: TopBarProps) {
               </Link>
             );
           })}
-        </div>
+        </nav>
       )}
     </header>
   );

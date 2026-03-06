@@ -161,6 +161,32 @@
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ─── Focus-visible — keyboard-only ring ─── */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Touch / interaction ─── */
+html {
+  touch-action: manipulation; /* Remove 300ms tap delay */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ─── Trending ticker marquee ─── */
 @keyframes ticker-scroll {
   0% { transform: translateX(0); }
@@ -193,4 +219,16 @@
 }
 .animate-flash-up { animation: price-flash-up 0.8s ease-out; }
 .animate-flash-down { animation: price-flash-down 0.8s ease-out; }
+
+/* ─── Skeleton shimmer ─── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--muted) 25%, var(--accent) 50%, var(--muted) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
 
